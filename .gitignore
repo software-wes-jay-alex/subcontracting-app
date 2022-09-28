@@ -2,3 +2,4 @@ config.py
 client_secret.json
 .vscode
 __pycache__
+sqlite_db

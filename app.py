@@ -24,19 +24,21 @@ from db import init_db_command
 from user import User
 
 # Configuration
-SECRET = open('client_secret.json')
-GOOGLE_CLIENT_ID = json.loads(SECRET.read())['web']['client_id']
-GOOGLE_CLIENT_SECRET = json.loads(SECRET.read())['web']['client_secret']
-AUTHORIZATION_BASE_URL = "https://accounts.google.com/o/oauth2/v2/auth"
-TOKEN_URL = "https://www.googleapis.com/oauth2/v4/token"
-USER_INFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo"
+secret = open('client_secret.json')
+file = secret.read()
+GOOGLE_CLIENT_ID = json.loads(file)['web']['client_id']
+GOOGLE_CLIENT_SECRET = json.loads(file)['web']['client_secret']
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
-SECRET.close()
+secret.close()
 
 # Flask app setup
 app = Flask(__name__)
+
+#DISABLE DEBUG MODE AFTER DEPLOYING
+app.debug = False
+
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
 # User session management setup
