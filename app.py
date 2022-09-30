@@ -1,184 +1,73 @@
+#imports
+from cgitb import text
+import os
 from http import client
 import flet
-from flet import IconButton, Page, Row, TextField, icons
-
-# Python standard libraries
+from flet import IconButton, Page, Row, TextField, icons, ElevatedButton, LoginEvent
+from flet.auth.providers.google_oauth_provider import GoogleOAuthProvider
 import json
-import os
-import sqlite3
 
-# Third-party libraries
-from flask import Flask, redirect, request, url_for
-from flask_login import (
-    LoginManager,
-    current_user,
-    login_required,
-    login_user,
-    logout_user,
-)
-from oauthlib.oauth2 import WebApplicationClient
-import requests
 
-# Internal imports
-from db import init_db_command
-from user import User
 
-# Configuration
-secret = open('client_secret.json')
-file = secret.read()
-GOOGLE_CLIENT_ID = json.loads(file)['web']['client_id']
-GOOGLE_CLIENT_SECRET = json.loads(file)['web']['client_secret']
-GOOGLE_DISCOVERY_URL = (
-    "https://accounts.google.com/.well-known/openid-configuration"
-)
-secret.close()
+def main(page: Page):
 
-# Flask app setup
-app = Flask(__name__)
+    # Configuration
+    secret = open('client_secret.json')
+    file = secret.read()
+    GOOGLE_CLIENT_ID = json.loads(file)['web']['client_id']
+    GOOGLE_CLIENT_SECRET = json.loads(file)['web']['client_secret']
+    GOOGLE_REDIRECT_URI = 'http://127.0.0.1:8550/api/oauth/redirect'
+    GOOGLE_AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'
+    GOOGLE_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
+    GOOGLE_USER_INFO_URI = 'https://www.googleapis.com/oauth2/v3/userinfo'
 
-#DISABLE DEBUG MODE AFTER DEPLOYING
-app.debug = False
-
-app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
-
-# User session management setup
-# https://flask-login.readthedocs.io/en/latest
-login_manager = LoginManager()
-login_manager.init_app(app)
-
-# Naive database setup
-try:
-    init_db_command()
-except sqlite3.OperationalError:
-    # Assume it's already been created
-    pass
-
-# OAuth 2 client setup
-client = WebApplicationClient(GOOGLE_CLIENT_ID)
-
-# Flask-Login helper to retrieve a user from our db
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
-
-@app.route("/")
-def index():
-    if current_user.is_authenticated:
-        return (
-            "<p>Hello, {}! You're logged in! Email: {}</p>"
-            "<div><p>Google Profile Picture:</p>"
-            '<img src="{}" alt="Google profile pic"></img></div>'
-            '<a class="button" href="/logout">Logout</a>'.format(
-                current_user.name, current_user.email, current_user.profile_pic
-            )
-        )
-    else:
-        return '<a class="button" href="/login">Google Login</a>'
-
-def get_google_provider_cfg():
-    return requests.get(GOOGLE_DISCOVERY_URL).json()
-
-@app.route("/login")
-def login():
-    # Find out what URL to hit for Google login
-    google_provider_cfg = get_google_provider_cfg()
-    authorization_endpoint = google_provider_cfg["authorization_endpoint"]
-
-    # Use library to construct the request for Google login and provide
-    # scopes that let you retrieve user's profile from Google
-    request_uri = client.prepare_request_uri(
-        authorization_endpoint,
-        redirect_uri=request.base_url + "/callback",
-        scope=["openid", "email", "profile"],
-    )
-    return redirect(request_uri)
-
-@app.route("/login/callback")
-def callback():
-    # Get authorization code Google sent back to you
-    code = request.args.get("code")
-
-    # Find out what URL to hit to get tokens that allow you to ask for
-    # things on behalf of a user
-    google_provider_cfg = get_google_provider_cfg()
-    token_endpoint = google_provider_cfg["token_endpoint"]
-
-    # Prepare and send a request to get tokens! Yay tokens!
-    token_url, headers, body = client.prepare_token_request(
-        token_endpoint,
-        authorization_response=request.url,
-        redirect_url=request.base_url,
-        code=code
-    )
-    token_response = requests.post(
-        token_url,
-        headers=headers,
-        data=body,
-        auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
+    secret.close()
+    provider = GoogleOAuthProvider(
+        client_id=GOOGLE_CLIENT_ID,
+        client_secret=GOOGLE_CLIENT_SECRET,
+        redirect_url=GOOGLE_REDIRECT_URI
     )
 
-    # Parse the tokens!
-    client.parse_request_body_response(json.dumps(token_response.json()))
+    page.title = "App"
+    page.vertical_alignment = "center"
 
-    # Now that you have tokens (yay) let's find and hit the URL
-    # from Google that gives you the user's profile information,
-    # including their Google profile image and email
-    userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
-    uri, headers, body = client.add_token(userinfo_endpoint)
-    userinfo_response = requests.get(uri, headers=headers, data=body)
+    # google sign in
+    def login_button_click(e):
+        page.login(provider, fetch_user=True)
 
-    # You want to make sure their email is verified.
-    # The user authenticated with Google, authorized your
-    # app, and now you've verified their email through Google!
-    if userinfo_response.json().get("email_verified"):
-        unique_id = userinfo_response.json()["sub"]
-        users_email = userinfo_response.json()["email"]
-        picture = userinfo_response.json()["picture"]
-        users_name = userinfo_response.json()["given_name"]
-    else:
-        return "User email not available or not verified by Google.", 400
+    def on_login(e: LoginEvent):
+        if not e.error:
+            toggle_login_buttons()
+            print("Access token:", page.auth.token.access_token)
+            print("User ID:", page.auth.user.id)
+            #use token to access google api
+            conn = client.HTTPSConnection('www.googleapis.com')
+            conn.request('GET', '/oauth2/v3/userinfo?access_token=' + page.auth.token.access_token)
+            res = conn.getresponse()
+            data = res.read()
+            print(data.decode("utf-8"))
+            conn.close()
 
-    # Create a user in your db with the information provided
-    # by Google
-    user = User(
-        id_=unique_id, name=users_name, email=users_email, profile_pic=picture
-    )
 
-    # Doesn't exist? Add it to the database.
-    if not User.get(unique_id):
-        User.create(unique_id, users_name, users_email, picture)
+    def logout_button_click(e):
+        page.logout()
 
-    # Begin user session by logging the user in
-    login_user(user)
+    def on_logout(e):
+        toggle_login_buttons()
 
-    # Send user back to homepage
-    return redirect(url_for("index"))
+    def toggle_login_buttons():
+        login_button.visible = page.auth is None
+        logout_button.visible = page.auth is not None
+        page.update()
 
-@app.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for("index"))
+    login_button = ElevatedButton("Login with Google", on_click=login_button_click)
+    logout_button = ElevatedButton("Logout", on_click=logout_button_click)
+    toggle_login_buttons()
+    page.on_login = on_login
+    page.on_logout = on_logout
+    page.add(Row([login_button, logout_button], alignment="center"))
 
-if __name__ == "__main__":
-    app.run(ssl_context="adhoc")
-
-#def main(page: Page):
-#    page.title = "Subcontractor App"
-#    page.vertical_alignment = "center"
-#
-#    # google sign in
-#    def on_google_sign_in():
-#        print("Google sign in")
-#        page.navigate("home")
-#
-#    google_sign_in = IconButton(icon=icons.LOGIN, on_click=on_google_sign_in())
-#    page.add(Row([
-#        google_sign_in
-#    ], alignment="center"))
-#
-#
-## run in native OS window
-#flet.app(target=main)
-## run as web app
-##flet.app(target=main, view=flet.WEB_BROWSER)
+#run in native OS window
+flet.app(target=main, port=8550)
+#run as web app
+#flet.app(target=main, port=8550, view=flet.WEB_BROWSER)
