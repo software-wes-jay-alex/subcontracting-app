@@ -1,6 +1,7 @@
 import flet
 from flet import IconButton, Page, Row, TextField, icons
 
+
 def main(page: Page):
     page.title = "Flet counter example"
     page.vertical_alignment = "center"
@@ -25,7 +26,10 @@ def main(page: Page):
             alignment="center",
         )
     )
-#run in native OS window
+
+
+# run in native OS window
 flet.app(target=main)
-#run as web app
-#flet.app(target=main, view=flet.WEB_BROWSER)
+
+# run as web app
+# flet.app(target=main, view=flet.WEB_BROWSER)
