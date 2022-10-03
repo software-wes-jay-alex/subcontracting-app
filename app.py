@@ -1,16 +1,15 @@
-#imports
+# imports
 from cgitb import text
 import os
 from http import client
 import flet
-from flet import IconButton, Page, Row, TextField, icons, ElevatedButton, LoginEvent
+from flet import IconButton, Page, Row, TextField, icons, ElevatedButton, \
+    LoginEvent
 from flet.auth.providers.google_oauth_provider import GoogleOAuthProvider
 import json
 
 
-
 def main(page: Page):
-
     # Configuration
     secret = open('client_secret.json')
     file = secret.read()
@@ -40,14 +39,14 @@ def main(page: Page):
             toggle_login_buttons()
             print("Access token:", page.auth.token.access_token)
             print("User ID:", page.auth.user.id)
-            #use token to access google api
+            # use token to access google api
             conn = client.HTTPSConnection('www.googleapis.com')
-            conn.request('GET', '/oauth2/v3/userinfo?access_token=' + page.auth.token.access_token)
+            conn.request('GET',
+                         '/oauth2/v3/userinfo?access_token=' + page.auth.token.access_token)
             res = conn.getresponse()
             data = res.read()
             print(data.decode("utf-8"))
             conn.close()
-
 
     def logout_button_click(e):
         page.logout()
@@ -60,14 +59,16 @@ def main(page: Page):
         logout_button.visible = page.auth is not None
         page.update()
 
-    login_button = ElevatedButton("Login with Google", on_click=login_button_click)
+    login_button = ElevatedButton("Login with Google",
+                                  on_click=login_button_click)
     logout_button = ElevatedButton("Logout", on_click=logout_button_click)
     toggle_login_buttons()
     page.on_login = on_login
     page.on_logout = on_logout
     page.add(Row([login_button, logout_button], alignment="center"))
 
-#run in native OS window
+
+# run in native OS window
 flet.app(target=main, port=8550)
-#run as web app
-#flet.app(target=main, port=8550, view=flet.WEB_BROWSER)
+# run as web app
+# flet.app(target=main, port=8550, view=flet.WEB_BROWSER)
