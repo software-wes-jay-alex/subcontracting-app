@@ -4,7 +4,7 @@ import os
 from http import client
 import flet
 from flet import IconButton, Page, Row, TextField, icons, ElevatedButton, \
-    LoginEvent
+    LoginEvent, View, AppBar, Text, colors
 from flet.auth.providers.google_oauth_provider import GoogleOAuthProvider
 import json
 
@@ -32,7 +32,9 @@ def main(page: Page):
 
     # google sign in
     def login_button_click(e):
-        page.login(provider, fetch_user=True)
+        page.login(provider, fetch_user=True, on_open_authorization_url=lambda url: page.launch_url(url, web_window_name="_self"),
+                   redirect_to_page=True)
+        page.route = "/home"
 
     def on_login(e: LoginEvent):
         if not e.error:
@@ -50,6 +52,7 @@ def main(page: Page):
 
     def logout_button_click(e):
         page.logout()
+        page.route = "/"
 
     def on_logout(e):
         toggle_login_buttons()
@@ -65,10 +68,47 @@ def main(page: Page):
     toggle_login_buttons()
     page.on_login = on_login
     page.on_logout = on_logout
-    page.add(Row([login_button, logout_button], alignment="center"))
+
+    # user navigation
+    def route_change(route):
+        page.views.clear()
+        page.views.append(
+            View(
+                "/",
+                [
+                    AppBar(title=Text("Flet app"),
+                           bgcolor=colors.SURFACE_VARIANT),
+                    ElevatedButton("Login with Google",
+                                   on_click=login_button_click)
+                ],
+            )
+        )
+        if page.route == "/home":
+            page.views.append(
+                View(
+                    "/home",
+                    [
+                        AppBar(title=Text("Flet app"),
+                               bgcolor=colors.SURFACE_VARIANT),
+                        ElevatedButton("Logout", on_click=logout_button_click),
+                        Text("Welcome to the home page")
+                    ],
+                )
+            )
+        page.update()
+
+    def view_pop(view):
+        page.views.pop()
+        top_view = page.views[-1]
+        page.go(top_view.route)
+
+    page.on_route_change = route_change
+    page.on_view_pop = view_pop
+    page.go(page.route)
 
 
 # run in native OS window
-flet.app(target=main, port=8550)
+#flet.app(target=main, port=8550, route_url_strategy="path")
 # run as web app
-# flet.app(target=main, port=8550, view=flet.WEB_BROWSER)
+flet.app(target=main, port=8550, view=flet.WEB_BROWSER,
+         route_url_strategy="path")
