@@ -32,9 +32,9 @@ def main(page: Page):
 
     # google sign in
     def login_button_click(e):
-        page.login(provider, fetch_user=True)
+        page.login(provider, fetch_user=True, on_open_authorization_url=lambda url: page.launch_url(url, web_window_name="_self"),
+                   redirect_to_page=True)
         page.route = "/home"
-
 
     def on_login(e: LoginEvent):
         if not e.error:
@@ -69,15 +69,17 @@ def main(page: Page):
     page.on_login = on_login
     page.on_logout = on_logout
 
-    #user navigation
+    # user navigation
     def route_change(route):
         page.views.clear()
         page.views.append(
             View(
                 "/",
                 [
-                    AppBar(title=Text("Flet app"), bgcolor=colors.SURFACE_VARIANT),
-                    ElevatedButton("Login with Google", on_click=login_button_click)
+                    AppBar(title=Text("Flet app"),
+                           bgcolor=colors.SURFACE_VARIANT),
+                    ElevatedButton("Login with Google",
+                                   on_click=login_button_click)
                 ],
             )
         )
@@ -86,7 +88,8 @@ def main(page: Page):
                 View(
                     "/home",
                     [
-                        AppBar(title=Text("Flet app"), bgcolor=colors.SURFACE_VARIANT),
+                        AppBar(title=Text("Flet app"),
+                               bgcolor=colors.SURFACE_VARIANT),
                         ElevatedButton("Logout", on_click=logout_button_click),
                         Text("Welcome to the home page")
                     ],
@@ -103,7 +106,9 @@ def main(page: Page):
     page.on_view_pop = view_pop
     page.go(page.route)
 
+
 # run in native OS window
 #flet.app(target=main, port=8550, route_url_strategy="path")
 # run as web app
-flet.app(target=main, port=8550, view=flet.WEB_BROWSER, route_url_strategy="path")
+flet.app(target=main, port=8550, view=flet.WEB_BROWSER,
+         route_url_strategy="path")

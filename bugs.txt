@@ -1,0 +1,2 @@
+Known Bugs:
+Application requires user to press logout button twice to logout
