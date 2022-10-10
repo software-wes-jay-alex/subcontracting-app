@@ -9,7 +9,6 @@ from flet import IconButton, Page, Row, TextField, icons, ElevatedButton, \
 from flet.auth.providers.google_oauth_provider import GoogleOAuthProvider
 import json
 
-
 class Task(UserControl):
     def __init__(self, task_name, task_status_change, task_delete):
         super().__init__()
@@ -81,7 +80,6 @@ class Task(UserControl):
 
     def delete_clicked(self, e):
         self.task_delete(self)
-
 
 class TodoApp(UserControl):
     def build(self):
@@ -164,7 +162,7 @@ class TodoApp(UserControl):
         super().update()
 
 def main(page: Page):
-    # Configuration
+    # Configuration settings
     secret = open('client_secret.json')
     file = secret.read()
     GOOGLE_CLIENT_ID = json.loads(file)['web']['client_id']
@@ -173,8 +171,9 @@ def main(page: Page):
     GOOGLE_AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'
     GOOGLE_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
     GOOGLE_USER_INFO_URI = 'https://www.googleapis.com/oauth2/v3/userinfo'
-
     secret.close()
+
+    #setup the google oauth provider
     provider = GoogleOAuthProvider(
         client_id=GOOGLE_CLIENT_ID,
         client_secret=GOOGLE_CLIENT_SECRET,
@@ -231,13 +230,22 @@ def main(page: Page):
     page.on_route_change = route_change
     page.on_view_pop = view_pop
 
-    # google sign in
+    # buttons
     def login_button_click(e):
         
         page.login(provider, fetch_user=True)
         page.go("/home")
         print("login button clicked, redirecting to ", page.route)
 
+    def logout_button_click(e):
+        page.logout()
+        page.go("/")
+        print("logout button clicked, redirecting to ", page.route)
+
+    def on_list_button_click(e):
+        page.go("/home/list")
+
+    # login events
     def on_login(e: LoginEvent):
         try:
             print("Access token:", page.auth.token.access_token)
@@ -253,23 +261,19 @@ def main(page: Page):
         except:
             print("Login error")
 
-    def logout_button_click(e):
-        page.logout()
-        page.go("/")
-        print("logout button clicked, redirecting to ", page.route)
-
     def on_logout(e: LoginEvent):
         print("Logout successful")
 
-    def on_list_button_click(e):
-        page.go("/home/list")
-
+    #buttons
     login_button = ElevatedButton("Login with Google",
                                   on_click=login_button_click)
     logout_button = ElevatedButton("Logout", on_click=logout_button_click)
     list_button = ElevatedButton("My list", on_click=on_list_button_click)
+
+    # login events
     page.on_login = on_login
     page.on_logout = on_logout
+
     #start app on sign in page
     page.go("/")
 
