@@ -27,9 +27,6 @@ def main(page: Page):
         redirect_url=GOOGLE_REDIRECT_URI
     )
 
-    page.title = "App"
-    page.vertical_alignment = "center"
-
     # user navigation
     def route_change(route):
         page.views.clear()
@@ -51,8 +48,21 @@ def main(page: Page):
                         AppBar(title=Text("Flet app"),
                                bgcolor=colors.SURFACE_VARIANT),
                         logout_button,
-                        Text("Welcome to the home page")
+                        Text("Welcome to the home page"),
+                        list_button
                     ],
+                )
+            )
+        if page.route == "/list":
+            page.views.append(
+                View(
+                    "/list",
+                    [
+                        AppBar(title=Text("My list"),
+                               bgcolor=colors.SURFACE_VARIANT),
+                        logout_button,
+                    ], horizontal_alignment="center",
+                    scroll="adaptive"
                 )
             )
         print("View Updated, Current Route: ", page.route)
@@ -101,9 +111,13 @@ def main(page: Page):
             print("Error:", e.error)
             print("Error description:", e.error_description)
 
+    def on_list_button_click(e):
+        page.go("/list")
+
     login_button = ElevatedButton("Login with Google",
                                   on_click=login_button_click)
     logout_button = ElevatedButton("Logout", on_click=logout_button_click)
+    list_button = ElevatedButton("My list", on_click=on_list_button_click)
     page.on_login = on_login
     page.on_logout = on_logout
     #start app on sign in page
