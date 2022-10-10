@@ -5,3 +5,5 @@ __pycache__
 sqlite_db
 .idea
 .DS_Store
+flutter
+app.dart

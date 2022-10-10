@@ -30,45 +30,6 @@ def main(page: Page):
     page.title = "App"
     page.vertical_alignment = "center"
 
-    # google sign in
-    def login_button_click(e):
-        page.login(provider, fetch_user=True, on_open_authorization_url=lambda url: page.launch_url(url, web_window_name="_self"),
-                   redirect_to_page=True)
-        page.route = "/home"
-
-    def on_login(e: LoginEvent):
-        if not e.error:
-            toggle_login_buttons()
-            print("Access token:", page.auth.token.access_token)
-            print("User ID:", page.auth.user.id)
-            # use token to access google api
-            conn = client.HTTPSConnection('www.googleapis.com')
-            conn.request('GET',
-                         '/oauth2/v3/userinfo?access_token=' + page.auth.token.access_token)
-            res = conn.getresponse()
-            data = res.read()
-            print(data.decode("utf-8"))
-            conn.close()
-
-    def logout_button_click(e):
-        page.logout()
-        page.route = "/"
-
-    def on_logout(e):
-        toggle_login_buttons()
-
-    def toggle_login_buttons():
-        login_button.visible = page.auth is None
-        logout_button.visible = page.auth is not None
-        page.update()
-
-    login_button = ElevatedButton("Login with Google",
-                                  on_click=login_button_click)
-    logout_button = ElevatedButton("Logout", on_click=logout_button_click)
-    toggle_login_buttons()
-    page.on_login = on_login
-    page.on_logout = on_logout
-
     # user navigation
     def route_change(route):
         page.views.clear()
@@ -78,8 +39,7 @@ def main(page: Page):
                 [
                     AppBar(title=Text("Flet app"),
                            bgcolor=colors.SURFACE_VARIANT),
-                    ElevatedButton("Login with Google",
-                                   on_click=login_button_click)
+                    login_button
                 ],
             )
         )
@@ -90,11 +50,12 @@ def main(page: Page):
                     [
                         AppBar(title=Text("Flet app"),
                                bgcolor=colors.SURFACE_VARIANT),
-                        ElevatedButton("Logout", on_click=logout_button_click),
+                        logout_button,
                         Text("Welcome to the home page")
                     ],
                 )
             )
+        print("View Updated, Current Route: ", page.route)
         page.update()
 
     def view_pop(view):
@@ -104,11 +65,51 @@ def main(page: Page):
 
     page.on_route_change = route_change
     page.on_view_pop = view_pop
-    page.go(page.route)
 
+    # google sign in
+    def login_button_click(e):
+        
+        page.login(provider, fetch_user=True)
+        page.go("/home")
+        print("login button clicked, redirecting to ", page.route)
 
+    def on_login(e: LoginEvent):
+        if not e.error:
+            print("Access token:", page.auth.token.access_token)
+            print("User ID:", page.auth.user.id)
+            # use token to access google api
+            conn = client.HTTPSConnection('www.googleapis.com')
+            conn.request('GET',
+                         '/oauth2/v3/userinfo?access_token=' + page.auth.token.access_token)
+            res = conn.getresponse()
+            data = res.read()
+            print(data.decode("utf-8"))
+            conn.close()
+        else:
+            print("Error:", e.error)
+            print("Error description:", e.error_description)
+
+    def logout_button_click(e):
+        page.logout()
+        page.go("/")
+        print("logout button clicked, redirecting to ", page.route)
+
+    def on_logout(e: LoginEvent):
+        if not e.error:
+            print("Logout successful")
+        else:
+            print("Error:", e.error)
+            print("Error description:", e.error_description)
+
+    login_button = ElevatedButton("Login with Google",
+                                  on_click=login_button_click)
+    logout_button = ElevatedButton("Logout", on_click=logout_button_click)
+    page.on_login = on_login
+    page.on_logout = on_logout
+    #start app on sign in page
+    page.go("/")
 # run in native OS window
-#flet.app(target=main, port=8550, route_url_strategy="path")
+flet.app(target=main, port=8550, route_url_strategy="path")
 # run as web app
-flet.app(target=main, port=8550, view=flet.WEB_BROWSER,
-         route_url_strategy="path")
+#flet.app(target=main, port=8550, view=flet.WEB_BROWSER,
+         #route_url_strategy="path")
