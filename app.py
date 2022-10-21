@@ -168,9 +168,6 @@ def main(page: Page):
     GOOGLE_CLIENT_ID = json.loads(file)['web']['client_id']
     GOOGLE_CLIENT_SECRET = json.loads(file)['web']['client_secret']
     GOOGLE_REDIRECT_URI = 'http://127.0.0.1:8550/api/oauth/redirect'
-    GOOGLE_AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'
-    GOOGLE_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
-    GOOGLE_USER_INFO_URI = 'https://www.googleapis.com/oauth2/v3/userinfo'
     secret.close()
 
     #setup the google oauth provider
@@ -232,10 +229,12 @@ def main(page: Page):
 
     # buttons
     def login_button_click(e):
-        
         page.login(provider, fetch_user=True)
-        page.go("/home")
-        print("login button clicked, redirecting to ", page.route)
+        if page.auth:
+            page.go("/home")
+            print("login successful, redirecting to ", page.route)
+        else:
+            print("login failed")
 
     def logout_button_click(e):
         page.logout()
@@ -270,7 +269,7 @@ def main(page: Page):
     logout_button = ElevatedButton("Logout", on_click=logout_button_click)
     list_button = ElevatedButton("My list", on_click=on_list_button_click)
 
-    # login events
+    # login event handlers
     page.on_login = on_login
     page.on_logout = on_logout
 
