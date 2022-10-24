@@ -1,17 +1,22 @@
 # imports
-from cgitb import text
-import os
-from http import client
-import flet
-from flet import IconButton, Page, Row, TextField, icons, ElevatedButton, \
-    LoginEvent, View, AppBar, Text, colors, Checkbox, Column, FloatingActionButton, \
-        IconButton, OutlinedButton, Tab, Tabs, UserControl
-from flet.auth.providers.google_oauth_provider import GoogleOAuthProvider
 import json
+from http import client
+
+import flet
+from flet import Page, Row, TextField, icons, ElevatedButton, \
+    LoginEvent, View, AppBar, Text, colors, Checkbox, Column, \
+    FloatingActionButton, \
+    IconButton, OutlinedButton, Tab, Tabs, UserControl
+from flet.auth.providers.google_oauth_provider import GoogleOAuthProvider
+
 
 class Task(UserControl):
     def __init__(self, task_name, task_status_change, task_delete):
         super().__init__()
+        self.edit_view = None
+        self.display_view = None
+        self.edit_name = None
+        self.display_task = None
         self.completed = False
         self.task_name = task_name
         self.task_status_change = task_status_change
@@ -81,15 +86,18 @@ class Task(UserControl):
     def delete_clicked(self, e):
         self.task_delete(self)
 
+
 class TodoApp(UserControl):
     def build(self):
-        self.new_task = TextField(hint_text="What materials are needed?", expand=True)
+        self.new_task = TextField(hint_text="What materials are needed?",
+                                  expand=True)
         self.tasks = Column()
 
         self.filter = Tabs(
             selected_index=0,
             on_change=self.tabs_changed,
-            tabs=[Tab(text="All"), Tab(text="Unverified"), Tab(text="Verified")],
+            tabs=[Tab(text="All"), Tab(text="Unverified"),
+                  Tab(text="Verified")],
         )
 
         self.items_left = Text("No items left")
@@ -98,11 +106,13 @@ class TodoApp(UserControl):
         return Column(
             width=600,
             controls=[
-                Row([Text(value="Items", style="headlineMedium")], alignment="center"),
+                Row([Text(value="Items", style="headlineMedium")],
+                    alignment="center"),
                 Row(
                     controls=[
                         self.new_task,
-                        FloatingActionButton(icon=icons.ADD, on_click=self.add_clicked),
+                        FloatingActionButton(icon=icons.ADD,
+                                             on_click=self.add_clicked),
                     ],
                 ),
                 Column(
@@ -116,7 +126,8 @@ class TodoApp(UserControl):
                             controls=[
                                 self.items_left,
                                 OutlinedButton(
-                                    text="Clear verified items", on_click=self.clear_clicked
+                                    text="Clear verified items",
+                                    on_click=self.clear_clicked
                                 ),
                             ],
                         ),
@@ -127,7 +138,8 @@ class TodoApp(UserControl):
 
     def add_clicked(self, e):
         if self.new_task.value:
-            task = Task(self.new_task.value, self.task_status_change, self.task_delete)
+            task = Task(self.new_task.value, self.task_status_change,
+                        self.task_delete)
             self.tasks.controls.append(task)
             self.new_task.value = ""
             self.update()
@@ -152,14 +164,15 @@ class TodoApp(UserControl):
         count = 0
         for task in self.tasks.controls:
             task.visible = (
-                status == "All"
-                or (status == "Unverified" and task.completed == False)
-                or (status == "Verified" and task.completed)
+                    status == "All"
+                    or (status == "Unverified" and task.completed == False)
+                    or (status == "Verified" and task.completed)
             )
             if not task.completed:
                 count += 1
         self.items_left.value = f"{count} unverified item(s) left"
         super().update()
+
 
 def main(page: Page):
     # Configuration settings
@@ -173,7 +186,7 @@ def main(page: Page):
     GOOGLE_USER_INFO_URI = 'https://www.googleapis.com/oauth2/v3/userinfo'
     secret.close()
 
-    #setup the google oauth provider
+    # setup the google oauth provider
     provider = GoogleOAuthProvider(
         client_id=GOOGLE_CLIENT_ID,
         client_secret=GOOGLE_CLIENT_SECRET,
@@ -232,7 +245,7 @@ def main(page: Page):
 
     # buttons
     def login_button_click(e):
-        
+
         page.login(provider, fetch_user=True)
         page.go("/home")
         print("login button clicked, redirecting to ", page.route)
@@ -264,7 +277,7 @@ def main(page: Page):
     def on_logout(e: LoginEvent):
         print("Logout successful")
 
-    #buttons
+    # buttons
     login_button = ElevatedButton("Login with Google",
                                   on_click=login_button_click)
     logout_button = ElevatedButton("Logout", on_click=logout_button_click)
@@ -274,11 +287,12 @@ def main(page: Page):
     page.on_login = on_login
     page.on_logout = on_logout
 
-    #start app on sign in page
+    # start app on sign in page
     page.go("/")
+
 
 # run in native OS window
 flet.app(target=main, port=8550, route_url_strategy="path")
 # run as web app
-#flet.app(target=main, port=8550, view=flet.WEB_BROWSER,
-         #route_url_strategy="path")
+# flet.app(target=main, port=8550, view=flet.WEB_BROWSER,
+# route_url_strategy="path")
