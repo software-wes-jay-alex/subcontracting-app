@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../screens/recycle_bin.dart';
 import '../screens/tabs_screen.dart';
 

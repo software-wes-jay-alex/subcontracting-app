@@ -47,6 +47,7 @@ dependencies:
   hydrated_bloc: ^8.1.0
   equatable: ^2.0.5
 
+  intl: ^0.17.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -57,6 +58,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  lints: ^2.0.1
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

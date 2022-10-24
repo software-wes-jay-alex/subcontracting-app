@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../bloc/bloc_exports.dart';
 import '../widgets/tasks_list.dart';
 import 'my_drawer.dart';

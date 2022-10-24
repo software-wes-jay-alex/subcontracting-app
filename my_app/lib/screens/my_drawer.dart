@@ -1,6 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/foundation.dart';
 import '../bloc/bloc_exports.dart';
 import 'recycle_bin.dart';
 import 'tabs_screen.dart';

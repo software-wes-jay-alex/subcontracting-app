@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../bloc/bloc_exports.dart';
 import '../models/task.dart';
 import '../screens/edit_task_screen.dart';
@@ -36,7 +35,7 @@ class TaskTile extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext ctx) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 10.0),
       child: Row(
@@ -78,22 +77,22 @@ class TaskTile extends StatelessWidget {
                 value: task.isDone,
                 onChanged: task.isDeleted == false
                     ? (value) {
-                        ctx.read<TasksBloc>().add(UpdateTask(task: task));
+                        context.read<TasksBloc>().add(UpdateTask(task: task));
                       }
                     : null,
               ),
               PopupMenu(
-                cancelOrDeleteCallback: () => _removeOrDeleteTask(ctx, task),
+                cancelOrDeleteCallback: () => _removeOrDeleteTask(context, task),
                 task: task,
-                likeOrDislikeCallback: () => ctx
+                likeOrDislikeCallback: () => context
                     .read<TasksBloc>()
                     .add(MarkFavoriteOrUnFavoriteTask(task: task)),
                 editTaskCallback: () {
-                  Navigator.of(ctx).pop();
-                  _editTask(ctx);
+                  Navigator.of(context).pop();
+                  _editTask(context);
                 },
                 restoreTaskCallback: () =>
-                    ctx.read<TasksBloc>().add(RestoreTask(task: task)),
+                    context.read<TasksBloc>().add(RestoreTask(task: task)),
               )
             ],
           )

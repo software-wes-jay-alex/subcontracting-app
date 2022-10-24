@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:equatable/equatable.dart';
-
 import '../../models/task.dart';
 import '../bloc_exports.dart';
 

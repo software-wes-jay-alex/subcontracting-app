@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'add_task_screen.dart';
 import 'completed_tasks_screen.dart';
 import 'favorite_tasks_screen.dart';

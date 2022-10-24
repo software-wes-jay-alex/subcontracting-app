@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../services/guid_gen.dart';
-
 import '../bloc/bloc_exports.dart';
 import '../models/task.dart';
 
