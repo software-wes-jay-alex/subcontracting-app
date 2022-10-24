@@ -3,11 +3,30 @@ from cgitb import text
 import os
 from http import client
 import flet
-from flet import IconButton, Page, Row, TextField, icons, ElevatedButton, \
-    LoginEvent, View, AppBar, Text, colors, Checkbox, Column, FloatingActionButton, \
-        IconButton, OutlinedButton, Tab, Tabs, UserControl
+from flet import (
+    IconButton,
+    Page,
+    Row,
+    TextField,
+    icons,
+    ElevatedButton,
+    LoginEvent,
+    View,
+    AppBar,
+    Text,
+    colors,
+    Checkbox,
+    Column,
+    FloatingActionButton,
+    IconButton,
+    OutlinedButton,
+    Tab,
+    Tabs,
+    UserControl,
+)
 from flet.auth.providers.google_oauth_provider import GoogleOAuthProvider
 import json
+
 
 class Task(UserControl):
     def __init__(self, task_name, task_status_change, task_delete):
@@ -81,6 +100,7 @@ class Task(UserControl):
     def delete_clicked(self, e):
         self.task_delete(self)
 
+
 class TodoApp(UserControl):
     def build(self):
         self.new_task = TextField(hint_text="What materials are needed?", expand=True)
@@ -116,7 +136,8 @@ class TodoApp(UserControl):
                             controls=[
                                 self.items_left,
                                 OutlinedButton(
-                                    text="Clear verified items", on_click=self.clear_clicked
+                                    text="Clear verified items",
+                                    on_click=self.clear_clicked,
                                 ),
                             ],
                         ),
@@ -161,23 +182,21 @@ class TodoApp(UserControl):
         self.items_left.value = f"{count} unverified item(s) left"
         super().update()
 
+
 def main(page: Page):
     # Configuration settings
-    secret = open('client_secret.json')
+    secret = open("client_secret.json")
     file = secret.read()
-    GOOGLE_CLIENT_ID = json.loads(file)['web']['client_id']
-    GOOGLE_CLIENT_SECRET = json.loads(file)['web']['client_secret']
-    GOOGLE_REDIRECT_URI = 'http://127.0.0.1:8550/api/oauth/redirect'
-    GOOGLE_AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'
-    GOOGLE_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
-    GOOGLE_USER_INFO_URI = 'https://www.googleapis.com/oauth2/v3/userinfo'
+    GOOGLE_CLIENT_ID = json.loads(file)["web"]["client_id"]
+    GOOGLE_CLIENT_SECRET = json.loads(file)["web"]["client_secret"]
+    GOOGLE_REDIRECT_URI = "http://127.0.0.1:8550/api/oauth/redirect"
     secret.close()
 
-    #setup the google oauth provider
+    # setup the google oauth provider
     provider = GoogleOAuthProvider(
         client_id=GOOGLE_CLIENT_ID,
         client_secret=GOOGLE_CLIENT_SECRET,
-        redirect_url=GOOGLE_REDIRECT_URI
+        redirect_url=GOOGLE_REDIRECT_URI,
     )
 
     # user navigation
@@ -187,9 +206,8 @@ def main(page: Page):
             View(
                 "/",
                 [
-                    AppBar(title=Text("Flet app"),
-                           bgcolor=colors.SURFACE_VARIANT),
-                    login_button
+                    AppBar(title=Text("Flet app"), bgcolor=colors.SURFACE_VARIANT),
+                    login_button,
                 ],
             )
         )
@@ -198,11 +216,10 @@ def main(page: Page):
                 View(
                     "/home",
                     [
-                        AppBar(title=Text("Flet app"),
-                               bgcolor=colors.SURFACE_VARIANT),
+                        AppBar(title=Text("Flet app"), bgcolor=colors.SURFACE_VARIANT),
                         logout_button,
                         Text("Welcome to the home page"),
-                        list_button
+                        list_button,
                     ],
                 )
             )
@@ -212,11 +229,12 @@ def main(page: Page):
                 View(
                     "/list",
                     [
-                        AppBar(title=Text("My list"),
-                               bgcolor=colors.SURFACE_VARIANT),
-                        logout_button, ToDoApp
-                    ], horizontal_alignment="center",
-                    scroll="adaptive"
+                        AppBar(title=Text("My list"), bgcolor=colors.SURFACE_VARIANT),
+                        logout_button,
+                        ToDoApp,
+                    ],
+                    horizontal_alignment="center",
+                    scroll="adaptive",
                 )
             )
         print("View Updated, Current Route: ", page.route)
@@ -232,10 +250,12 @@ def main(page: Page):
 
     # buttons
     def login_button_click(e):
-        
         page.login(provider, fetch_user=True)
-        page.go("/home")
-        print("login button clicked, redirecting to ", page.route)
+        if page.auth:
+            page.go("/home")
+            print("login successful, redirecting to ", page.route)
+        else:
+            print("login failed")
 
     def logout_button_click(e):
         page.logout()
@@ -251,9 +271,11 @@ def main(page: Page):
             print("Access token:", page.auth.token.access_token)
             print("User ID:", page.auth.user.id)
             # use token to access google api
-            conn = client.HTTPSConnection('www.googleapis.com')
-            conn.request('GET',
-                         '/oauth2/v3/userinfo?access_token=' + page.auth.token.access_token)
+            conn = client.HTTPSConnection("www.googleapis.com")
+            conn.request(
+                "GET",
+                "/oauth2/v3/userinfo?access_token=" + page.auth.token.access_token,
+            )
             res = conn.getresponse()
             data = res.read()
             print(data.decode("utf-8"))
@@ -264,21 +286,21 @@ def main(page: Page):
     def on_logout(e: LoginEvent):
         print("Logout successful")
 
-    #buttons
-    login_button = ElevatedButton("Login with Google",
-                                  on_click=login_button_click)
+    # buttons
+    login_button = ElevatedButton("Login with Google", on_click=login_button_click)
     logout_button = ElevatedButton("Logout", on_click=logout_button_click)
     list_button = ElevatedButton("My list", on_click=on_list_button_click)
 
-    # login events
+    # login event handlers
     page.on_login = on_login
     page.on_logout = on_logout
 
-    #start app on sign in page
+    # start app on sign in page
     page.go("/")
+
 
 # run in native OS window
 flet.app(target=main, port=8550, route_url_strategy="path")
 # run as web app
-#flet.app(target=main, port=8550, view=flet.WEB_BROWSER,
-         #route_url_strategy="path")
+# flet.app(target=main, port=8550, view=flet.WEB_BROWSER,
+# route_url_strategy="path")
