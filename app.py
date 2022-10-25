@@ -187,7 +187,7 @@ def main(page: Page):
     GOOGLE_USER_INFO_URI = 'https://www.googleapis.com/oauth2/v3/userinfo'
     secret.close()
 
-    # setup the google oauth provider
+    # set up the Google oauth provider
     provider = GoogleOAuthProvider(
         client_id=GOOGLE_CLIENT_ID,
         client_secret=GOOGLE_CLIENT_SECRET,
