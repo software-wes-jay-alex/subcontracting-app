@@ -18,13 +18,13 @@ class Task(UserControl):
         self.edit_name = None
         self.display_task = None
         self.completed = False
-        self.task_name = task_name
+        self.item_name = task_name
         self.task_status_change = task_status_change
         self.task_delete = task_delete
 
     def build(self):
         self.display_task = Checkbox(
-            value=False, label=self.task_name, on_change=self.status_changed
+            value=False, label=self.item_name, on_change=self.status_changed
         )
         self.edit_name = TextField(expand=1)
 
@@ -45,6 +45,7 @@ class Task(UserControl):
                             icons.DELETE_OUTLINE,
                             tooltip="Delete Item",
                             on_click=self.delete_clicked,
+                            icon_color=colors.RED,
                         ),
                     ],
                 ),
@@ -87,7 +88,7 @@ class Task(UserControl):
         self.task_delete(self)
 
 
-class TodoApp(UserControl):
+class MaterialApp(UserControl):
     def build(self):
         self.new_task = TextField(hint_text="What materials are needed?",
                                   expand=True)
@@ -138,16 +139,16 @@ class TodoApp(UserControl):
 
     def add_clicked(self, e):
         if self.new_task.value:
-            task = Task(self.new_task.value, self.task_status_change,
-                        self.task_delete)
+            task = Task(self.new_task.value, self.item_status_change,
+                        self.item_delete)
             self.tasks.controls.append(task)
             self.new_task.value = ""
             self.update()
 
-    def task_status_change(self, task):
+    def item_status_change(self, task):
         self.update()
 
-    def task_delete(self, task):
+    def item_delete(self, task):
         self.tasks.controls.remove(task)
         self.update()
 
@@ -157,18 +158,18 @@ class TodoApp(UserControl):
     def clear_clicked(self, e):
         for task in self.tasks.controls[:]:
             if task.completed:
-                self.task_delete(task)
+                self.item_delete(task)
 
     def update(self):
         status = self.filter.tabs[self.filter.selected_index].text
         count = 0
-        for task in self.tasks.controls:
-            task.visible = (
+        for item in self.tasks.controls:
+            item.visible = (
                     status == "All"
-                    or (status == "Unverified" and task.completed == False)
-                    or (status == "Verified" and task.completed)
+                    or (status == "Unverified" and item.completed == False)
+                    or (status == "Verified" and item.completed)
             )
-            if not task.completed:
+            if not item.completed:
                 count += 1
         self.items_left.value = f"{count} unverified item(s) left"
         super().update()
@@ -200,7 +201,7 @@ def main(page: Page):
             View(
                 "/",
                 [
-                    AppBar(title=Text("Flet app"),
+                    AppBar(title=Text("Materialist"),
                            bgcolor=colors.SURFACE_VARIANT),
                     login_button
                 ],
@@ -211,7 +212,7 @@ def main(page: Page):
                 View(
                     "/home",
                     [
-                        AppBar(title=Text("Flet app"),
+                        AppBar(title=Text("Materialist"),
                                bgcolor=colors.SURFACE_VARIANT),
                         logout_button,
                         Text("Welcome to the home page"),
@@ -220,14 +221,14 @@ def main(page: Page):
                 )
             )
         if page.route == "/home/list":
-            ToDoApp = TodoApp()
+            MatApp = MaterialApp()
             page.views.append(
                 View(
                     "/list",
                     [
                         AppBar(title=Text("My list"),
                                bgcolor=colors.SURFACE_VARIANT),
-                        logout_button, ToDoApp
+                        logout_button, MatApp
                     ], horizontal_alignment="center",
                     scroll="adaptive"
                 )
@@ -281,7 +282,7 @@ def main(page: Page):
     login_button = ElevatedButton("Login with Google",
                                   on_click=login_button_click)
     logout_button = ElevatedButton("Logout", on_click=logout_button_click)
-    list_button = ElevatedButton("My list", on_click=on_list_button_click)
+    list_button = ElevatedButton("Materials list", on_click=on_list_button_click)
 
     # login events
     page.on_login = on_login
