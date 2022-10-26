@@ -3,32 +3,32 @@ import '../bloc/bloc_exports.dart';
 import '../models/task.dart';
 import '../widgets/tasks_list.dart';
 
-class PendingTasksScreen extends StatefulWidget {
-  const PendingTasksScreen({Key? key}) : super(key: key);
+class PendingMatsScreen extends StatefulWidget {
+  const PendingMatsScreen({Key? key}) : super(key: key);
 
-  static const id = "tasks_screen";
+  static const id = "mats_screen";
 
   @override
-  State<PendingTasksScreen> createState() => _PendingTasksScreenState();
+  State<PendingMatsScreen> createState() => _PendingMatsScreenState();
 }
 
-class _PendingTasksScreenState extends State<PendingTasksScreen> {
+class _PendingMatsScreenState extends State<PendingMatsScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TasksBloc, TasksState>(
+    return BlocBuilder<MaterialsBloc, MaterialsState>(
       builder: (context, state) {
-        List<Task> tasks = state.pendingTasks;
+        List<MatInstance> mats = state.pendingMats;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
               child: Chip(
                 label: Text(
-                  '${tasks.length} Pending | ${state.completedTasks.length} Completed',
+                  '${mats.length} Pending | ${state.completedMats.length} Completed',
                 ),
               ),
             ),
-            TasksList(tasks: tasks)
+            MaterialsList(mats: mats)
           ],
         );
       },

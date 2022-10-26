@@ -10,7 +10,7 @@ class RecycleBin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TasksBloc, TasksState>(
+    return BlocBuilder<MaterialsBloc, MaterialsState>(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -19,12 +19,13 @@ class RecycleBin extends StatelessWidget {
               PopupMenuButton(
                 itemBuilder: ((context) => [
                       PopupMenuItem(
-                          onTap: () =>
-                              context.read<TasksBloc>().add(DeleteAllTasks()),
+                          onTap: () => context
+                              .read<MaterialsBloc>()
+                              .add(DeleteAllMats()),
                           child: TextButton.icon(
                               onPressed: null,
                               icon: const Icon(Icons.delete_forever),
-                              label: const Text('Delete all tasks')))
+                              label: const Text('Delete all mats')))
                     ]),
               )
             ],
@@ -36,11 +37,11 @@ class RecycleBin extends StatelessWidget {
               Center(
                 child: Chip(
                   label: Text(
-                    '${state.removedTasks.length} Tasks',
+                    '${state.removedMats.length} Materials',
                   ),
                 ),
               ),
-              TasksList(tasks: state.removedTasks)
+              MaterialsList(mats: state.removedMats)
             ],
           ),
         );

@@ -6,192 +6,197 @@ import '../bloc_exports.dart';
 part 'tasks_event.dart';
 part 'tasks_state.dart';
 
-class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
-  TasksBloc() : super(const TasksState()) {
-    on<AddTask>(_onAddTask);
-    on<UpdateTask>(_onUpdateTask);
-    on<DeleteTask>(_onDeleteTask);
-    on<RemoveTask>(_onRemoveTask);
-    on<MarkFavoriteOrUnFavoriteTask>(_onMarkFavoriteOrUnFavoriteTask);
-    on<EditTask>(_onEditTask);
-    on<RestoreTask>(_onRestoreTask);
-    on<DeleteAllTasks>(_onDeleteAllTask);
+class MaterialsBloc extends HydratedBloc<MaterialsEvent, MaterialsState> {
+  MaterialsBloc() : super(const MaterialsState()) {
+    on<AddMaterial>(_onAddMaterial);
+    on<UpdateMaterial>(_onUpdateMaterial);
+    on<DeleteMaterial>(_onDeleteMaterial);
+    on<RemoveMaterial>(_onRemoveMaterial);
+    on<MarkFavoriteOrUnFavoriteMat>(_onMarkFavoriteOrUnFavoriteMaterial);
+    on<EditMat>(_onEditMaterial);
+    on<RestoreMat>(_onRestoreMaterial);
+    on<DeleteAllMats>(_onDeleteAllMaterial);
   }
 
-  FutureOr<void> _onAddTask(AddTask event, Emitter<TasksState> emit) {
+  FutureOr<void> _onAddMaterial(
+      AddMaterial event, Emitter<MaterialsState> emit) {
     final state = this.state;
-    emit(TasksState(
-      pendingTasks: List.from(state.pendingTasks)..add(event.task),
-      completedTasks: state.completedTasks,
-      favoriteTasks: state.favoriteTasks,
-      removedTasks: state.removedTasks,
+    emit(MaterialsState(
+      pendingMats: List.from(state.pendingMats)..add(event.mat),
+      completedMats: state.completedMats,
+      favoriteMats: state.favoriteMats,
+      removedMats: state.removedMats,
     ));
   }
 
-  FutureOr<void> _onUpdateTask(UpdateTask event, Emitter<TasksState> emit) {
+  FutureOr<void> _onUpdateMaterial(
+      UpdateMaterial event, Emitter<MaterialsState> emit) {
     final state = this.state;
-    final task = event.task;
-    List<Task> pendingTasks = state.pendingTasks;
-    List<Task> completedTasks = state.completedTasks;
-    List<Task> favoriteTasks = state.favoriteTasks;
+    final mat = event.mat;
+    List<MatInstance> pendingMats = state.pendingMats;
+    List<MatInstance> completedMats = state.completedMats;
+    List<MatInstance> favoriteMats = state.favoriteMats;
 
-    if (task.isDone == false) {
-      if (task.isFavorite == false) {
-        pendingTasks = List.from(pendingTasks)..remove(task);
-        completedTasks.insert(0, task.copyWith(isDone: true));
+    if (mat.isDone == false) {
+      if (mat.isFavorite == false) {
+        pendingMats = List.from(pendingMats)..remove(mat);
+        completedMats.insert(0, mat.copyWith(isDone: true));
       } else {
-        var taskIndex = favoriteTasks.indexOf(task);
-        pendingTasks = List.from(pendingTasks)..remove(task);
-        completedTasks.insert(0, task.copyWith(isDone: true));
-        favoriteTasks = List.from(favoriteTasks)
-          ..remove(task)
-          ..insert(taskIndex, task.copyWith(isDone: true));
+        var matIndex = favoriteMats.indexOf(mat);
+        pendingMats = List.from(pendingMats)..remove(mat);
+        completedMats.insert(0, mat.copyWith(isDone: true));
+        favoriteMats = List.from(favoriteMats)
+          ..remove(mat)
+          ..insert(matIndex, mat.copyWith(isDone: true));
       }
     } else {
-      if (task.isFavorite == false) {
-        completedTasks = List.from(completedTasks)..remove(task);
-        pendingTasks = List.from(pendingTasks)
-          ..insert(0, task.copyWith(isDone: false));
+      if (mat.isFavorite == false) {
+        completedMats = List.from(completedMats)..remove(mat);
+        pendingMats = List.from(pendingMats)
+          ..insert(0, mat.copyWith(isDone: false));
       } else {
-        var taskIndex = favoriteTasks.indexOf(task);
-        completedTasks = List.from(completedTasks)..remove(task);
-        pendingTasks = List.from(pendingTasks)
-          ..insert(0, task.copyWith(isDone: false));
-        favoriteTasks = List.from(favoriteTasks)
-          ..remove(task)
-          ..insert(taskIndex, task.copyWith(isDone: false));
+        var matIndex = favoriteMats.indexOf(mat);
+        completedMats = List.from(completedMats)..remove(mat);
+        pendingMats = List.from(pendingMats)
+          ..insert(0, mat.copyWith(isDone: false));
+        favoriteMats = List.from(favoriteMats)
+          ..remove(mat)
+          ..insert(matIndex, mat.copyWith(isDone: false));
       }
     }
-    emit(TasksState(
-      pendingTasks: pendingTasks,
-      completedTasks: completedTasks,
-      favoriteTasks: favoriteTasks,
-      removedTasks: state.removedTasks,
+    emit(MaterialsState(
+      pendingMats: pendingMats,
+      completedMats: completedMats,
+      favoriteMats: favoriteMats,
+      removedMats: state.removedMats,
     ));
   }
 
-  FutureOr<void> _onDeleteTask(DeleteTask event, Emitter<TasksState> emit) {
+  FutureOr<void> _onDeleteMaterial(
+      DeleteMaterial event, Emitter<MaterialsState> emit) {
     final state = this.state;
-    emit(TasksState(
-        pendingTasks: state.pendingTasks,
-        completedTasks: state.completedTasks,
-        favoriteTasks: state.favoriteTasks,
-        removedTasks: List.from(state.removedTasks)..remove(event.task)));
+    emit(MaterialsState(
+        pendingMats: state.pendingMats,
+        completedMats: state.completedMats,
+        favoriteMats: state.favoriteMats,
+        removedMats: List.from(state.removedMats)..remove(event.mat)));
   }
 
-  FutureOr<void> _onRemoveTask(RemoveTask event, Emitter<TasksState> emit) {
+  FutureOr<void> _onRemoveMaterial(
+      RemoveMaterial event, Emitter<MaterialsState> emit) {
     final state = this.state;
-    emit(TasksState(
-        pendingTasks: List.from(state.pendingTasks)..remove(event.task),
-        completedTasks: List.from(state.completedTasks)..remove(event.task),
-        favoriteTasks: List.from(state.favoriteTasks)..remove(event.task),
-        removedTasks: List.from(state.removedTasks)
-          ..add(event.task.copyWith(isDeleted: true))));
+    emit(MaterialsState(
+        pendingMats: List.from(state.pendingMats)..remove(event.mat),
+        completedMats: List.from(state.completedMats)..remove(event.mat),
+        favoriteMats: List.from(state.favoriteMats)..remove(event.mat),
+        removedMats: List.from(state.removedMats)
+          ..add(event.mat.copyWith(isDeleted: true))));
   }
 
   @override
-  TasksState? fromJson(Map<String, dynamic> json) {
-    return TasksState.fromMap(json);
+  MaterialsState? fromJson(Map<String, dynamic> json) {
+    return MaterialsState.fromMap(json);
   }
 
   @override
-  Map<String, dynamic>? toJson(TasksState state) {
+  Map<String, dynamic>? toJson(MaterialsState state) {
     return state.toMap();
   }
 
-  FutureOr<void> _onMarkFavoriteOrUnFavoriteTask(
-      MarkFavoriteOrUnFavoriteTask event, Emitter<TasksState> emit) {
+  FutureOr<void> _onMarkFavoriteOrUnFavoriteMaterial(
+      MarkFavoriteOrUnFavoriteMat event, Emitter<MaterialsState> emit) {
     final state = this.state;
-    List<Task> pendingTasks = state.pendingTasks;
-    List<Task> completedTasks = state.completedTasks;
-    List<Task> favoriteTasks = state.favoriteTasks;
+    List<MatInstance> pendingMats = state.pendingMats;
+    List<MatInstance> completedMats = state.completedMats;
+    List<MatInstance> favoriteMats = state.favoriteMats;
 
-    if (event.task.isDone == false) {
-      if (event.task.isFavorite == false) {
-        var taskIndex = pendingTasks.indexOf(event.task);
-        pendingTasks = List.from(pendingTasks)
-          ..remove(event.task)
-          ..insert(taskIndex, event.task.copyWith(isFavorite: true));
-        favoriteTasks.insert(0, event.task.copyWith(isFavorite: true));
+    if (event.mat.isDone == false) {
+      if (event.mat.isFavorite == false) {
+        var matIndex = pendingMats.indexOf(event.mat);
+        pendingMats = List.from(pendingMats)
+          ..remove(event.mat)
+          ..insert(matIndex, event.mat.copyWith(isFavorite: true));
+        favoriteMats.insert(0, event.mat.copyWith(isFavorite: true));
       } else {
-        var taskIndex = pendingTasks.indexOf(event.task);
-        pendingTasks = List.from(pendingTasks)
-          ..remove(event.task)
-          ..insert(taskIndex, event.task.copyWith(isFavorite: false));
-        favoriteTasks.remove(event.task);
+        var matIndex = pendingMats.indexOf(event.mat);
+        pendingMats = List.from(pendingMats)
+          ..remove(event.mat)
+          ..insert(matIndex, event.mat.copyWith(isFavorite: false));
+        favoriteMats.remove(event.mat);
       }
     } else {
-      if (event.task.isFavorite == false) {
-        var taskIndex = completedTasks.indexOf(event.task);
-        completedTasks = List.from(completedTasks)
-          ..remove(event.task)
-          ..insert(taskIndex, event.task.copyWith(isFavorite: true));
-        favoriteTasks.insert(0, event.task.copyWith(isFavorite: true));
+      if (event.mat.isFavorite == false) {
+        var matIndex = completedMats.indexOf(event.mat);
+        completedMats = List.from(completedMats)
+          ..remove(event.mat)
+          ..insert(matIndex, event.mat.copyWith(isFavorite: true));
+        favoriteMats.insert(0, event.mat.copyWith(isFavorite: true));
       } else {
-        var taskIndex = completedTasks.indexOf(event.task);
-        completedTasks = List.from(completedTasks)
-          ..remove(event.task)
-          ..insert(taskIndex, event.task.copyWith(isFavorite: false));
-        favoriteTasks.remove(event.task);
+        var matIndex = completedMats.indexOf(event.mat);
+        completedMats = List.from(completedMats)
+          ..remove(event.mat)
+          ..insert(matIndex, event.mat.copyWith(isFavorite: false));
+        favoriteMats.remove(event.mat);
       }
     }
-    emit(TasksState(
-      pendingTasks: pendingTasks,
-      completedTasks: completedTasks,
-      favoriteTasks: favoriteTasks,
-      removedTasks: state.removedTasks,
+    emit(MaterialsState(
+      pendingMats: pendingMats,
+      completedMats: completedMats,
+      favoriteMats: favoriteMats,
+      removedMats: state.removedMats,
     ));
   }
 
-  FutureOr<void> _onEditTask(EditTask event, Emitter<TasksState> emit) async {
+  FutureOr<void> _onEditMaterial(
+      EditMat event, Emitter<MaterialsState> emit) async {
     final state = this.state;
-    List<Task> favoriteTasks = state.favoriteTasks;
-    if (event.oldTask.isFavorite == true) {
-      favoriteTasks
-        ..remove(event.oldTask)
-        ..insert(0, event.newTask);
+    List<MatInstance> favoriteMats = state.favoriteMats;
+    if (event.oldMats.isFavorite == true) {
+      favoriteMats
+        ..remove(event.oldMats)
+        ..insert(0, event.newMat);
     }
     emit(
-      TasksState(
-        pendingTasks: List.from(state.pendingTasks)
-          ..remove(event.oldTask)
-          ..insert(0, event.newTask),
-        completedTasks: state.completedTasks..remove(event.oldTask),
-        favoriteTasks: favoriteTasks,
-        removedTasks: state.removedTasks,
+      MaterialsState(
+        pendingMats: List.from(state.pendingMats)
+          ..remove(event.oldMats)
+          ..insert(0, event.newMat),
+        completedMats: state.completedMats..remove(event.oldMats),
+        favoriteMats: favoriteMats,
+        removedMats: state.removedMats,
       ),
     );
   }
 
-  FutureOr<void> _onRestoreTask(
-      RestoreTask event, Emitter<TasksState> emit) async {
+  FutureOr<void> _onRestoreMaterial(
+      RestoreMat event, Emitter<MaterialsState> emit) async {
     final state = this.state;
     emit(
-      TasksState(
-        removedTasks: List.from(state.removedTasks)..remove(event.task),
-        pendingTasks: List.from(state.pendingTasks)
+      MaterialsState(
+        removedMats: List.from(state.removedMats)..remove(event.mat),
+        pendingMats: List.from(state.pendingMats)
           ..insert(
               0,
-              event.task.copyWith(
+              event.mat.copyWith(
                 isDeleted: false,
                 isDone: false,
                 isFavorite: false,
               )),
-        completedTasks: state.completedTasks,
-        favoriteTasks: state.favoriteTasks,
+        completedMats: state.completedMats,
+        favoriteMats: state.favoriteMats,
       ),
     );
   }
 
-  FutureOr<void> _onDeleteAllTask(
-      DeleteAllTasks event, Emitter<TasksState> emit) async {
+  FutureOr<void> _onDeleteAllMaterial(
+      DeleteAllMats event, Emitter<MaterialsState> emit) async {
     final state = this.state;
     emit(
-      TasksState(
-        removedTasks: List.from(state.removedTasks)..clear(),
-        pendingTasks: state.pendingTasks,
-        completedTasks: state.completedTasks,
-        favoriteTasks: state.favoriteTasks,
+      MaterialsState(
+        removedMats: List.from(state.removedMats)..clear(),
+        pendingMats: state.pendingMats,
+        completedMats: state.completedMats,
+        favoriteMats: state.favoriteMats,
       ),
     );
   }

@@ -3,25 +3,25 @@ import 'package:flutter/material.dart';
 import '../bloc/bloc_exports.dart';
 import '../models/task.dart';
 
-class EditTaskScreen extends StatelessWidget {
-  final Task oldTask;
-  const EditTaskScreen({
+class EditMatScreen extends StatelessWidget {
+  final MatInstance oldMat;
+  const EditMatScreen({
     Key? key,
-    required this.oldTask,
+    required this.oldMat,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     TextEditingController titleController =
-        TextEditingController(text: oldTask.title);
+        TextEditingController(text: oldMat.title);
     TextEditingController descriptionController =
-        TextEditingController(text: oldTask.description);
+        TextEditingController(text: oldMat.description);
     return Container(
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
           const Text(
-            'Edit Task',
+            'Edit Material',
             style: TextStyle(fontSize: 24),
           ),
           const SizedBox(
@@ -54,14 +54,14 @@ class EditTaskScreen extends StatelessWidget {
                   child: const Text('Cancel')),
               ElevatedButton(
                   onPressed: () {
-                    var editedTask = Task(
-                        id: oldTask.id,
+                    var editedMat = MatInstance(
+                        id: oldMat.id,
                         title: titleController.text,
                         description: descriptionController.text,
                         date: DateTime.now().toString());
                     context
-                        .read<TasksBloc>()
-                        .add(EditTask(newTask: editedTask, oldTask: oldTask));
+                        .read<MaterialsBloc>()
+                        .add(EditMat(newMat: editedMat, oldMats: oldMat));
                     Navigator.pop(context);
                   },
                   child: const Text('Save')),

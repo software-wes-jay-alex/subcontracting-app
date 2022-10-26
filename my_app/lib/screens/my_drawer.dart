@@ -18,26 +18,26 @@ class MyDrawer extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
             color: Colors.grey,
             child: Text(
-              'Task Drawer',
+              'Material Drawer',
               style: Theme.of(context).textTheme.headline5,
             ),
           ),
-          BlocBuilder<TasksBloc, TasksState>(
+          BlocBuilder<MaterialsBloc, MaterialsState>(
             builder: (context, state) {
               return GestureDetector(
                 onTap: () =>
                     Navigator.of(context).pushReplacementNamed(TabsScreen.id),
                 child: ListTile(
                   leading: const Icon(Icons.folder_special),
-                  title: const Text('My Tasks'),
+                  title: const Text('My Materials'),
                   trailing: Text(
-                      '${state.pendingTasks.length} | ${state.completedTasks.length}'),
+                      '${state.pendingMats.length} | ${state.completedMats.length}'),
                 ),
               );
             },
           ),
           const Divider(),
-          BlocBuilder<TasksBloc, TasksState>(
+          BlocBuilder<MaterialsBloc, MaterialsState>(
             builder: (context, state) {
               return GestureDetector(
                 onTap: () =>
@@ -45,7 +45,7 @@ class MyDrawer extends StatelessWidget {
                 child: ListTile(
                   leading: const Icon(Icons.delete),
                   title: const Text('Bin'),
-                  trailing: Text('${state.removedTasks.length}'),
+                  trailing: Text('${state.removedMats.length}'),
                 ),
               );
             },

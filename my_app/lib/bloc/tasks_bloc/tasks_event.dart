@@ -1,92 +1,92 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'tasks_bloc.dart';
 
-abstract class TasksEvent extends Equatable {
-  const TasksEvent();
+abstract class MaterialsEvent extends Equatable {
+  const MaterialsEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class AddTask extends TasksEvent {
-  final Task task;
+class AddMaterial extends MaterialsEvent {
+  final MatInstance mat;
 
-  const AddTask({
-    required this.task,
+  const AddMaterial({
+    required this.mat,
   });
 
   @override
-  List<Object> get props => [task];
+  List<Object> get props => [mat];
 }
 
-class UpdateTask extends TasksEvent {
-  final Task task;
+class UpdateMaterial extends MaterialsEvent {
+  final MatInstance mat;
 
-  const UpdateTask({
-    required this.task,
+  const UpdateMaterial({
+    required this.mat,
   });
 
   @override
-  List<Object> get props => [task];
+  List<Object> get props => [mat];
 }
 
-class RemoveTask extends TasksEvent {
-  final Task task;
+class RemoveMaterial extends MaterialsEvent {
+  final MatInstance mat;
 
-  const RemoveTask({
-    required this.task,
+  const RemoveMaterial({
+    required this.mat,
   });
 
   @override
-  List<Object> get props => [task];
+  List<Object> get props => [mat];
 }
 
-class DeleteTask extends TasksEvent {
-  final Task task;
+class DeleteMaterial extends MaterialsEvent {
+  final MatInstance mat;
 
-  const DeleteTask({
-    required this.task,
+  const DeleteMaterial({
+    required this.mat,
   });
 
   @override
-  List<Object> get props => [task];
+  List<Object> get props => [mat];
 }
 
-class MarkFavoriteOrUnFavoriteTask extends TasksEvent {
-  final Task task;
+class MarkFavoriteOrUnFavoriteMat extends MaterialsEvent {
+  final MatInstance mat;
 
-  const MarkFavoriteOrUnFavoriteTask({
-    required this.task,
+  const MarkFavoriteOrUnFavoriteMat({
+    required this.mat,
   });
 
   @override
-  List<Object> get props => [task];
+  List<Object> get props => [mat];
 }
 
-class EditTask extends TasksEvent {
-  final Task oldTask;
-  final Task newTask;
+class EditMat extends MaterialsEvent {
+  final MatInstance oldMats;
+  final MatInstance newMat;
 
-  const EditTask({
-    required this.oldTask,
-    required this.newTask,
+  const EditMat({
+    required this.oldMats,
+    required this.newMat,
   });
 
   @override
   List<Object> get props => [
-        oldTask,
-        newTask,
+        oldMats,
+        newMat,
       ];
 }
 
-class RestoreTask extends TasksEvent {
-  final Task task;
-  const RestoreTask({
-    required this.task,
+class RestoreMat extends MaterialsEvent {
+  final MatInstance mat;
+  const RestoreMat({
+    required this.mat,
   });
 
   @override
-  List<Object> get props => [task];
+  List<Object> get props => [mat];
 }
 
-class DeleteAllTasks extends TasksEvent {}
+class DeleteAllMats extends MaterialsEvent {}

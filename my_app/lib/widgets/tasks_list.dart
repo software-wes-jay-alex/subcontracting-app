@@ -2,35 +2,36 @@ import 'package:flutter/material.dart';
 import '../models/task.dart';
 import 'task_tile.dart';
 
-class TasksList extends StatelessWidget {
-  const TasksList({
+class MaterialsList extends StatelessWidget {
+  const MaterialsList({
     Key? key,
-    required this.tasks,
+    required this.mats,
   }) : super(key: key);
 
-  final List<Task> tasks;
+  final List<MatInstance> mats;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: SingleChildScrollView(
         child: ExpansionPanelList.radio(
-          children: tasks
-              .map((task) => ExpansionPanelRadio(
-                  value: task.id,
-                  headerBuilder: (context, isExpanded) => TaskTile(task: task),
+          children: mats
+              .map((mat) => ExpansionPanelRadio(
+                  value: mat.id,
+                  headerBuilder: (context, isExpanded) =>
+                      MaterialTile(mat: mat),
                   body: ListTile(
                     title: SelectableText.rich(TextSpan(children: [
                       const TextSpan(
                         text: 'Text\n',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      TextSpan(text: task.title),
+                      TextSpan(text: mat.title),
                       const TextSpan(
                         text: '\n\nDescription\n',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      TextSpan(text: task.description),
+                      TextSpan(text: mat.description),
                     ])),
                   )))
               .toList(),

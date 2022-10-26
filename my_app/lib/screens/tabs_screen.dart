@@ -6,7 +6,7 @@ import 'my_drawer.dart';
 import 'pending_tasks_screen.dart';
 
 class TabsScreen extends StatefulWidget {
-  TabsScreen({Key? key}) : super(key: key);
+  const TabsScreen({Key? key}) : super(key: key);
   static const id = "tabs_screen";
 
   @override
@@ -15,14 +15,14 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   final List<Map<String, dynamic>> _pageDetails = [
-    {'pageName': const PendingTasksScreen(), "title": "Unverified Materials"},
-    {'pageName': const CompletedTasksScreen(), "title": "Verified Materials"},
-    {'pageName': const FavoriteTasksScreen(), "title": "Favorite Materials"},
+    {'pageName': const PendingMatsScreen(), "title": "Unverified Materials"},
+    {'pageName': const CompletedMatsScreen(), "title": "Verified Materials"},
+    {'pageName': const FavoriteMatsScreen(), "title": "Favorite Materials"},
   ];
 
   var _selectedPageIndex = 0;
 
-  void _addTask(BuildContext context) {
+  void _addMaterial(BuildContext context) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -31,7 +31,7 @@ class _TabsScreenState extends State<TabsScreen> {
             child: Container(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: const AddTaskScreen(),
+              child: const AddMatScreen(),
             ),
           );
         }));
@@ -45,7 +45,7 @@ class _TabsScreenState extends State<TabsScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              _addTask(context);
+              _addMaterial(context);
             },
             icon: const Icon(Icons.add),
           )
@@ -57,7 +57,7 @@ class _TabsScreenState extends State<TabsScreen> {
           ? FloatingActionButton(
               child: const Icon(Icons.add),
               onPressed: () {
-                _addTask(context);
+                _addMaterial(context);
               },
             )
           : null,

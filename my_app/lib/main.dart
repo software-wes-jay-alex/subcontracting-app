@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => TasksBloc(),
+          create: (context) => MaterialsBloc(),
         ),
         BlocProvider(
           create: (context) => SwitchBloc(),

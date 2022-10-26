@@ -2,7 +2,7 @@
 import 'package:equatable/equatable.dart';
 
 // ignore: must_be_immutable
-class Task extends Equatable {
+class MatInstance extends Equatable {
   final String id;
   final String title;
   final String description;
@@ -11,7 +11,7 @@ class Task extends Equatable {
   bool? isDeleted;
   bool? isFavorite;
 
-  Task({
+  MatInstance({
     required this.id,
     required this.title,
     required this.description,
@@ -48,7 +48,7 @@ class Task extends Equatable {
     };
   }
 
-  Task copyWith({
+  MatInstance copyWith({
     String? id,
     String? title,
     String? description,
@@ -57,7 +57,7 @@ class Task extends Equatable {
     bool? isDeleted,
     bool? isFavorite,
   }) {
-    return Task(
+    return MatInstance(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
@@ -68,8 +68,8 @@ class Task extends Equatable {
     );
   }
 
-  factory Task.fromMap(Map<String, dynamic> map) {
-    return Task(
+  factory MatInstance.fromMap(Map<String, dynamic> map) {
+    return MatInstance(
       id: map['id'] as String,
       title: map['title'] as String,
       description: map['description'] as String,

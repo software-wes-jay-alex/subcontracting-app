@@ -5,21 +5,21 @@ import '../models/task.dart';
 import '../screens/edit_task_screen.dart';
 import 'popup_menu.dart';
 
-class TaskTile extends StatelessWidget {
-  const TaskTile({
+class MaterialTile extends StatelessWidget {
+  const MaterialTile({
     Key? key,
-    required this.task,
+    required this.mat,
   }) : super(key: key);
 
-  final Task task;
+  final MatInstance mat;
 
-  void _removeOrDeleteTask(BuildContext context, Task task) {
-    task.isDeleted!
-        ? context.read<TasksBloc>().add(DeleteTask(task: task))
-        : context.read<TasksBloc>().add(RemoveTask(task: task));
+  void _removeOrDeleteMaterial(BuildContext context, MatInstance mat) {
+    mat.isDeleted!
+        ? context.read<MaterialsBloc>().add(DeleteMaterial(mat: mat))
+        : context.read<MaterialsBloc>().add(RemoveMaterial(mat: mat));
   }
 
-  void _editTask(BuildContext ctx) {
+  void _editMaterial(BuildContext ctx) {
     showModalBottomSheet(
         context: ctx,
         isScrollControlled: true,
@@ -28,7 +28,7 @@ class TaskTile extends StatelessWidget {
             child: Container(
               padding:
                   EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
-              child: EditTaskScreen(oldTask: task),
+              child: EditMatScreen(oldMat: mat),
             ),
           );
         }));
@@ -44,7 +44,7 @@ class TaskTile extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                task.isFavorite == false
+                mat.isFavorite == false
                     ? const Icon(Icons.star_outline)
                     : const Icon(Icons.star),
                 const SizedBox(
@@ -54,17 +54,17 @@ class TaskTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(task.title,
+                      Text(mat.title,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 18,
-                              decoration: task.isDone!
+                              decoration: mat.isDone!
                                   ? TextDecoration.lineThrough
                                   : null)),
                       Text(DateFormat()
                           .add_yMMMd()
                           .add_Hms()
-                          .format(DateTime.parse(task.date))),
+                          .format(DateTime.parse(mat.date))),
                     ],
                   ),
                 ),
@@ -74,25 +74,27 @@ class TaskTile extends StatelessWidget {
           Row(
             children: [
               Checkbox(
-                value: task.isDone,
-                onChanged: task.isDeleted == false
+                value: mat.isDone,
+                onChanged: mat.isDeleted == false
                     ? (value) {
-                        context.read<TasksBloc>().add(UpdateTask(task: task));
+                        context
+                            .read<MaterialsBloc>()
+                            .add(UpdateMaterial(mat: mat));
                       }
                     : null,
               ),
               PopupMenu(
-                cancelOrDeleteCallback: () => _removeOrDeleteTask(context, task),
-                task: task,
+                cancelOrDeleteCallback: () => _removeOrDeleteMaterial(context, mat),
+                mat: mat,
                 likeOrDislikeCallback: () => context
-                    .read<TasksBloc>()
-                    .add(MarkFavoriteOrUnFavoriteTask(task: task)),
-                editTaskCallback: () {
+                    .read<MaterialsBloc>()
+                    .add(MarkFavoriteOrUnFavoriteMat(mat: mat)),
+                editMatCallback: () {
                   Navigator.of(context).pop();
-                  _editTask(context);
+                  _editMaterial(context);
                 },
-                restoreTaskCallback: () =>
-                    context.read<TasksBloc>().add(RestoreTask(task: task)),
+                restoreMatCallback: () =>
+                    context.read<MaterialsBloc>().add(RestoreMat(mat: mat)),
               )
             ],
           )

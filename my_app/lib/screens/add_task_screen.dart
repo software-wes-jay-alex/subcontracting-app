@@ -3,8 +3,8 @@ import '../services/guid_gen.dart';
 import '../bloc/bloc_exports.dart';
 import '../models/task.dart';
 
-class AddTaskScreen extends StatelessWidget {
-  const AddTaskScreen({
+class AddMatScreen extends StatelessWidget {
+  const AddMatScreen({
     Key? key,
   }) : super(key: key);
 
@@ -50,12 +50,12 @@ class AddTaskScreen extends StatelessWidget {
                   child: const Text('Cancel')),
               ElevatedButton(
                   onPressed: () {
-                    var task = Task(
+                    var mat = MatInstance(
                         id: GUIDGen.generate(),
                         title: titleController.text,
                         description: descriptionController.text,
                         date: DateTime.now().toString());
-                    context.read<TasksBloc>().add(AddTask(task: task));
+                    context.read<MaterialsBloc>().add(AddMaterial(mat: mat));
                     Navigator.pop(context);
                   },
                   child: const Text('Add')),

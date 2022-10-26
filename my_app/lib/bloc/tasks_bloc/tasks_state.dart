@@ -1,55 +1,55 @@
 part of 'tasks_bloc.dart';
 
-class TasksState extends Equatable {
-  final List<Task> pendingTasks;
-  final List<Task> completedTasks;
-  final List<Task> favoriteTasks;
-  final List<Task> removedTasks;
+class MaterialsState extends Equatable {
+  final List<MatInstance> pendingMats;
+  final List<MatInstance> completedMats;
+  final List<MatInstance> favoriteMats;
+  final List<MatInstance> removedMats;
 
-  const TasksState({
-    this.pendingTasks = const <Task>[],
-    this.completedTasks = const <Task>[],
-    this.favoriteTasks = const <Task>[],
-    this.removedTasks = const <Task>[],
+  const MaterialsState({
+    this.pendingMats = const <MatInstance>[],
+    this.completedMats = const <MatInstance>[],
+    this.favoriteMats = const <MatInstance>[],
+    this.removedMats = const <MatInstance>[],
   });
 
   @override
   List<Object> get props => [
-        pendingTasks,
-        completedTasks,
-        favoriteTasks,
-        removedTasks,
+        pendingMats,
+        completedMats,
+        favoriteMats,
+        removedMats,
       ];
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'pendingTasks': pendingTasks.map((x) => x.toMap()).toList(),
-      'completedTasks': pendingTasks.map((x) => x.toMap()).toList(),
-      'favoriteTasks': pendingTasks.map((x) => x.toMap()).toList(),
-      'removedTasks': pendingTasks.map((x) => x.toMap()).toList(),
+      'pendingTasks': pendingMats.map((x) => x.toMap()).toList(),
+      'completedTasks': pendingMats.map((x) => x.toMap()).toList(),
+      'favoriteTasks': pendingMats.map((x) => x.toMap()).toList(),
+      'removedTasks': pendingMats.map((x) => x.toMap()).toList(),
     };
   }
 
-  factory TasksState.fromMap(Map<String, dynamic> map) {
-    return TasksState(
-      pendingTasks: List<Task>.from(
-        (map['pendingTasks'])?.map<Task>(
-          (x) => Task.fromMap(x),
+  factory MaterialsState.fromMap(Map<String, dynamic> map) {
+    return MaterialsState(
+      pendingMats: List<MatInstance>.from(
+        (map['pendingTasks'])?.map<MatInstance>(
+          (x) => MatInstance.fromMap(x),
         ),
       ),
-      completedTasks: List<Task>.from(
-        (map['completedTasks'])?.map<Task>(
-          (x) => Task.fromMap(x),
+      completedMats: List<MatInstance>.from(
+        (map['completedTasks'])?.map<MatInstance>(
+          (x) => MatInstance.fromMap(x),
         ),
       ),
-      favoriteTasks: List<Task>.from(
-        (map['favoriteTasks'])?.map<Task>(
-          (x) => Task.fromMap(x),
+      favoriteMats: List<MatInstance>.from(
+        (map['favoriteTasks'])?.map<MatInstance>(
+          (x) => MatInstance.fromMap(x),
         ),
       ),
-      removedTasks: List<Task>.from(
-        (map['removedTasks'])?.map<Task>(
-          (x) => Task.fromMap(x),
+      removedMats: List<MatInstance>.from(
+        (map['removedTasks'])?.map<MatInstance>(
+          (x) => MatInstance.fromMap(x),
         ),
       ),
     );
