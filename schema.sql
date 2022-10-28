@@ -1,12 +1,29 @@
-CREATE TABLE `items` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
-  `qty` int(11) NOT NULL,
-  `got` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE User (
+	Login_id char(20),
+	Name VARCHAR(50),
+	Password VARCHAR(16),
+	PRIMARY KEY (Login_id)
+	);
 
-ALTER TABLE `items`
-  ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `items`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+CREATE TABLE Material(
+	Material varchar(10) not null,
+	quantity int default 0,
+	Type VARCHAR(50),
+	PRIMARY KEY (Material)
+    );
+
+CREATE TABLE List (
+	List varchar(10) not null,
+    PRIMARY KEY (List),
+    Material_FK VARCHAR(10),
+    Login_id_FK VARCHAR(10),
+    FOREIGN KEY (Material_FK) REFERENCES Material (Material),
+    FOREIGN KEY (Login_id_FK) REFERENCES User(Login_id)
+);
+
+CREATE TABLE Asset (
+	Asset_id VARCHAR (10),
+    Login_id_FK VARCHAR(10),
+    FOREIGN KEY (Login_id_FK) REFERENCES User(Login_id)
+    );
