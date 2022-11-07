@@ -37,11 +37,11 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<SwitchBloc, SwitchState>(
         builder: (context, state) {
           return MaterialApp(
-            title: 'Flutter Tasks App',
+            title: 'Materialist',
             theme: state.switchValue
                 ? AppThemes.appThemeData[AppTheme.darkTheme]
                 : AppThemes.appThemeData[AppTheme.lightTheme],
-            home: TabsScreen(),
+            home: const TabsScreen(),
             onGenerateRoute: appRouter.onGenerateRoute,
           );
         },
