@@ -5,6 +5,7 @@ import '../models/task.dart';
 
 class EditMatScreen extends StatelessWidget {
   final MatInstance oldMat;
+
   const EditMatScreen({
     Key? key,
     required this.oldMat,

@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import '../bloc_exports.dart';
 
 part 'switch_event.dart';
+
 part 'switch_state.dart';
 
 class SwitchBloc extends HydratedBloc<SwitchEvent, SwitchState> {

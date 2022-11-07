@@ -84,7 +84,8 @@ class MaterialTile extends StatelessWidget {
                     : null,
               ),
               PopupMenu(
-                cancelOrDeleteCallback: () => _removeOrDeleteMaterial(context, mat),
+                cancelOrDeleteCallback: () =>
+                    _removeOrDeleteMaterial(context, mat),
                 mat: mat,
                 likeOrDislikeCallback: () => context
                     .read<MaterialsBloc>()
