@@ -6,6 +6,7 @@ import 'services/app_router.dart';
 import 'services/app_theme.dart';
 
 void main() async {
+ 
   WidgetsFlutterBinding.ensureInitialized();
 
   final storage = await HydratedStorage.build(
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<SwitchBloc, SwitchState>(
         builder: (context, state) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false, // remove debug banner
             title: 'Materialist',
             theme: state.switchValue
                 ? AppThemes.appThemeData[AppTheme.darkTheme]
