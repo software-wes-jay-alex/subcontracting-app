@@ -6,9 +6,14 @@ import 'bloc/bloc_exports.dart';
 import 'screens/tabs_screen.dart';
 import 'services/app_router.dart';
 import 'services/app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   final storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
