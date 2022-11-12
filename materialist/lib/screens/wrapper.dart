@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatelessWidget {
+  const Wrapper({super.key});
+
   @override
   Widget build(BuildContext context) {
 
@@ -12,7 +14,7 @@ class Wrapper extends StatelessWidget {
     
     // return either the Home or Authenticate widget
     if (user == null){
-      return Authenticate();
+      return const Authenticate();
     } else {
       return Home();
     }

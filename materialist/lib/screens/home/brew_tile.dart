@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class BrewTile extends StatelessWidget {
 
   final Brew brew;
-  BrewTile({ required this.brew });
+  const BrewTile({super.key,  required this.brew });
 
   @override
   Widget build(BuildContext context) {
