@@ -4,9 +4,16 @@ import 'bloc/bloc_exports.dart';
 import 'screens/tabs_screen.dart';
 import 'services/app_router.dart';
 import 'services/app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';//added for firebase core
+import 'firebase_options.dart';//added for firebase
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );// added for firebase support
 
   final storage = await HydratedStorage.build(
       storageDirectory: await getApplicationDocumentsDirectory());
@@ -17,6 +24,7 @@ void main() async {
     storage: storage,
   );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key, required this.appRouter}) : super(key: key);

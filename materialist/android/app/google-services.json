@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "36668038205",
+    "project_id": "materiallist-fec4c",
+    "storage_bucket": "materiallist-fec4c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36668038205:android:3a72162ffa282135895e54",
+        "android_client_info": {
+          "package_name": "com.example.materialist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "36668038205-bvhrhlprs3m607a2srlv61tpvbjgf95m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFpmxJncPKySUsqZ_42RxK7fBdhLEwBcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "36668038205-bvhrhlprs3m607a2srlv61tpvbjgf95m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
