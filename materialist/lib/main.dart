@@ -18,22 +18,56 @@ import 'package:materialist/services/auth.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  final storage = await HydratedStorage.build(
+    storageDirectory: kIsWeb
+      ? HydratedStorage.webStorageDirectory
+      : await getApplicationDocumentsDirectory(),
+  );
+  HydratedBlocOverrides.runZoned(
+    () => runApp(MyApp(
+      appRouter: AppRouter(),
+    )),
+    storage: storage,
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  
+  const MyApp({Key? key, required this.appRouter}) : super(key: key);
+  final AppRouter appRouter;
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<MyUser?>.value(
-      value: AuthService().user,
-      initialData: MyUser(uid: null),
-      child: const MaterialApp(
-        home: Wrapper(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => MaterialsBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SwitchBloc(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Materialist',
+        theme: AppThemes.appThemeData[AppTheme.lightTheme],
+        darkTheme: AppThemes.appThemeData[AppTheme.darkTheme],
+        themeMode: ThemeMode.system,
+        onGenerateRoute: appRouter.onGenerateRoute,
+        home: StreamProvider<MyUser?>.value(
+          value: AuthService().user,
+          initialData: null,
+          child: const Wrapper(),
+        ),
       ),
     );
   }
+  //Widget build(BuildContext context) {
+  //  return StreamProvider<MyUser?>.value(
+  //    value: AuthService().user,
+  //    initialData: MyUser(uid: null),
+  //    child: const MaterialApp(
+  //      home: Wrapper(),
+  //    ),
+  //  );
+  //}
 }
 
 //Future main() async {

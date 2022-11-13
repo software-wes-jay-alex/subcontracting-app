@@ -7,24 +7,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
-
   final AuthService _auth = AuthService();
 
   Home({super.key});
-
+  static const id = "home";
   @override
   Widget build(BuildContext context) {
-
     void showSettingsPanel() {
-      showModalBottomSheet(context: context, builder: (context) {
-        return Container(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-          child: const SettingsForm(),
-        );
-      });
+      showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+              child: const SettingsForm(),
+            );
+          });
     }
 
-    return StreamProvider<List<Brew>>.value(
+    return StreamProvider<List<User>>.value(
       value: DatabaseService(uid: '').brews,
       initialData: const [],
       child: Scaffold(
@@ -49,14 +50,13 @@ class Home extends StatelessWidget {
           ],
         ),
         body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('coffee_bg.png'),
-              fit: BoxFit.cover,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('coffee_bg.png'),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: const BrewList()
-        ),
+            child: const UserList()),
       ),
     );
   }

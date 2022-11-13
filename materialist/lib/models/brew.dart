@@ -1,9 +1,6 @@
-class Brew {
-
+class User {
   final String name;
-  final String sugars;
-  final int strength;
+  final List groups;
 
-  Brew({ required this.name, required this.sugars, required this.strength });
-
+  User({required this.name, required this.groups});
 }

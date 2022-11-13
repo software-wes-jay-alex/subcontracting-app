@@ -2,6 +2,7 @@ import 'package:materialist/models/myuser.dart';
 import 'package:materialist/screens/authenticate/authenticate.dart';
 import 'package:materialist/screens/home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:materialist/screens/tabs_screen.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatelessWidget {
@@ -16,7 +17,7 @@ class Wrapper extends StatelessWidget {
     if (user == null){
       return const Authenticate();
     } else {
-      return Home();
+      return const TabsScreen();
     }
     
   }

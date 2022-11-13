@@ -3,23 +3,22 @@ import 'package:materialist/screens/home/brew_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BrewList extends StatefulWidget {
-  const BrewList({super.key});
+class UserList extends StatefulWidget {
+  const UserList({super.key});
 
   @override
-  _BrewListState createState() => _BrewListState();
+  _UserListState createState() => _UserListState();
 }
 
-class _BrewListState extends State<BrewList> {
+class _UserListState extends State<UserList> {
   @override
   Widget build(BuildContext context) {
-
-    final brews = Provider.of<List<Brew>>(context);
+    final users = Provider.of<List<User>>(context);
 
     return ListView.builder(
-      itemCount: brews.length,
+      itemCount: users.length,
       itemBuilder: (context, index) {
-        return BrewTile(brew: brews[index]);
+        return BrewTile(user: users[index]);
       },
     );
   }
