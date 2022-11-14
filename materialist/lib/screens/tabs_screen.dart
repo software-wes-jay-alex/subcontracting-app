@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'add_task_screen.dart';
 import 'completed_tasks_screen.dart';
 import 'favorite_tasks_screen.dart';
-import 'my_drawer.dart';
+import 'drawer.dart';
 import 'pending_tasks_screen.dart';
 
 class TabsScreen extends StatefulWidget {
