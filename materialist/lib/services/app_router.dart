@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:materialist/models/myuser.dart';
-import 'package:materialist/services/auth.dart';
-import 'package:provider/provider.dart';
 import '../screens/recycle_bin.dart';
 import '../screens/tabs_screen.dart';
 import '../screens/home/user_page.dart';
