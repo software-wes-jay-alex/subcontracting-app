@@ -1,7 +1,7 @@
 import 'package:materialist/models/brew.dart';
 import 'package:materialist/screens/home/user_list.dart';
 import 'package:materialist/screens/home/settings_form.dart';
-import 'package:materialist/screens/my_drawer.dart';
+import 'package:materialist/screens/drawer.dart';
 import 'package:materialist/screens/wrapper.dart';
 import 'package:materialist/services/auth.dart';
 import 'package:materialist/services/database.dart';

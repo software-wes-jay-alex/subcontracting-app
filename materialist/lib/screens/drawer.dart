@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:materialist/models/myuser.dart';
 import 'package:materialist/screens/home/user_page.dart';
-import 'package:provider/provider.dart';
 import '../bloc/bloc_exports.dart';
 import 'recycle_bin.dart';
 import 'tabs_screen.dart';

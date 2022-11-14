@@ -1,6 +1,5 @@
 import 'package:materialist/models/myuser.dart';
 import 'package:materialist/screens/authenticate/authenticate.dart';
-import 'package:materialist/screens/home/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:materialist/screens/tabs_screen.dart';
 import 'package:provider/provider.dart';
