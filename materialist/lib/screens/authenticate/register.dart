@@ -26,9 +26,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return loading ? const Loading() : Scaffold(
-      backgroundColor: Colors.brown[100],
       appBar: AppBar(
-        backgroundColor: Colors.brown[400],
         elevation: 0.0,
         title: const Text('Sign up to Materialist'),
         actions: <Widget>[

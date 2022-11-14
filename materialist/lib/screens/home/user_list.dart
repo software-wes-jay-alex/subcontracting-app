@@ -1,5 +1,5 @@
 import 'package:materialist/models/brew.dart';
-import 'package:materialist/screens/home/brew_tile.dart';
+import 'package:materialist/screens/home/user_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

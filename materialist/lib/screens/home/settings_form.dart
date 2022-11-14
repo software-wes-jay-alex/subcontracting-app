@@ -19,7 +19,6 @@ class _SettingsFormState extends State<SettingsForm> {
 
   // form values
   String? _currentName;
-  String? _currentSugars;
   List? _currentGroups;
 
   @override
@@ -47,18 +46,6 @@ class _SettingsFormState extends State<SettingsForm> {
                         val!.isEmpty ? 'Please enter a name' : null,
                     onChanged: (val) => setState(() => _currentName = val),
                   ),
-                  const SizedBox(height: 10.0),
-                  //DropdownButtonFormField(
-                  //  value: _currentSugars ?? userData.sugars,
-                  //  decoration: textInputDecoration,
-                  //  items: sugars.map((sugar) {
-                  //    return DropdownMenuItem(
-                  //      value: sugar,
-                  //      child: Text('$sugar sugars'),
-                  //    );
-                  //  }).toList(),
-                  //  onChanged: (val) => setState(() => _currentSugars = val!),
-                  //),
                   const SizedBox(height: 10.0),
                   ElevatedButton(
                       child: const Text(

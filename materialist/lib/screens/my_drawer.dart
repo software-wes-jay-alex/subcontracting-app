@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:materialist/screens/home/home.dart';
+import 'package:materialist/models/myuser.dart';
+import 'package:materialist/screens/home/user_page.dart';
+import 'package:provider/provider.dart';
 import '../bloc/bloc_exports.dart';
 import 'recycle_bin.dart';
 import 'tabs_screen.dart';
@@ -39,7 +41,7 @@ class MyDrawer extends StatelessWidget {
           ),
           GestureDetector(
             // on tap go to user list
-            onTap: () => Navigator.of(context).pushReplacementNamed(Home.id),
+            onTap: () =>Navigator.of(context).pushReplacementNamed(Home.id),
             child: const ListTile(
               leading: Icon(Icons.people),
               title: Text('User List'),
