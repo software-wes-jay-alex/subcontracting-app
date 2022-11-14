@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Github Stuff\subcontracting-app\google_sign_in_test\build\windows\CMakeFiles\983d3cf8a0d218b211866bde13e06355\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F695F65F-2E57-32DE-9BE5-D226DF25B3D1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
