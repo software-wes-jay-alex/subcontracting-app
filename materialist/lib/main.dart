@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 import 'package:materialist/services/auth.dart';
 
 void main() async {
- 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final storage = await HydratedStorage.build(
@@ -48,6 +47,7 @@ class MyApp extends StatelessWidget {
         child: BlocBuilder<SwitchBloc, SwitchState>(
           builder: (context, state) {
             return MaterialApp(
+              debugShowCheckedModeBanner: false,
               title: 'MateriaList',
               theme: state.switchValue
                   ? AppThemes.appThemeData[AppTheme.darkTheme]
