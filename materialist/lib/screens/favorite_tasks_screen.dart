@@ -6,7 +6,7 @@ import '../widgets/tasks_list.dart';
 class FavoriteMatsScreen extends StatefulWidget {
   const FavoriteMatsScreen({Key? key}) : super(key: key);
 
-  static const id = "mats_screen";
+  static const id = "fav_mats_screen";
 
   @override
   State<FavoriteMatsScreen> createState() => _FavoriteMatsScreenState();

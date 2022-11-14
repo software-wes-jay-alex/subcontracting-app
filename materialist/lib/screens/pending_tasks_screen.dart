@@ -6,7 +6,7 @@ import '../widgets/tasks_list.dart';
 class PendingMatsScreen extends StatefulWidget {
   const PendingMatsScreen({Key? key}) : super(key: key);
 
-  static const id = "mats_screen";
+  static const id = "pending_mats_screen";
 
   @override
   State<PendingMatsScreen> createState() => _PendingMatsScreenState();

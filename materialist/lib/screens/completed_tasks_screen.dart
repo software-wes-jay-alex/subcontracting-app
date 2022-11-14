@@ -6,7 +6,7 @@ import '../widgets/tasks_list.dart';
 class CompletedMatsScreen extends StatefulWidget {
   const CompletedMatsScreen({Key? key}) : super(key: key);
 
-  static const id = "materials_screen";
+  static const id = "completed_mats_screen";
 
   @override
   State<CompletedMatsScreen> createState() => _CompletedMatsScreenState();

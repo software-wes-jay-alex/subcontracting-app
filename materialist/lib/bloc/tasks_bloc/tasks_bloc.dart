@@ -148,7 +148,7 @@ class MaterialsBloc extends HydratedBloc<MaterialsEvent, MaterialsState> {
   }
 
   FutureOr<void> _onEditMaterial(
-      EditMat event, Emitter<MaterialsState> emit) async {
+      EditMat event, Emitter<MaterialsState> emit) {
     final state = this.state;
     List<MatInstance> favoriteMats = state.favoriteMats;
     if (event.oldMats.isFavorite == true) {
@@ -169,7 +169,7 @@ class MaterialsBloc extends HydratedBloc<MaterialsEvent, MaterialsState> {
   }
 
   FutureOr<void> _onRestoreMaterial(
-      RestoreMat event, Emitter<MaterialsState> emit) async {
+      RestoreMat event, Emitter<MaterialsState> emit) {
     final state = this.state;
     emit(
       MaterialsState(
@@ -189,7 +189,7 @@ class MaterialsBloc extends HydratedBloc<MaterialsEvent, MaterialsState> {
   }
 
   FutureOr<void> _onDeleteAllMaterial(
-      DeleteAllMats event, Emitter<MaterialsState> emit) async {
+      DeleteAllMats event, Emitter<MaterialsState> emit) {
     final state = this.state;
     emit(
       MaterialsState(
