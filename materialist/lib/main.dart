@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 import 'package:materialist/services/auth.dart';
 
 void main() async {
- 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final storage = await HydratedStorage.build(

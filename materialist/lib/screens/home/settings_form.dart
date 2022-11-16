@@ -9,7 +9,7 @@ class SettingsForm extends StatefulWidget {
   const SettingsForm({super.key});
 
   @override
-  _SettingsFormState createState() => _SettingsFormState();
+  State<SettingsForm> createState() => _SettingsFormState();
 }
 
 class _SettingsFormState extends State<SettingsForm> {
@@ -54,10 +54,10 @@ class _SettingsFormState extends State<SettingsForm> {
                       ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
+                          Navigator.pop(context);
                           await DatabaseService(uid: user.uid).updateUserData(
                               _currentName ?? snapshot.data!.name,
                               _currentGroups ?? snapshot.data!.groups);
-                          Navigator.pop(context);
                         }
                       }),
                 ],
