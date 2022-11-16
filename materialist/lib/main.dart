@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
         child: BlocBuilder<SwitchBloc, SwitchState>(
           builder: (context, state) {
             return MaterialApp(
+              debugShowCheckedModeBanner: false,
               title: 'MateriaList',
               theme: state.switchValue
                   ? AppThemes.appThemeData[AppTheme.darkTheme]
