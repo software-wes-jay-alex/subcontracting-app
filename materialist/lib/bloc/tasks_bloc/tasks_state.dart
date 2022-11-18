@@ -33,22 +33,22 @@ class MaterialsState extends Equatable {
   factory MaterialsState.fromMap(Map<String, dynamic> map) {
     return MaterialsState(
       pendingMats: List<MatInstance>.from(
-        (map['pendingTasks'])?.map<MatInstance>(
+        (map['pendingTasks']).map<MatInstance>(
           (x) => MatInstance.fromMap(x),
         ),
       ),
       completedMats: List<MatInstance>.from(
-        (map['completedTasks'])?.map<MatInstance>(
+        (map['completedTasks']).map<MatInstance>(
           (x) => MatInstance.fromMap(x),
         ),
       ),
       favoriteMats: List<MatInstance>.from(
-        (map['favoriteTasks'])?.map<MatInstance>(
+        (map['favoriteTasks']).map<MatInstance>(
           (x) => MatInstance.fromMap(x),
         ),
       ),
       removedMats: List<MatInstance>.from(
-        (map['removedTasks'])?.map<MatInstance>(
+        (map['removedTasks']).map<MatInstance>(
           (x) => MatInstance.fromMap(x),
         ),
       ),

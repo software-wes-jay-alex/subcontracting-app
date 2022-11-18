@@ -25,37 +25,31 @@ class MyDrawer extends StatelessWidget {
           ),
           BlocBuilder<MaterialsBloc, MaterialsState>(
             builder: (context, state) {
-              return GestureDetector(
+              return ListTile(
+                leading: const Icon(Icons.folder_special),
+                title: const Text('My Materials'),
+                trailing: Text(
+                    '${state.pendingMats.length} | ${state.completedMats.length}'),
                 onTap: () =>
                     Navigator.of(context).pushReplacementNamed(TabsScreen.id),
-                child: ListTile(
-                  leading: const Icon(Icons.folder_special),
-                  title: const Text('My Materials'),
-                  trailing: Text(
-                      '${state.pendingMats.length} | ${state.completedMats.length}'),
-                ),
               );
             },
           ),
-          GestureDetector(
-            // on tap go to user list
-            onTap: () =>Navigator.of(context).pushReplacementNamed(Home.id),
-            child: const ListTile(
-              leading: Icon(Icons.people),
-              title: Text('User List'),
-            ),
+          ListTile(
+            leading: const Icon(Icons.people),
+            title: const Text('User List'),
+            onTap: () => Navigator.of(context)
+                .pushReplacementNamed(Home.id),
           ),
           const Divider(),
           BlocBuilder<MaterialsBloc, MaterialsState>(
             builder: (context, state) {
-              return GestureDetector(
+              return ListTile(
+                leading: const Icon(Icons.delete),
+                title: const Text('Bin'),
+                trailing: Text('${state.removedMats.length}'),
                 onTap: () =>
                     Navigator.of(context).pushReplacementNamed(RecycleBin.id),
-                child: ListTile(
-                  leading: const Icon(Icons.delete),
-                  title: const Text('Bin'),
-                  trailing: Text('${state.removedMats.length}'),
-                ),
               );
             },
           ),
