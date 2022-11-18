@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:materialist/models/brew.dart';
 import 'package:materialist/models/myuser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
   final String? uid;
-  DatabaseService({this.uid});
+  DatabaseService({required this.uid});
 
   // collection reference
   final CollectionReference userCollection =
@@ -20,13 +21,20 @@ class DatabaseService {
   // brew list from snapshot
   List<User> _brewListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      //print(doc.data);
+      if (kDebugMode) {
+        print(doc.data);
+      }
       return User(name: doc.get('name') ?? '', groups: doc.get('groups') ?? []);
     }).toList();
   }
 
   // user data from snapshots
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    if (kDebugMode) {
+      print(snapshot.get('uid'));
+      print(snapshot.get('name'));
+      print(snapshot.get('groups'));
+    }
     return UserData(
       uid: uid!,
       name: snapshot.get('name'),

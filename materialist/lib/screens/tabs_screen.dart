@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:materialist/widgets/app_bar.dart';
 import 'add_task_screen.dart';
 import 'completed_tasks_screen.dart';
 import 'favorite_tasks_screen.dart';
 import 'drawer.dart';
 import 'pending_tasks_screen.dart';
+import 'package:materialist/services/auth.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({Key? key}) : super(key: key);
@@ -40,17 +42,7 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_pageDetails[_selectedPageIndex]['title']),
-        actions: [
-          IconButton(
-            onPressed: () {
-              _addMaterial(context);
-            },
-            icon: const Icon(Icons.add),
-          )
-        ],
-      ),
+      appBar: MyAppBar(auth: AuthService()),
       drawer: const MyDrawer(),
       body: _pageDetails[_selectedPageIndex]['pageName'],
       floatingActionButton: _selectedPageIndex == 0

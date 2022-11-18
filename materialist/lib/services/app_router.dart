@@ -16,7 +16,7 @@ class AppRouter {
         });
       case Home.id:
         return MaterialPageRoute(builder: (context) {
-          return Home();
+          return const Home();
         });
       default:
         return null;
