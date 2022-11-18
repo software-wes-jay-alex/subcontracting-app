@@ -18,13 +18,14 @@ class _PendingMatsScreenState extends State<PendingMatsScreen> {
     return BlocBuilder<MaterialsBloc, MaterialsState>(
       builder: (context, state) {
         List<MatInstance> mats = state.pendingMats;
+        List<MatInstance> completedMats = state.completedMats;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
               child: Chip(
                 label: Text(
-                  '${mats.length} Pending | ${state.completedMats.length} Completed',
+                  '${mats.length} Pending | ${completedMats.length} Completed',
                 ),
               ),
             ),

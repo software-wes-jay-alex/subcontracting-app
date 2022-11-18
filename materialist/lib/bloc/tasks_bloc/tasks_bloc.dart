@@ -40,28 +40,34 @@ class MaterialsBloc extends HydratedBloc<MaterialsEvent, MaterialsState> {
     if (mat.isDone == false) {
       if (mat.isFavorite == false) {
         pendingMats = List.from(pendingMats)..remove(mat);
-        completedMats.insert(0, mat.copyWith(isDone: true));
+        completedMats = List.from(completedMats)..add(mat.copyWith(isDone: true));
+        //completedMats.insert(0, mat.copyWith(isDone: true));
       } else {
         var matIndex = favoriteMats.indexOf(mat);
         pendingMats = List.from(pendingMats)..remove(mat);
-        completedMats.insert(0, mat.copyWith(isDone: true));
+        completedMats = List.from(completedMats)..add(mat.copyWith(isDone: true));
+        //completedMats.insert(0, mat.copyWith(isDone: true));
         favoriteMats = List.from(favoriteMats)
           ..remove(mat)
-          ..insert(matIndex, mat.copyWith(isDone: true));
+          ..add(mat.copyWith(isDone: true));
+          //..insert(matIndex, mat.copyWith(isDone: true));
       }
     } else {
       if (mat.isFavorite == false) {
         completedMats = List.from(completedMats)..remove(mat);
-        pendingMats = List.from(pendingMats)
-          ..insert(0, mat.copyWith(isDone: false));
+        pendingMats = List.from(pendingMats)..add(mat.copyWith(isDone: false));
+        //pendingMats = List.from(pendingMats)
+        //  ..insert(0, mat.copyWith(isDone: false));
       } else {
         var matIndex = favoriteMats.indexOf(mat);
         completedMats = List.from(completedMats)..remove(mat);
-        pendingMats = List.from(pendingMats)
-          ..insert(0, mat.copyWith(isDone: false));
+        pendingMats = List.from(pendingMats)..add(mat.copyWith(isDone: false));
+        //pendingMats = List.from(pendingMats)
+        //  ..insert(0, mat.copyWith(isDone: false));
         favoriteMats = List.from(favoriteMats)
           ..remove(mat)
-          ..insert(matIndex, mat.copyWith(isDone: false));
+          ..add(mat.copyWith(isDone: false));
+          //..insert(matIndex, mat.copyWith(isDone: false));
       }
     }
     emit(MaterialsState(
@@ -115,13 +121,15 @@ class MaterialsBloc extends HydratedBloc<MaterialsEvent, MaterialsState> {
         var matIndex = pendingMats.indexOf(event.mat);
         pendingMats = List.from(pendingMats)
           ..remove(event.mat)
-          ..insert(matIndex, event.mat.copyWith(isFavorite: true));
+          ..add(event.mat.copyWith(isFavorite: true));
+          //..insert(matIndex, event.mat.copyWith(isFavorite: true));
         favoriteMats.insert(0, event.mat.copyWith(isFavorite: true));
       } else {
         var matIndex = pendingMats.indexOf(event.mat);
         pendingMats = List.from(pendingMats)
           ..remove(event.mat)
-          ..insert(matIndex, event.mat.copyWith(isFavorite: false));
+          ..add(event.mat.copyWith(isFavorite: false));
+          //..insert(matIndex, event.mat.copyWith(isFavorite: false));
         favoriteMats.remove(event.mat);
       }
     } else {
@@ -129,13 +137,16 @@ class MaterialsBloc extends HydratedBloc<MaterialsEvent, MaterialsState> {
         var matIndex = completedMats.indexOf(event.mat);
         completedMats = List.from(completedMats)
           ..remove(event.mat)
-          ..insert(matIndex, event.mat.copyWith(isFavorite: true));
-        favoriteMats.insert(0, event.mat.copyWith(isFavorite: true));
+          ..add(event.mat.copyWith(isFavorite: true));
+          //..insert(matIndex, event.mat.copyWith(isFavorite: true));
+        favoriteMats.add(event.mat.copyWith(isFavorite: true));
+        //favoriteMats.insert(0, event.mat.copyWith(isFavorite: true));
       } else {
         var matIndex = completedMats.indexOf(event.mat);
         completedMats = List.from(completedMats)
           ..remove(event.mat)
-          ..insert(matIndex, event.mat.copyWith(isFavorite: false));
+          ..add(event.mat.copyWith(isFavorite: false));
+          //..insert(matIndex, event.mat.copyWith(isFavorite: false));
         favoriteMats.remove(event.mat);
       }
     }
@@ -154,13 +165,15 @@ class MaterialsBloc extends HydratedBloc<MaterialsEvent, MaterialsState> {
     if (event.oldMats.isFavorite == true) {
       favoriteMats
         ..remove(event.oldMats)
-        ..insert(0, event.newMat);
+        ..add(event.newMat);
+        //..insert(0, event.newMat);
     }
     emit(
       MaterialsState(
         pendingMats: List.from(state.pendingMats)
           ..remove(event.oldMats)
-          ..insert(0, event.newMat),
+          ..add(event.newMat),
+          //..insert(0, event.newMat),
         completedMats: state.completedMats..remove(event.oldMats),
         favoriteMats: favoriteMats,
         removedMats: state.removedMats,
@@ -175,13 +188,14 @@ class MaterialsBloc extends HydratedBloc<MaterialsEvent, MaterialsState> {
       MaterialsState(
         removedMats: List.from(state.removedMats)..remove(event.mat),
         pendingMats: List.from(state.pendingMats)
-          ..insert(
-              0,
-              event.mat.copyWith(
-                isDeleted: false,
-                isDone: false,
-                isFavorite: false,
-              )),
+          ..add(event.mat.copyWith(isDeleted: false, isDone: false, isFavorite: false)),
+          //..insert(
+          //    0,
+          //    event.mat.copyWith(
+          //      isDeleted: false,
+          //      isDone: false,
+          //      isFavorite: false,
+          //    )),
         completedMats: state.completedMats,
         favoriteMats: state.favoriteMats,
       ),

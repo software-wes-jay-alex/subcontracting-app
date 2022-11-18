@@ -24,9 +24,9 @@ class MaterialsState extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'pendingTasks': pendingMats.map((x) => x.toMap()).toList(),
-      'completedTasks': pendingMats.map((x) => x.toMap()).toList(),
-      'favoriteTasks': pendingMats.map((x) => x.toMap()).toList(),
-      'removedTasks': pendingMats.map((x) => x.toMap()).toList(),
+      'completedTasks': completedMats.map((x) => x.toMap()).toList(),
+      'favoriteTasks': favoriteMats.map((x) => x.toMap()).toList(),
+      'removedTasks': removedMats.map((x) => x.toMap()).toList(),
     };
   }
 
