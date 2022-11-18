@@ -53,7 +53,7 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User user = result.user!;
       // create a new document for the user with the uid
-      await DatabaseService(uid: user.uid).updateUserData('',[]);
+      await DatabaseService(uid: user.uid).updateUserData('New User',[]);
       return _userFromFirebaseUser(user);
     } catch (error) {
       if (kDebugMode) {

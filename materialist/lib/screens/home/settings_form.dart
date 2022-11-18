@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:materialist/models/myuser.dart';
 import 'package:materialist/services/database.dart';
 import 'package:materialist/shared/constants.dart';
@@ -50,7 +51,6 @@ class _SettingsFormState extends State<SettingsForm> {
                   ElevatedButton(
                       child: const Text(
                         'Update',
-                        style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
