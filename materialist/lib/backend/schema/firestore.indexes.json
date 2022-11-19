@@ -1,0 +1,114 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "allTasks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "projectRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "completed",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dueDate",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "notes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "taskRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timePosted",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "allTasks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "members",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "dueDate",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "allTasks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "members",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "dueDate",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "allTasks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "completed",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "members",
+          "arrayConfig": "CONTAINS"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "allTasks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "members",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "completedAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "projects",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "usersAssigned",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "lastEdited",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ]
+}
