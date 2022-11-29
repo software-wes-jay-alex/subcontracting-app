@@ -92,46 +92,46 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => CreateProfileWidget(),
             ),
             FFRoute(
-              name: 'Main_tracker',
-              path: 'mainTracker',
-              builder: (context, params) => MainTrackerWidget(),
-            ),
-            FFRoute(
               name: 'createTask_1_SelectProject',
               path: 'createTask1SelectProject',
               builder: (context, params) => CreateTask1SelectProjectWidget(),
             ),
             FFRoute(
-              name: 'taskDetails',
-              path: 'taskDetails',
+              name: 'Main_tracker',
+              path: 'mainTracker',
+              builder: (context, params) => MainTrackerWidget(),
+            ),
+            FFRoute(
+              name: 'matDetails',
+              path: 'matDetails',
               asyncParams: {
-                'taskRef': getDoc('allTasks', AllTasksRecord.serializer),
+                'matRef': getDoc('allMaterials', AllMaterialsRecord.serializer),
               },
-              builder: (context, params) => TaskDetailsWidget(
-                taskRef: params.getParam('taskRef', ParamType.Document),
+              builder: (context, params) => MatDetailsWidget(
+                matRef: params.getParam('matRef', ParamType.Document),
               ),
             ),
             FFRoute(
-              name: 'createTask',
+              name: 'createList',
               path: 'createTask',
               asyncParams: {
                 'projectParameter':
                     getDoc('projects', ProjectsRecord.serializer),
               },
-              builder: (context, params) => CreateTaskWidget(
+              builder: (context, params) => CreateListWidget(
                 projectParameter:
                     params.getParam('projectParameter', ParamType.Document),
               ),
             ),
             FFRoute(
-              name: 'myProfile',
-              path: 'myProfile',
-              builder: (context, params) => MyProfileWidget(),
-            ),
-            FFRoute(
               name: 'addTeamMembers',
               path: 'addTeamMembers',
               builder: (context, params) => AddTeamMembersWidget(),
+            ),
+            FFRoute(
+              name: 'myProfile',
+              path: 'myProfile',
+              builder: (context, params) => MyProfileWidget(),
             ),
             FFRoute(
               name: 'teamMemberDetails',
@@ -144,24 +144,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'Main_teamPage',
-              path: 'mainTeamPage',
-              builder: (context, params) => MainTeamPageWidget(),
-            ),
-            FFRoute(
               name: 'Main_projects',
               path: 'mainProjects',
               builder: (context, params) => MainProjectsWidget(),
             ),
             FFRoute(
+              name: 'Main_teamPage',
+              path: 'mainTeamPage',
+              builder: (context, params) => MainTeamPageWidget(),
+            ),
+            FFRoute(
               name: 'Main_projectsWeb',
               path: 'mainProjectsWeb',
               builder: (context, params) => MainProjectsWebWidget(),
-            ),
-            FFRoute(
-              name: 'createProject',
-              path: 'createProject',
-              builder: (context, params) => CreateProjectWidget(),
             ),
             FFRoute(
               name: 'projectDetailsPage',
@@ -192,6 +187,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => SearchMembersWidget(
                 projectRef: params.getParam('projectRef', ParamType.Document),
               ),
+            ),
+            FFRoute(
+              name: 'createProject',
+              path: 'createProject',
+              builder: (context, params) => CreateProjectWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ).toRoute(appStateNotifier),
@@ -365,10 +365,10 @@ class FFRoute {
               : builder(context, ffParams);
           final child = appStateNotifier.loading
               ? Container(
-                  color: Colors.transparent,
+                  color: FlutterFlowTheme.of(context).customColor1,
                   child: Image.asset(
-                    'assets/images/app_Tracker@1x.png',
-                    fit: BoxFit.cover,
+                    'assets/images/engineer.png',
+                    fit: BoxFit.contain,
                   ),
                 )
               : page;

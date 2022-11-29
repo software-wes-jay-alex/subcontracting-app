@@ -3,6 +3,7 @@ import '../components/drawer_nav_widget.dart';
 import '../components/user_card_widget.dart';
 import '../components/web_nav_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
+import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
@@ -125,6 +126,27 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
         elevation: 16,
         child: DrawerNavWidget(),
       ),
+      appBar: AppBar(
+        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        automaticallyImplyLeading: false,
+        leading: FlutterFlowIconButton(
+          borderColor: Colors.transparent,
+          borderRadius: 30,
+          borderWidth: 1,
+          buttonSize: 60,
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: FlutterFlowTheme.of(context).primaryText,
+            size: 30,
+          ),
+          onPressed: () async {
+            context.pop();
+          },
+        ),
+        actions: [],
+        centerTitle: false,
+        elevation: 2,
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Row(
@@ -150,19 +172,6 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (responsiveVisibility(
-                      context: context,
-                      tablet: false,
-                      tabletLandscape: false,
-                      desktop: false,
-                    ))
-                      Container(
-                        width: double.infinity,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                        ),
-                      ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 4),
                       child: Row(
@@ -1046,8 +1055,12 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                                                                     ),
                                                                     child: Image
                                                                         .network(
-                                                                      containerUsersRecord
-                                                                          .photoUrl!,
+                                                                      valueOrDefault<
+                                                                          String>(
+                                                                        containerUsersRecord
+                                                                            .photoUrl,
+                                                                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                                                                      ),
                                                                       fit: BoxFit
                                                                           .fitWidth,
                                                                     ),

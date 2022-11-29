@@ -148,8 +148,8 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                                   .primaryBackground,
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: Image.asset(
-                                  'assets/images/emptyState@2x.png',
+                                image: Image.network(
+                                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
                                 ).image,
                               ),
                               boxShadow: [
@@ -161,16 +161,23 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                               ],
                               shape: BoxShape.circle,
                             ),
-                            child: Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(120),
-                                child: Image.network(
-                                  uploadedFileUrl,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
+                            child: Visibility(
+                              visible: uploadedFileUrl != null &&
+                                  uploadedFileUrl != '',
+                              child: Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(120),
+                                  child: Image.network(
+                                    valueOrDefault<String>(
+                                      uploadedFileUrl,
+                                      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                                    ),
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
@@ -346,7 +353,10 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
 
                       final usersUpdateData = createUsersRecordData(
                         displayName: userNameController!.text,
-                        photoUrl: uploadedFileUrl,
+                        photoUrl: valueOrDefault<String>(
+                          uploadedFileUrl,
+                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                        ),
                         userRole: titleRoleController!.text,
                         userBio: shortBioController!.text,
                       );

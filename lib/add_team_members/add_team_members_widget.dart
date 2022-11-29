@@ -184,7 +184,10 @@ class _AddTeamMembersWidgetState extends State<AddTeamMembersWidget> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(120),
                                       child: Image.network(
-                                        uploadedFileUrl,
+                                        valueOrDefault<String>(
+                                          uploadedFileUrl,
+                                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                                        ),
                                         width: 100,
                                         height: 100,
                                         fit: BoxFit.cover,

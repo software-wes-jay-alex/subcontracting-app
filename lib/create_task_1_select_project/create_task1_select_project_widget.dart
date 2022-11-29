@@ -185,7 +185,7 @@ class _CreateTask1SelectProjectWidgetState
                               child: InkWell(
                                 onTap: () async {
                                   context.pushNamed(
-                                    'createTask',
+                                    'createList',
                                     queryParams: {
                                       'projectParameter': serializeParam(
                                         listViewProjectsRecord,

@@ -49,6 +49,14 @@ class _$NotesRecordSerializer implements StructuredSerializer<NotesRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(DateTime)));
     }
+    value = object.matRef;
+    if (value != null) {
+      result
+        ..add('matRef')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -91,6 +99,12 @@ class _$NotesRecordSerializer implements StructuredSerializer<NotesRecord> {
           result.timePosted = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
           break;
+        case 'matRef':
+          result.matRef = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -114,13 +128,20 @@ class _$NotesRecord extends NotesRecord {
   @override
   final DateTime? timePosted;
   @override
+  final DocumentReference<Object?>? matRef;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$NotesRecord([void Function(NotesRecordBuilder)? updates]) =>
       (new NotesRecordBuilder()..update(updates))._build();
 
   _$NotesRecord._(
-      {this.owner, this.taskRef, this.note, this.timePosted, this.ffRef})
+      {this.owner,
+      this.taskRef,
+      this.note,
+      this.timePosted,
+      this.matRef,
+      this.ffRef})
       : super._();
 
   @override
@@ -138,14 +159,19 @@ class _$NotesRecord extends NotesRecord {
         taskRef == other.taskRef &&
         note == other.note &&
         timePosted == other.timePosted &&
+        matRef == other.matRef &&
         ffRef == other.ffRef;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc($jc(0, owner.hashCode), taskRef.hashCode), note.hashCode),
-            timePosted.hashCode),
+        $jc(
+            $jc(
+                $jc($jc($jc(0, owner.hashCode), taskRef.hashCode),
+                    note.hashCode),
+                timePosted.hashCode),
+            matRef.hashCode),
         ffRef.hashCode));
   }
 
@@ -156,6 +182,7 @@ class _$NotesRecord extends NotesRecord {
           ..add('taskRef', taskRef)
           ..add('note', note)
           ..add('timePosted', timePosted)
+          ..add('matRef', matRef)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -180,6 +207,10 @@ class NotesRecordBuilder implements Builder<NotesRecord, NotesRecordBuilder> {
   DateTime? get timePosted => _$this._timePosted;
   set timePosted(DateTime? timePosted) => _$this._timePosted = timePosted;
 
+  DocumentReference<Object?>? _matRef;
+  DocumentReference<Object?>? get matRef => _$this._matRef;
+  set matRef(DocumentReference<Object?>? matRef) => _$this._matRef = matRef;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -195,6 +226,7 @@ class NotesRecordBuilder implements Builder<NotesRecord, NotesRecordBuilder> {
       _taskRef = $v.taskRef;
       _note = $v.note;
       _timePosted = $v.timePosted;
+      _matRef = $v.matRef;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -222,6 +254,7 @@ class NotesRecordBuilder implements Builder<NotesRecord, NotesRecordBuilder> {
             taskRef: taskRef,
             note: note,
             timePosted: timePosted,
+            matRef: matRef,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

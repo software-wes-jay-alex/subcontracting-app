@@ -6,6 +6,7 @@ import 'projects_record.dart';
 import 'all_tasks_record.dart';
 import 'project_list_record.dart';
 import 'notes_record.dart';
+import 'all_materials_record.dart';
 
 import 'index.dart';
 
@@ -21,6 +22,7 @@ const kDocumentReferenceField = 'Document__Reference__Field';
   AllTasksRecord,
   ProjectListRecord,
   NotesRecord,
+  AllMaterialsRecord,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..add(DocumentReferenceSerializer())

@@ -57,7 +57,10 @@ class _DrawerNavWidgetState extends State<DrawerNavWidget> {
                             shape: BoxShape.circle,
                           ),
                           child: Image.network(
-                            currentUserPhoto,
+                            valueOrDefault<String>(
+                              currentUserPhoto,
+                              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                            ),
                             fit: BoxFit.cover,
                           ),
                         ),

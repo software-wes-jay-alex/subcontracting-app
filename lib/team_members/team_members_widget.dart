@@ -172,7 +172,10 @@ class _TeamMembersWidgetState extends State<TeamMembersWidget> {
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(50),
                                         child: Image.network(
-                                          containerUsersRecord.photoUrl!,
+                                          valueOrDefault<String>(
+                                            containerUsersRecord.photoUrl,
+                                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                                          ),
                                           width: 60,
                                           height: 60,
                                           fit: BoxFit.cover,
@@ -319,7 +322,10 @@ class _TeamMembersWidgetState extends State<TeamMembersWidget> {
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(26),
                                         child: Image.network(
-                                          listViewUsersRecord.photoUrl!,
+                                          valueOrDefault<String>(
+                                            listViewUsersRecord.photoUrl,
+                                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                                          ),
                                           width: 36,
                                           height: 36,
                                           fit: BoxFit.cover,

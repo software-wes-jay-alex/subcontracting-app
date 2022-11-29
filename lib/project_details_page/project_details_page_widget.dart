@@ -109,7 +109,7 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           context.pushNamed(
-            'createTask',
+            'createList',
             queryParams: {
               'projectParameter': serializeParam(
                 widget.projectRef,
@@ -134,88 +134,33 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
           size: 36,
         ),
       ),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100),
-        child: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).primaryText,
-          automaticallyImplyLeading: false,
-          actions: [],
-          flexibleSpace: FlexibleSpaceBar(
-            title: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                        child: FlutterFlowIconButton(
-                          borderColor: Colors.transparent,
-                          borderRadius: 30,
-                          borderWidth: 1,
-                          buttonSize: 50,
-                          icon: Icon(
-                            Icons.arrow_back_rounded,
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            size: 30,
-                          ),
-                          onPressed: () async {
-                            context.pop();
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
-                        child: Text(
-                          FFLocalizations.of(context).getText(
-                            'y1upl145' /* Back */,
-                          ),
-                          style: FlutterFlowTheme.of(context).title1.override(
-                                fontFamily: 'Outfit',
-                                color: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                                fontSize: 16,
-                              ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 24, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-                          child: Text(
-                            widget.projectRef!.projectName!,
-                            textAlign: TextAlign.start,
-                            style: FlutterFlowTheme.of(context).title2.override(
-                                  fontFamily: 'Outfit',
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  lineHeight: 1.2,
-                                ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            centerTitle: true,
-            expandedTitleScale: 1.0,
+      appBar: AppBar(
+        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        automaticallyImplyLeading: false,
+        leading: FlutterFlowIconButton(
+          borderColor: Colors.transparent,
+          borderRadius: 30,
+          borderWidth: 1,
+          buttonSize: 60,
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: FlutterFlowTheme.of(context).primaryText,
+            size: 30,
           ),
-          elevation: 0,
+          onPressed: () async {
+            context.pop();
+          },
         ),
+        title: Text(
+          valueOrDefault<String>(
+            widget.projectRef!.projectName,
+            'Project Title',
+          ),
+          style: FlutterFlowTheme.of(context).title2,
+        ),
+        actions: [],
+        centerTitle: false,
+        elevation: 2,
       ),
       body: SafeArea(
         child: GestureDetector(
@@ -300,7 +245,7 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                         shape: BoxShape.circle,
                                       ),
                                       child: Image.network(
-                                        'https://images.unsplash.com/photo-1610737241336-371badac3b66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDV8fHVzZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60',
+                                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
                                         fit: BoxFit.fitWidth,
                                       ),
                                     ),
@@ -315,7 +260,7 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                         shape: BoxShape.circle,
                                       ),
                                       child: Image.network(
-                                        'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDJ8fHVzZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60',
+                                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
                                         fit: BoxFit.fitWidth,
                                       ),
                                     ),
@@ -330,7 +275,7 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                         shape: BoxShape.circle,
                                       ),
                                       child: Image.network(
-                                        'https://images.unsplash.com/photo-1598346762291-aee88549193f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTV8fHVzZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60',
+                                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
                                         fit: BoxFit.fitHeight,
                                       ),
                                     ),
@@ -410,16 +355,16 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0, 12, 0, 12),
-                                child: StreamBuilder<List<AllTasksRecord>>(
-                                  stream: queryAllTasksRecord(
-                                    queryBuilder: (allTasksRecord) =>
-                                        allTasksRecord
+                                child: StreamBuilder<List<AllMaterialsRecord>>(
+                                  stream: queryAllMaterialsRecord(
+                                    queryBuilder: (allMaterialsRecord) =>
+                                        allMaterialsRecord
                                             .where('projectRef',
                                                 isEqualTo: widget
                                                     .projectRef!.reference)
-                                            .where('completed',
-                                                isEqualTo: false)
-                                            .orderBy('dueDate',
+                                            .where('verified',
+                                                isNotEqualTo: true)
+                                            .orderBy('addedOn',
                                                 descending: true),
                                   ),
                                   builder: (context, snapshot) {
@@ -436,10 +381,11 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                         ),
                                       );
                                     }
-                                    List<AllTasksRecord>
-                                        listViewAllTasksRecordList =
+                                    List<AllMaterialsRecord>
+                                        listViewAllMaterialsRecordList =
                                         snapshot.data!;
-                                    if (listViewAllTasksRecordList.isEmpty) {
+                                    if (listViewAllMaterialsRecordList
+                                        .isEmpty) {
                                       return Center(
                                         child: Container(
                                           width: MediaQuery.of(context)
@@ -461,10 +407,10 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
                                       itemCount:
-                                          listViewAllTasksRecordList.length,
+                                          listViewAllMaterialsRecordList.length,
                                       itemBuilder: (context, listViewIndex) {
-                                        final listViewAllTasksRecord =
-                                            listViewAllTasksRecordList[
+                                        final listViewAllMaterialsRecord =
+                                            listViewAllMaterialsRecordList[
                                                 listViewIndex];
                                         return Padding(
                                           padding:
@@ -473,16 +419,16 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                           child: InkWell(
                                             onTap: () async {
                                               context.pushNamed(
-                                                'taskDetails',
+                                                'matDetails',
                                                 queryParams: {
-                                                  'taskRef': serializeParam(
-                                                    listViewAllTasksRecord,
+                                                  'matRef': serializeParam(
+                                                    listViewAllMaterialsRecord,
                                                     ParamType.Document,
                                                   ),
                                                 }.withoutNulls,
                                                 extra: <String, dynamic>{
-                                                  'taskRef':
-                                                      listViewAllTasksRecord,
+                                                  'matRef':
+                                                      listViewAllMaterialsRecord,
                                                 },
                                               );
                                             },
@@ -508,7 +454,7 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                     ProjectsRecord>(
                                                   future: ProjectsRecord
                                                       .getDocumentOnce(
-                                                          listViewAllTasksRecord
+                                                          listViewAllMaterialsRecord
                                                               .projectRef!),
                                                   builder: (context, snapshot) {
                                                     // Customize what your widget looks like when it's loading.
@@ -552,8 +498,8 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                                             12,
                                                                             0),
                                                                 child: Text(
-                                                                  listViewAllTasksRecord
-                                                                      .taskName!,
+                                                                  listViewAllMaterialsRecord
+                                                                      .materialName!,
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .title3,
@@ -584,7 +530,7 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                                             12,
                                                                             0),
                                                                 child: Text(
-                                                                  listViewAllTasksRecord
+                                                                  listViewAllMaterialsRecord
                                                                       .status!,
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
@@ -631,7 +577,7 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                               FFLocalizations.of(
                                                                       context)
                                                                   .getText(
-                                                                'mfp5v5yt' /* Due */,
+                                                                'mfp5v5yt' /* Added On */,
                                                               ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
@@ -655,8 +601,8 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                               child: Text(
                                                                 dateTimeFormat(
                                                                   'MMMEd',
-                                                                  listViewAllTasksRecord
-                                                                      .dueDate!,
+                                                                  listViewAllMaterialsRecord
+                                                                      .addedOn!,
                                                                   locale: FFLocalizations.of(
                                                                           context)
                                                                       .languageCode,
@@ -677,8 +623,8 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                               child: Text(
                                                                 dateTimeFormat(
                                                                   'jm',
-                                                                  listViewAllTasksRecord
-                                                                      .dueDate!,
+                                                                  listViewAllMaterialsRecord
+                                                                      .addedOn!,
                                                                   locale: FFLocalizations.of(
                                                                           context)
                                                                       .languageCode,
@@ -715,15 +661,14 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0, 12, 0, 12),
-                                child: StreamBuilder<List<AllTasksRecord>>(
-                                  stream: queryAllTasksRecord(
-                                    queryBuilder: (allTasksRecord) =>
-                                        allTasksRecord
+                                child: StreamBuilder<List<AllMaterialsRecord>>(
+                                  stream: queryAllMaterialsRecord(
+                                    queryBuilder: (allMaterialsRecord) =>
+                                        allMaterialsRecord
                                             .where('projectRef',
                                                 isEqualTo: widget
                                                     .projectRef!.reference)
-                                            .where('completed',
-                                                isEqualTo: true),
+                                            .where('verified', isEqualTo: true),
                                   ),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
@@ -739,10 +684,11 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                         ),
                                       );
                                     }
-                                    List<AllTasksRecord>
-                                        listViewAllTasksRecordList =
+                                    List<AllMaterialsRecord>
+                                        listViewAllMaterialsRecordList =
                                         snapshot.data!;
-                                    if (listViewAllTasksRecordList.isEmpty) {
+                                    if (listViewAllMaterialsRecordList
+                                        .isEmpty) {
                                       return Center(
                                         child: Container(
                                           width: MediaQuery.of(context)
@@ -764,10 +710,10 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
                                       itemCount:
-                                          listViewAllTasksRecordList.length,
+                                          listViewAllMaterialsRecordList.length,
                                       itemBuilder: (context, listViewIndex) {
-                                        final listViewAllTasksRecord =
-                                            listViewAllTasksRecordList[
+                                        final listViewAllMaterialsRecord =
+                                            listViewAllMaterialsRecordList[
                                                 listViewIndex];
                                         return Padding(
                                           padding:
@@ -776,16 +722,16 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                           child: InkWell(
                                             onTap: () async {
                                               context.pushNamed(
-                                                'taskDetails',
+                                                'matDetails',
                                                 queryParams: {
-                                                  'taskRef': serializeParam(
-                                                    listViewAllTasksRecord,
+                                                  'matRef': serializeParam(
+                                                    listViewAllMaterialsRecord,
                                                     ParamType.Document,
                                                   ),
                                                 }.withoutNulls,
                                                 extra: <String, dynamic>{
-                                                  'taskRef':
-                                                      listViewAllTasksRecord,
+                                                  'matRef':
+                                                      listViewAllMaterialsRecord,
                                                 },
                                               );
                                             },
@@ -811,7 +757,7 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                     ProjectsRecord>(
                                                   future: ProjectsRecord
                                                       .getDocumentOnce(
-                                                          listViewAllTasksRecord
+                                                          listViewAllMaterialsRecord
                                                               .projectRef!),
                                                   builder: (context, snapshot) {
                                                     // Customize what your widget looks like when it's loading.
@@ -855,8 +801,8 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                                             12,
                                                                             0),
                                                                 child: Text(
-                                                                  listViewAllTasksRecord
-                                                                      .taskName!,
+                                                                  listViewAllMaterialsRecord
+                                                                      .materialName!,
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .title3
@@ -944,7 +890,7 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                               FFLocalizations.of(
                                                                       context)
                                                                   .getText(
-                                                                '24rs6kdw' /* Completed on */,
+                                                                '24rs6kdw' /* Verified on */,
                                                               ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
@@ -968,8 +914,8 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                               child: Text(
                                                                 dateTimeFormat(
                                                                   'MMMEd',
-                                                                  listViewAllTasksRecord
-                                                                      .dueDate!,
+                                                                  listViewAllMaterialsRecord
+                                                                      .verifiedOn!,
                                                                   locale: FFLocalizations.of(
                                                                           context)
                                                                       .languageCode,
@@ -991,8 +937,8 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                                 child: Text(
                                                                   dateTimeFormat(
                                                                     'jm',
-                                                                    listViewAllTasksRecord
-                                                                        .dueDate!,
+                                                                    listViewAllMaterialsRecord
+                                                                        .verifiedOn!,
                                                                     locale: FFLocalizations.of(
                                                                             context)
                                                                         .languageCode,

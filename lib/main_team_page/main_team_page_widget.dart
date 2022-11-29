@@ -64,6 +64,27 @@ class _MainTeamPageWidgetState extends State<MainTeamPageWidget> {
         elevation: 16,
         child: DrawerNavWidget(),
       ),
+      appBar: AppBar(
+        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        automaticallyImplyLeading: false,
+        leading: FlutterFlowIconButton(
+          borderColor: Colors.transparent,
+          borderRadius: 30,
+          borderWidth: 1,
+          buttonSize: 60,
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: FlutterFlowTheme.of(context).primaryText,
+            size: 30,
+          ),
+          onPressed: () async {
+            context.pop();
+          },
+        ),
+        actions: [],
+        centerTitle: false,
+        elevation: 2,
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Row(
@@ -92,20 +113,6 @@ class _MainTeamPageWidgetState extends State<MainTeamPageWidget> {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        if (responsiveVisibility(
-                          context: context,
-                          tablet: false,
-                          tabletLandscape: false,
-                          desktop: false,
-                        ))
-                          Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                            ),
-                          ),
                         Padding(
                           padding:
                               EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
@@ -329,7 +336,10 @@ class _MainTeamPageWidgetState extends State<MainTeamPageWidget> {
                                           borderRadius:
                                               BorderRadius.circular(26),
                                           child: Image.network(
-                                            listViewUsersRecord.photoUrl!,
+                                            valueOrDefault<String>(
+                                              listViewUsersRecord.photoUrl,
+                                              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                                            ),
                                             width: 36,
                                             height: 36,
                                             fit: BoxFit.cover,

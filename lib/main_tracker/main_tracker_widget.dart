@@ -237,12 +237,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
       ],
     ),
   };
-  Completer<List<AllTasksRecord>>? _firestoreRequestCompleter1;
-  Completer<List<AllTasksRecord>>? _firestoreRequestCompleter3;
-  Completer<List<AllTasksRecord>>? _firestoreRequestCompleter5;
-  Completer<List<AllTasksRecord>>? _firestoreRequestCompleter6;
-  Completer<List<AllTasksRecord>>? _firestoreRequestCompleter2;
-  Completer<List<AllTasksRecord>>? _firestoreRequestCompleter4;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter1;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter3;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter5;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter6;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter2;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter4;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -322,50 +322,54 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                         color: FlutterFlowTheme.of(context).primaryBackground,
                       ),
                     ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        if ((currentUserPhoto == null ||
-                                currentUserPhoto == '') &&
-                            responsiveVisibility(
+                  Align(
+                    alignment: AlignmentDirectional(-0.9, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 5),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (responsiveVisibility(
                               context: context,
                               tablet: false,
                               tabletLandscape: false,
                               desktop: false,
                             ))
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
-                            child: AuthUserStreamWidget(
-                              child: UserCardWidget(),
-                            ),
-                          ),
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AuthUserStreamWidget(
-                              child: Text(
-                                currentUserDisplayName,
-                                style: FlutterFlowTheme.of(context).title2,
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+                                child: UserCardWidget(),
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                              child: Text(
-                                FFLocalizations.of(context).getText(
-                                  '12tkp77z' /* Good morning */,
+                            Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AuthUserStreamWidget(
+                                  child: Text(
+                                    currentUserDisplayName,
+                                    style: FlutterFlowTheme.of(context).title2,
+                                  ),
                                 ),
-                                style: FlutterFlowTheme.of(context).bodyText2,
-                              ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 4, 0, 0),
+                                  child: Text(
+                                    FFLocalizations.of(context).getText(
+                                      '12tkp77z' /* Good morning */,
+                                    ),
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyText2,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                   if (responsiveVisibility(
@@ -399,7 +403,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                 tabs: [
                                   Tab(
                                     text: FFLocalizations.of(context).getText(
-                                      'qivbgraj' /* My Tasks */,
+                                      'qivbgraj' /* My List */,
                                     ),
                                   ),
                                   Tab(
@@ -414,7 +418,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                   ),
                                   Tab(
                                     text: FFLocalizations.of(context).getText(
-                                      'lqbva4ak' /* Complete */,
+                                      'lqbva4ak' /* Verified */,
                                     ),
                                   ),
                                 ],
@@ -425,15 +429,15 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 8, 0, 12),
-                                      child:
-                                          StreamBuilder<List<AllTasksRecord>>(
-                                        stream: queryAllTasksRecord(
-                                          queryBuilder: (allTasksRecord) =>
-                                              allTasksRecord
+                                      child: StreamBuilder<
+                                          List<AllMaterialsRecord>>(
+                                        stream: queryAllMaterialsRecord(
+                                          queryBuilder: (allMaterialsRecord) =>
+                                              allMaterialsRecord
                                                   .where('members',
                                                       arrayContains:
                                                           currentUserReference)
-                                                  .orderBy('dueDate',
+                                                  .orderBy('addedOn',
                                                       descending: true),
                                         ),
                                         builder: (context, snapshot) {
@@ -452,10 +456,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                               ),
                                             );
                                           }
-                                          List<AllTasksRecord>
-                                              listViewAllTasksRecordList =
+                                          List<AllMaterialsRecord>
+                                              listViewAllMaterialsRecordList =
                                               snapshot.data!;
-                                          if (listViewAllTasksRecordList
+                                          if (listViewAllMaterialsRecordList
                                               .isEmpty) {
                                             return Center(
                                               child: Container(
@@ -478,12 +482,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                             shrinkWrap: true,
                                             scrollDirection: Axis.vertical,
                                             itemCount:
-                                                listViewAllTasksRecordList
+                                                listViewAllMaterialsRecordList
                                                     .length,
                                             itemBuilder:
                                                 (context, listViewIndex) {
-                                              final listViewAllTasksRecord =
-                                                  listViewAllTasksRecordList[
+                                              final listViewAllMaterialsRecord =
+                                                  listViewAllMaterialsRecordList[
                                                       listViewIndex];
                                               return Padding(
                                                 padding: EdgeInsetsDirectional
@@ -491,17 +495,17 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                 child: InkWell(
                                                   onTap: () async {
                                                     context.pushNamed(
-                                                      'taskDetails',
+                                                      'matDetails',
                                                       queryParams: {
-                                                        'taskRef':
+                                                        'matRef':
                                                             serializeParam(
-                                                          listViewAllTasksRecord,
+                                                          listViewAllMaterialsRecord,
                                                           ParamType.Document,
                                                         ),
                                                       }.withoutNulls,
                                                       extra: <String, dynamic>{
-                                                        'taskRef':
-                                                            listViewAllTasksRecord,
+                                                        'matRef':
+                                                            listViewAllMaterialsRecord,
                                                       },
                                                     );
                                                   },
@@ -531,7 +535,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                           ProjectsRecord>(
                                                         future: ProjectsRecord
                                                             .getDocumentOnce(
-                                                                listViewAllTasksRecord
+                                                                listViewAllMaterialsRecord
                                                                     .projectRef!),
                                                         builder: (context,
                                                             snapshot) {
@@ -580,8 +584,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                               0),
                                                                       child:
                                                                           Text(
-                                                                        listViewAllTasksRecord
-                                                                            .taskName!,
+                                                                        listViewAllMaterialsRecord
+                                                                            .materialName!,
                                                                         style: FlutterFlowTheme.of(context)
                                                                             .title3,
                                                                       ),
@@ -612,7 +616,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                               0),
                                                                       child:
                                                                           Text(
-                                                                        listViewAllTasksRecord
+                                                                        listViewAllMaterialsRecord
                                                                             .status!,
                                                                         style: FlutterFlowTheme.of(context)
                                                                             .bodyText1
@@ -660,7 +664,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                     FFLocalizations.of(
                                                                             context)
                                                                         .getText(
-                                                                      'uwyvo6wk' /* Due */,
+                                                                      'uwyvo6wk' /* Added on */,
                                                                     ),
                                                                     style: FlutterFlowTheme.of(
                                                                             context)
@@ -682,8 +686,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                     child: Text(
                                                                       dateTimeFormat(
                                                                         'MMMEd',
-                                                                        listViewAllTasksRecord
-                                                                            .dueDate!,
+                                                                        listViewAllMaterialsRecord
+                                                                            .addedOn!,
                                                                         locale:
                                                                             FFLocalizations.of(context).languageCode,
                                                                       ),
@@ -702,8 +706,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                     child: Text(
                                                                       dateTimeFormat(
                                                                         'jm',
-                                                                        listViewAllTasksRecord
-                                                                            .dueDate!,
+                                                                        listViewAllMaterialsRecord
+                                                                            .addedOn!,
                                                                         locale:
                                                                             FFLocalizations.of(context).languageCode,
                                                                       ),
@@ -739,17 +743,17 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 12, 0, 0),
-                                      child:
-                                          StreamBuilder<List<AllTasksRecord>>(
-                                        stream: queryAllTasksRecord(
-                                          queryBuilder: (allTasksRecord) =>
-                                              allTasksRecord
+                                      child: StreamBuilder<
+                                          List<AllMaterialsRecord>>(
+                                        stream: queryAllMaterialsRecord(
+                                          queryBuilder: (allMaterialsRecord) =>
+                                              allMaterialsRecord
                                                   .where('members',
                                                       arrayContains:
                                                           currentUserReference)
                                                   .where('status',
                                                       isEqualTo: 'Not Started')
-                                                  .orderBy('dueDate',
+                                                  .orderBy('addedOn',
                                                       descending: true),
                                         ),
                                         builder: (context, snapshot) {
@@ -768,10 +772,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                               ),
                                             );
                                           }
-                                          List<AllTasksRecord>
-                                              listViewAllTasksRecordList =
+                                          List<AllMaterialsRecord>
+                                              listViewAllMaterialsRecordList =
                                               snapshot.data!;
-                                          if (listViewAllTasksRecordList
+                                          if (listViewAllMaterialsRecordList
                                               .isEmpty) {
                                             return Container(
                                               height: 300,
@@ -788,12 +792,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                             shrinkWrap: true,
                                             scrollDirection: Axis.vertical,
                                             itemCount:
-                                                listViewAllTasksRecordList
+                                                listViewAllMaterialsRecordList
                                                     .length,
                                             itemBuilder:
                                                 (context, listViewIndex) {
-                                              final listViewAllTasksRecord =
-                                                  listViewAllTasksRecordList[
+                                              final listViewAllMaterialsRecord =
+                                                  listViewAllMaterialsRecordList[
                                                       listViewIndex];
                                               return Padding(
                                                 padding: EdgeInsetsDirectional
@@ -801,7 +805,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                 child: InkWell(
                                                   onTap: () async {
                                                     context.pushNamed(
-                                                        'taskDetails');
+                                                        'matDetails');
                                                   },
                                                   child: Container(
                                                     width: double.infinity,
@@ -849,8 +853,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           12,
                                                                           0),
                                                                   child: Text(
-                                                                    listViewAllTasksRecord
-                                                                        .taskName!,
+                                                                    listViewAllMaterialsRecord
+                                                                        .materialName!,
                                                                     style: FlutterFlowTheme.of(
                                                                             context)
                                                                         .title3,
@@ -860,15 +864,15 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                               InkWell(
                                                                 onTap:
                                                                     () async {
-                                                                  final allTasksUpdateData =
-                                                                      createAllTasksRecordData(
+                                                                  final allMaterialsUpdateData =
+                                                                      createAllMaterialsRecordData(
                                                                     status:
                                                                         'In Progress',
                                                                   );
-                                                                  await listViewAllTasksRecord
+                                                                  await listViewAllMaterialsRecord
                                                                       .reference
                                                                       .update(
-                                                                          allTasksUpdateData);
+                                                                          allMaterialsUpdateData);
                                                                 },
                                                                 child:
                                                                     Container(
@@ -923,7 +927,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                         0,
                                                                         0),
                                                             child: AutoSizeText(
-                                                              listViewAllTasksRecord
+                                                              listViewAllMaterialsRecord
                                                                   .description!
                                                                   .maybeHandleOverflow(
                                                                       maxChars:
@@ -976,8 +980,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                   child: Text(
                                                                     dateTimeFormat(
                                                                       'MMMEd',
-                                                                      listViewAllTasksRecord
-                                                                          .dueDate!,
+                                                                      listViewAllMaterialsRecord
+                                                                          .verifiedOn!,
                                                                       locale: FFLocalizations.of(
                                                                               context)
                                                                           .languageCode,
@@ -1013,22 +1017,22 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 12, 0, 12),
-                                      child:
-                                          FutureBuilder<List<AllTasksRecord>>(
+                                      child: FutureBuilder<
+                                          List<AllMaterialsRecord>>(
                                         future: (_firestoreRequestCompleter4 ??=
                                                 Completer<
-                                                    List<AllTasksRecord>>()
+                                                    List<AllMaterialsRecord>>()
                                                   ..complete(
-                                                      queryAllTasksRecordOnce(
-                                                    queryBuilder: (allTasksRecord) =>
-                                                        allTasksRecord
+                                                      queryAllMaterialsRecordOnce(
+                                                    queryBuilder: (allMaterialsRecord) =>
+                                                        allMaterialsRecord
                                                             .where('members',
                                                                 arrayContains:
                                                                     currentUserReference)
                                                             .where('status',
                                                                 isEqualTo:
                                                                     'In Progress')
-                                                            .orderBy('dueDate',
+                                                            .orderBy('addedOn',
                                                                 descending:
                                                                     true),
                                                   )))
@@ -1049,10 +1053,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                               ),
                                             );
                                           }
-                                          List<AllTasksRecord>
-                                              listViewAllTasksRecordList =
+                                          List<AllMaterialsRecord>
+                                              listViewAllMaterialsRecordList =
                                               snapshot.data!;
-                                          if (listViewAllTasksRecordList
+                                          if (listViewAllMaterialsRecordList
                                               .isEmpty) {
                                             return Center(
                                               child: Container(
@@ -1082,12 +1086,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                               shrinkWrap: true,
                                               scrollDirection: Axis.vertical,
                                               itemCount:
-                                                  listViewAllTasksRecordList
+                                                  listViewAllMaterialsRecordList
                                                       .length,
                                               itemBuilder:
                                                   (context, listViewIndex) {
-                                                final listViewAllTasksRecord =
-                                                    listViewAllTasksRecordList[
+                                                final listViewAllMaterialsRecord =
+                                                    listViewAllMaterialsRecordList[
                                                         listViewIndex];
                                                 return Padding(
                                                   padding: EdgeInsetsDirectional
@@ -1095,18 +1099,18 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                   child: InkWell(
                                                     onTap: () async {
                                                       context.pushNamed(
-                                                        'taskDetails',
+                                                        'matDetails',
                                                         queryParams: {
-                                                          'taskRef':
+                                                          'matRef':
                                                               serializeParam(
-                                                            listViewAllTasksRecord,
+                                                            listViewAllMaterialsRecord,
                                                             ParamType.Document,
                                                           ),
                                                         }.withoutNulls,
                                                         extra: <String,
                                                             dynamic>{
-                                                          'taskRef':
-                                                              listViewAllTasksRecord,
+                                                          'matRef':
+                                                              listViewAllMaterialsRecord,
                                                         },
                                                       );
                                                     },
@@ -1135,7 +1139,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                             ProjectsRecord>(
                                                           future: ProjectsRecord
                                                               .getDocumentOnce(
-                                                                  listViewAllTasksRecord
+                                                                  listViewAllMaterialsRecord
                                                                       .projectRef!),
                                                           builder: (context,
                                                               snapshot) {
@@ -1183,8 +1187,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                             0),
                                                                         child:
                                                                             Text(
-                                                                          listViewAllTasksRecord
-                                                                              .taskName!,
+                                                                          listViewAllMaterialsRecord
+                                                                              .materialName!,
                                                                           style:
                                                                               FlutterFlowTheme.of(context).title3,
                                                                         ),
@@ -1213,7 +1217,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                             0),
                                                                         child:
                                                                             Text(
-                                                                          listViewAllTasksRecord
+                                                                          listViewAllMaterialsRecord
                                                                               .status!,
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyText1
@@ -1260,7 +1264,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                       FFLocalizations.of(
                                                                               context)
                                                                           .getText(
-                                                                        'c8gv1fmj' /* Due */,
+                                                                        'c8gv1fmj' /* Added on */,
                                                                       ),
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
@@ -1283,8 +1287,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           Text(
                                                                         dateTimeFormat(
                                                                           'MMMEd',
-                                                                          listViewAllTasksRecord
-                                                                              .dueDate!,
+                                                                          listViewAllMaterialsRecord
+                                                                              .addedOn!,
                                                                           locale:
                                                                               FFLocalizations.of(context).languageCode,
                                                                         ),
@@ -1303,8 +1307,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           Text(
                                                                         dateTimeFormat(
                                                                           'jm',
-                                                                          listViewAllTasksRecord
-                                                                              .dueDate!,
+                                                                          listViewAllMaterialsRecord
+                                                                              .addedOn!,
                                                                           locale:
                                                                               FFLocalizations.of(context).languageCode,
                                                                         ),
@@ -1340,21 +1344,24 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 12, 0, 12),
-                                      child:
-                                          FutureBuilder<List<AllTasksRecord>>(
+                                      child: FutureBuilder<
+                                          List<AllMaterialsRecord>>(
                                         future: (_firestoreRequestCompleter2 ??=
                                                 Completer<
-                                                    List<AllTasksRecord>>()
+                                                    List<AllMaterialsRecord>>()
                                                   ..complete(
-                                                      queryAllTasksRecordOnce(
-                                                    queryBuilder: (allTasksRecord) =>
-                                                        allTasksRecord
-                                                            .where('members',
-                                                                arrayContains:
-                                                                    currentUserReference)
-                                                            .where('completed',
-                                                                isEqualTo:
-                                                                    true),
+                                                      queryAllMaterialsRecordOnce(
+                                                    queryBuilder:
+                                                        (allMaterialsRecord) =>
+                                                            allMaterialsRecord
+                                                                .where(
+                                                                    'members',
+                                                                    arrayContains:
+                                                                        currentUserReference)
+                                                                .where(
+                                                                    'verified',
+                                                                    isEqualTo:
+                                                                        true),
                                                   )))
                                             .future,
                                         builder: (context, snapshot) {
@@ -1373,10 +1380,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                               ),
                                             );
                                           }
-                                          List<AllTasksRecord>
-                                              listViewAllTasksRecordList =
+                                          List<AllMaterialsRecord>
+                                              listViewAllMaterialsRecordList =
                                               snapshot.data!;
-                                          if (listViewAllTasksRecordList
+                                          if (listViewAllMaterialsRecordList
                                               .isEmpty) {
                                             return Center(
                                               child: Container(
@@ -1406,12 +1413,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                               shrinkWrap: true,
                                               scrollDirection: Axis.vertical,
                                               itemCount:
-                                                  listViewAllTasksRecordList
+                                                  listViewAllMaterialsRecordList
                                                       .length,
                                               itemBuilder:
                                                   (context, listViewIndex) {
-                                                final listViewAllTasksRecord =
-                                                    listViewAllTasksRecordList[
+                                                final listViewAllMaterialsRecord =
+                                                    listViewAllMaterialsRecordList[
                                                         listViewIndex];
                                                 return Padding(
                                                   padding: EdgeInsetsDirectional
@@ -1419,18 +1426,18 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                   child: InkWell(
                                                     onTap: () async {
                                                       context.pushNamed(
-                                                        'taskDetails',
+                                                        'matDetails',
                                                         queryParams: {
-                                                          'taskRef':
+                                                          'matRef':
                                                               serializeParam(
-                                                            listViewAllTasksRecord,
+                                                            listViewAllMaterialsRecord,
                                                             ParamType.Document,
                                                           ),
                                                         }.withoutNulls,
                                                         extra: <String,
                                                             dynamic>{
-                                                          'taskRef':
-                                                              listViewAllTasksRecord,
+                                                          'matRef':
+                                                              listViewAllMaterialsRecord,
                                                         },
                                                       );
                                                     },
@@ -1459,7 +1466,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                             ProjectsRecord>(
                                                           future: ProjectsRecord
                                                               .getDocumentOnce(
-                                                                  listViewAllTasksRecord
+                                                                  listViewAllMaterialsRecord
                                                                       .projectRef!),
                                                           builder: (context,
                                                               snapshot) {
@@ -1507,8 +1514,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                             0),
                                                                         child:
                                                                             Text(
-                                                                          listViewAllTasksRecord
-                                                                              .taskName!,
+                                                                          listViewAllMaterialsRecord
+                                                                              .materialName!,
                                                                           style:
                                                                               FlutterFlowTheme.of(context).title3,
                                                                         ),
@@ -1582,7 +1589,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                       FFLocalizations.of(
                                                                               context)
                                                                           .getText(
-                                                                        'htuk5fl0' /* Due */,
+                                                                        'htuk5fl0' /* Verified on */,
                                                                       ),
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
@@ -1605,8 +1612,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           Text(
                                                                         dateTimeFormat(
                                                                           'MMMEd',
-                                                                          listViewAllTasksRecord
-                                                                              .dueDate!,
+                                                                          listViewAllMaterialsRecord
+                                                                              .verifiedOn!,
                                                                           locale:
                                                                               FFLocalizations.of(context).languageCode,
                                                                         ),
@@ -1625,8 +1632,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           Text(
                                                                         dateTimeFormat(
                                                                           'jm',
-                                                                          listViewAllTasksRecord
-                                                                              .dueDate!,
+                                                                          listViewAllMaterialsRecord
+                                                                              .verifiedOn!,
                                                                           locale:
                                                                               FFLocalizations.of(context).languageCode,
                                                                         ),
@@ -1751,20 +1758,20 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(0, 8, 0, 12),
                                                   child: FutureBuilder<
-                                                      List<AllTasksRecord>>(
+                                                      List<AllMaterialsRecord>>(
                                                     future: (_firestoreRequestCompleter5 ??=
                                                             Completer<
                                                                 List<
-                                                                    AllTasksRecord>>()
+                                                                    AllMaterialsRecord>>()
                                                               ..complete(
-                                                                  queryAllTasksRecordOnce(
-                                                                queryBuilder: (allTasksRecord) => allTasksRecord
+                                                                  queryAllMaterialsRecordOnce(
+                                                                queryBuilder: (allMaterialsRecord) => allMaterialsRecord
                                                                     .where(
                                                                         'members',
                                                                         arrayContains:
                                                                             currentUserReference)
                                                                     .orderBy(
-                                                                        'dueDate',
+                                                                        'addedOn',
                                                                         descending:
                                                                             true),
                                                               )))
@@ -1786,10 +1793,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                           ),
                                                         );
                                                       }
-                                                      List<AllTasksRecord>
-                                                          listViewAllTasksRecordList =
+                                                      List<AllMaterialsRecord>
+                                                          listViewAllMaterialsRecordList =
                                                           snapshot.data!;
-                                                      if (listViewAllTasksRecordList
+                                                      if (listViewAllMaterialsRecordList
                                                           .isEmpty) {
                                                         return Center(
                                                           child: Container(
@@ -1823,12 +1830,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                           scrollDirection:
                                                               Axis.vertical,
                                                           itemCount:
-                                                              listViewAllTasksRecordList
+                                                              listViewAllMaterialsRecordList
                                                                   .length,
                                                           itemBuilder: (context,
                                                               listViewIndex) {
-                                                            final listViewAllTasksRecord =
-                                                                listViewAllTasksRecordList[
+                                                            final listViewAllMaterialsRecord =
+                                                                listViewAllMaterialsRecordList[
                                                                     listViewIndex];
                                                             return Padding(
                                                               padding:
@@ -1843,12 +1850,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                     () async {
                                                                   context
                                                                       .pushNamed(
-                                                                    'taskDetails',
+                                                                    'matDetails',
                                                                     queryParams:
                                                                         {
-                                                                      'taskRef':
+                                                                      'matRef':
                                                                           serializeParam(
-                                                                        listViewAllTasksRecord,
+                                                                        listViewAllMaterialsRecord,
                                                                         ParamType
                                                                             .Document,
                                                                       ),
@@ -1856,8 +1863,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                     extra: <
                                                                         String,
                                                                         dynamic>{
-                                                                      'taskRef':
-                                                                          listViewAllTasksRecord,
+                                                                      'matRef':
+                                                                          listViewAllMaterialsRecord,
                                                                     },
                                                                   );
                                                                 },
@@ -1893,7 +1900,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                     child: FutureBuilder<
                                                                         ProjectsRecord>(
                                                                       future: ProjectsRecord.getDocumentOnce(
-                                                                          listViewAllTasksRecord
+                                                                          listViewAllMaterialsRecord
                                                                               .projectRef!),
                                                                       builder:
                                                                           (context,
@@ -1923,7 +1930,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                             Padding(
                                                                               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
                                                                               child: Text(
-                                                                                listViewAllTasksRecord.taskName!,
+                                                                                listViewAllMaterialsRecord.materialName!,
                                                                                 style: FlutterFlowTheme.of(context).title3,
                                                                               ),
                                                                             ),
@@ -1952,7 +1959,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                     child: Padding(
                                                                                       padding: EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
                                                                                       child: Text(
-                                                                                        listViewAllTasksRecord.status!,
+                                                                                        listViewAllMaterialsRecord.status!,
                                                                                         style: FlutterFlowTheme.of(context).bodyText1.override(
                                                                                               fontFamily: 'Space Grotesk',
                                                                                               color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -1986,7 +1993,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                   child: Text(
                                                                                     dateTimeFormat(
                                                                                       'MMMEd',
-                                                                                      listViewAllTasksRecord.dueDate!,
+                                                                                      listViewAllMaterialsRecord.addedOn!,
                                                                                       locale: FFLocalizations.of(context).languageCode,
                                                                                     ),
                                                                                     style: FlutterFlowTheme.of(context).bodyText2,
@@ -1997,7 +2004,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                   child: Text(
                                                                                     dateTimeFormat(
                                                                                       'jm',
-                                                                                      listViewAllTasksRecord.dueDate!,
+                                                                                      listViewAllMaterialsRecord.addedOn!,
                                                                                       locale: FFLocalizations.of(context).languageCode,
                                                                                     ),
                                                                                     style: FlutterFlowTheme.of(context).bodyText2,
@@ -2098,15 +2105,15 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0, 12, 0, 0),
                                             child: FutureBuilder<
-                                                List<AllTasksRecord>>(
+                                                List<AllMaterialsRecord>>(
                                               future: (_firestoreRequestCompleter6 ??=
                                                       Completer<
                                                           List<
-                                                              AllTasksRecord>>()
+                                                              AllMaterialsRecord>>()
                                                         ..complete(
-                                                            queryAllTasksRecordOnce(
-                                                          queryBuilder: (allTasksRecord) =>
-                                                              allTasksRecord
+                                                            queryAllMaterialsRecordOnce(
+                                                          queryBuilder: (allMaterialsRecord) =>
+                                                              allMaterialsRecord
                                                                   .where(
                                                                       'members',
                                                                       arrayContains:
@@ -2116,7 +2123,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                       isEqualTo:
                                                                           'Not Started')
                                                                   .orderBy(
-                                                                      'dueDate',
+                                                                      'addedOn',
                                                                       descending:
                                                                           true),
                                                         )))
@@ -2138,10 +2145,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     ),
                                                   );
                                                 }
-                                                List<AllTasksRecord>
-                                                    listViewAllTasksRecordList =
+                                                List<AllMaterialsRecord>
+                                                    listViewAllMaterialsRecordList =
                                                     snapshot.data!;
-                                                if (listViewAllTasksRecordList
+                                                if (listViewAllMaterialsRecordList
                                                     .isEmpty) {
                                                   return Container(
                                                     height: 300,
@@ -2166,12 +2173,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     scrollDirection:
                                                         Axis.vertical,
                                                     itemCount:
-                                                        listViewAllTasksRecordList
+                                                        listViewAllMaterialsRecordList
                                                             .length,
                                                     itemBuilder: (context,
                                                         listViewIndex) {
-                                                      final listViewAllTasksRecord =
-                                                          listViewAllTasksRecordList[
+                                                      final listViewAllMaterialsRecord =
+                                                          listViewAllMaterialsRecordList[
                                                               listViewIndex];
                                                       return Padding(
                                                         padding:
@@ -2181,19 +2188,19 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                         child: InkWell(
                                                           onTap: () async {
                                                             context.pushNamed(
-                                                              'taskDetails',
+                                                              'matDetails',
                                                               queryParams: {
-                                                                'taskRef':
+                                                                'matRef':
                                                                     serializeParam(
-                                                                  listViewAllTasksRecord,
+                                                                  listViewAllMaterialsRecord,
                                                                   ParamType
                                                                       .Document,
                                                                 ),
                                                               }.withoutNulls,
                                                               extra: <String,
                                                                   dynamic>{
-                                                                'taskRef':
-                                                                    listViewAllTasksRecord,
+                                                                'matRef':
+                                                                    listViewAllMaterialsRecord,
                                                               },
                                                             );
                                                           },
@@ -2229,7 +2236,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                   ProjectsRecord>(
                                                                 future: ProjectsRecord
                                                                     .getDocumentOnce(
-                                                                        listViewAllTasksRecord
+                                                                        listViewAllMaterialsRecord
                                                                             .projectRef!),
                                                                 builder: (context,
                                                                     snapshot) {
@@ -2273,7 +2280,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                 Padding(
                                                                               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
                                                                               child: Text(
-                                                                                listViewAllTasksRecord.taskName!,
+                                                                                listViewAllMaterialsRecord.materialName!,
                                                                                 style: FlutterFlowTheme.of(context).title3,
                                                                               ),
                                                                             ),
@@ -2281,10 +2288,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           InkWell(
                                                                             onTap:
                                                                                 () async {
-                                                                              final allTasksUpdateData = createAllTasksRecordData(
+                                                                              final allMaterialsUpdateData = createAllMaterialsRecordData(
                                                                                 status: 'In Progress',
                                                                               );
-                                                                              await listViewAllTasksRecord.reference.update(allTasksUpdateData);
+                                                                              await listViewAllMaterialsRecord.reference.update(allMaterialsUpdateData);
                                                                             },
                                                                             child:
                                                                                 Container(
@@ -2341,7 +2348,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                         children: [
                                                                           Text(
                                                                             FFLocalizations.of(context).getText(
-                                                                              'i1j0llq5' /* Due */,
+                                                                              'i1j0llq5' /* Added on */,
                                                                             ),
                                                                             style: FlutterFlowTheme.of(context).bodyText1.override(
                                                                                   fontFamily: 'Space Grotesk',
@@ -2355,7 +2362,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                               child: Text(
                                                                                 dateTimeFormat(
                                                                                   'MMMEd',
-                                                                                  listViewAllTasksRecord.dueDate!,
+                                                                                  listViewAllMaterialsRecord.addedOn!,
                                                                                   locale: FFLocalizations.of(context).languageCode,
                                                                                 ),
                                                                                 style: FlutterFlowTheme.of(context).bodyText2,
@@ -2456,15 +2463,15 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0, 12, 0, 0),
                                             child: FutureBuilder<
-                                                List<AllTasksRecord>>(
+                                                List<AllMaterialsRecord>>(
                                               future: (_firestoreRequestCompleter3 ??=
                                                       Completer<
                                                           List<
-                                                              AllTasksRecord>>()
+                                                              AllMaterialsRecord>>()
                                                         ..complete(
-                                                            queryAllTasksRecordOnce(
-                                                          queryBuilder: (allTasksRecord) =>
-                                                              allTasksRecord
+                                                            queryAllMaterialsRecordOnce(
+                                                          queryBuilder: (allMaterialsRecord) =>
+                                                              allMaterialsRecord
                                                                   .where(
                                                                       'members',
                                                                       arrayContains:
@@ -2474,7 +2481,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                       isEqualTo:
                                                                           'In Progress')
                                                                   .orderBy(
-                                                                      'dueDate',
+                                                                      'addedOn',
                                                                       descending:
                                                                           true),
                                                         )))
@@ -2496,10 +2503,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     ),
                                                   );
                                                 }
-                                                List<AllTasksRecord>
-                                                    listViewAllTasksRecordList =
+                                                List<AllMaterialsRecord>
+                                                    listViewAllMaterialsRecordList =
                                                     snapshot.data!;
-                                                if (listViewAllTasksRecordList
+                                                if (listViewAllMaterialsRecordList
                                                     .isEmpty) {
                                                   return Center(
                                                     child: Container(
@@ -2532,12 +2539,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     scrollDirection:
                                                         Axis.vertical,
                                                     itemCount:
-                                                        listViewAllTasksRecordList
+                                                        listViewAllMaterialsRecordList
                                                             .length,
                                                     itemBuilder: (context,
                                                         listViewIndex) {
-                                                      final listViewAllTasksRecord =
-                                                          listViewAllTasksRecordList[
+                                                      final listViewAllMaterialsRecord =
+                                                          listViewAllMaterialsRecordList[
                                                               listViewIndex];
                                                       return Padding(
                                                         padding:
@@ -2547,19 +2554,19 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                         child: InkWell(
                                                           onTap: () async {
                                                             context.pushNamed(
-                                                              'taskDetails',
+                                                              'matDetails',
                                                               queryParams: {
-                                                                'taskRef':
+                                                                'matRef':
                                                                     serializeParam(
-                                                                  listViewAllTasksRecord,
+                                                                  listViewAllMaterialsRecord,
                                                                   ParamType
                                                                       .Document,
                                                                 ),
                                                               }.withoutNulls,
                                                               extra: <String,
                                                                   dynamic>{
-                                                                'taskRef':
-                                                                    listViewAllTasksRecord,
+                                                                'matRef':
+                                                                    listViewAllMaterialsRecord,
                                                               },
                                                             );
                                                           },
@@ -2595,7 +2602,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                   ProjectsRecord>(
                                                                 future: ProjectsRecord
                                                                     .getDocumentOnce(
-                                                                        listViewAllTasksRecord
+                                                                        listViewAllMaterialsRecord
                                                                             .projectRef!),
                                                                 builder: (context,
                                                                     snapshot) {
@@ -2639,7 +2646,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                 Padding(
                                                                               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
                                                                               child: Text(
-                                                                                listViewAllTasksRecord.taskName!,
+                                                                                listViewAllMaterialsRecord.materialName!,
                                                                                 style: FlutterFlowTheme.of(context).title3,
                                                                               ),
                                                                             ),
@@ -2693,7 +2700,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                 Text(
                                                                               dateTimeFormat(
                                                                                 'MMMEd',
-                                                                                listViewAllTasksRecord.dueDate!,
+                                                                                listViewAllMaterialsRecord.addedOn!,
                                                                                 locale: FFLocalizations.of(context).languageCode,
                                                                               ),
                                                                               style: FlutterFlowTheme.of(context).bodyText2,
@@ -2709,7 +2716,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                 Text(
                                                                               dateTimeFormat(
                                                                                 'jm',
-                                                                                listViewAllTasksRecord.dueDate!,
+                                                                                listViewAllMaterialsRecord.addedOn!,
                                                                                 locale: FFLocalizations.of(context).languageCode,
                                                                               ),
                                                                               style: FlutterFlowTheme.of(context).bodyText2,
@@ -2809,24 +2816,27 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0, 12, 0, 0),
                                             child: FutureBuilder<
-                                                List<AllTasksRecord>>(
+                                                List<AllMaterialsRecord>>(
                                               future: (_firestoreRequestCompleter1 ??=
                                                       Completer<
                                                           List<
-                                                              AllTasksRecord>>()
+                                                              AllMaterialsRecord>>()
                                                         ..complete(
-                                                            queryAllTasksRecordOnce(
-                                                          queryBuilder: (allTasksRecord) => allTasksRecord
-                                                              .where('members',
-                                                                  arrayContains:
-                                                                      currentUserReference)
-                                                              .where('status',
-                                                                  isEqualTo:
-                                                                      'Complete')
-                                                              .orderBy(
-                                                                  'completedAt',
-                                                                  descending:
-                                                                      true),
+                                                            queryAllMaterialsRecordOnce(
+                                                          queryBuilder: (allMaterialsRecord) =>
+                                                              allMaterialsRecord
+                                                                  .where(
+                                                                      'members',
+                                                                      arrayContains:
+                                                                          currentUserReference)
+                                                                  .where(
+                                                                      'status',
+                                                                      isEqualTo:
+                                                                          'Complete')
+                                                                  .orderBy(
+                                                                      'verifiedOn',
+                                                                      descending:
+                                                                          true),
                                                         )))
                                                   .future,
                                               builder: (context, snapshot) {
@@ -2846,10 +2856,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     ),
                                                   );
                                                 }
-                                                List<AllTasksRecord>
-                                                    listViewAllTasksRecordList =
+                                                List<AllMaterialsRecord>
+                                                    listViewAllMaterialsRecordList =
                                                     snapshot.data!;
-                                                if (listViewAllTasksRecordList
+                                                if (listViewAllMaterialsRecordList
                                                     .isEmpty) {
                                                   return Center(
                                                     child: Container(
@@ -2883,18 +2893,18 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     scrollDirection:
                                                         Axis.vertical,
                                                     itemCount:
-                                                        listViewAllTasksRecordList
+                                                        listViewAllMaterialsRecordList
                                                             .length,
                                                     itemBuilder: (context,
                                                         listViewIndex) {
-                                                      final listViewAllTasksRecord =
-                                                          listViewAllTasksRecordList[
+                                                      final listViewAllMaterialsRecord =
+                                                          listViewAllMaterialsRecordList[
                                                               listViewIndex];
                                                       return TaskComponentWidget(
                                                         key: Key(
                                                             'TaskComponent_${listViewIndex}'),
-                                                        taskRef:
-                                                            listViewAllTasksRecord,
+                                                        matRef:
+                                                            listViewAllMaterialsRecord,
                                                       );
                                                     },
                                                   ),
