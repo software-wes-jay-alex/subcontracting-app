@@ -296,7 +296,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ur': 'صبح بخیر',
     },
     'qivbgraj': {
-      'en': 'My Tasks',
+      'en': 'My List',
       'hi': 'मेरा काम',
       'ta': 'எனது பணிகள்',
       'ur': 'میرے کام',
@@ -647,7 +647,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   // createTask
   {
     '5maeu8hf': {
-      'en': 'Create Task',
+      'en': 'Create List',
       'hi': 'टास्क बनाएं',
       'ta': 'பணியை உருவாக்கவும்',
       'ur': 'ٹاسک بنائیں',
@@ -902,6 +902,15 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ur': 'گھر',
     },
   },
+  // Main_projects
+  {
+    '3drc3684': {
+      'en': 'Home',
+      'hi': 'घर',
+      'ta': 'வீடு',
+      'ur': 'گھر',
+    },
+  },
   // Main_teamPage
   {
     'vf4ee69k': {
@@ -933,15 +942,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'hi': 'मेरी टीम',
       'ta': 'என் அணி',
       'ur': 'میری ٹیم',
-    },
-  },
-  // Main_projects
-  {
-    '3drc3684': {
-      'en': 'Home',
-      'hi': 'घर',
-      'ta': 'வீடு',
-      'ur': 'گھر',
     },
   },
   // Main_projectsWeb

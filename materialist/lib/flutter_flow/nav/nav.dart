@@ -144,14 +144,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'Main_teamPage',
-              path: 'mainTeamPage',
-              builder: (context, params) => MainTeamPageWidget(),
-            ),
-            FFRoute(
               name: 'Main_projects',
               path: 'mainProjects',
               builder: (context, params) => MainProjectsWidget(),
+            ),
+            FFRoute(
+              name: 'Main_teamPage',
+              path: 'mainTeamPage',
+              builder: (context, params) => MainTeamPageWidget(),
             ),
             FFRoute(
               name: 'Main_projectsWeb',
@@ -365,10 +365,10 @@ class FFRoute {
               : builder(context, ffParams);
           final child = appStateNotifier.loading
               ? Container(
-                  color: Colors.transparent,
+                  color: FlutterFlowTheme.of(context).customColor1,
                   child: Image.asset(
-                    'assets/images/app_Tracker@1x.png',
-                    fit: BoxFit.cover,
+                    'assets/images/engineer.png',
+                    fit: BoxFit.contain,
                   ),
                 )
               : page;

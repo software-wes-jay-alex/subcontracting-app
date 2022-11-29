@@ -12,8 +12,8 @@ export 'add_team_members/add_team_members_widget.dart'
     show AddTeamMembersWidget;
 export 'team_member_details/team_member_details_widget.dart'
     show TeamMemberDetailsWidget;
-export 'main_team_page/main_team_page_widget.dart' show MainTeamPageWidget;
 export 'main_projects/main_projects_widget.dart' show MainProjectsWidget;
+export 'main_team_page/main_team_page_widget.dart' show MainTeamPageWidget;
 export 'main_projects_web/main_projects_web_widget.dart'
     show MainProjectsWebWidget;
 export 'create_project/create_project_widget.dart' show CreateProjectWidget;

@@ -57,7 +57,7 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
         automaticallyImplyLeading: false,
         title: Text(
           FFLocalizations.of(context).getText(
-            '5maeu8hf' /* Create Task */,
+            '5maeu8hf' /* Create List */,
           ),
           style: FlutterFlowTheme.of(context).title2,
         ),

@@ -327,20 +327,16 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        if ((currentUserPhoto == null ||
-                                currentUserPhoto == '') &&
-                            responsiveVisibility(
-                              context: context,
-                              tablet: false,
-                              tabletLandscape: false,
-                              desktop: false,
-                            ))
+                        if (responsiveVisibility(
+                          context: context,
+                          tablet: false,
+                          tabletLandscape: false,
+                          desktop: false,
+                        ))
                           Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
-                            child: AuthUserStreamWidget(
-                              child: UserCardWidget(),
-                            ),
+                            child: UserCardWidget(),
                           ),
                         Column(
                           mainAxisSize: MainAxisSize.max,
@@ -399,7 +395,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                 tabs: [
                                   Tab(
                                     text: FFLocalizations.of(context).getText(
-                                      'qivbgraj' /* My Tasks */,
+                                      'qivbgraj' /* My List */,
                                     ),
                                   ),
                                   Tab(

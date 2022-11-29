@@ -339,6 +339,9 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 16),
                   child: FFButtonWidget(
                     onPressed: () async {
+                      if (uploadedFileUrl == '\"') {
+                        return;
+                      }
                       if (formKey.currentState == null ||
                           !formKey.currentState!.validate()) {
                         return;
