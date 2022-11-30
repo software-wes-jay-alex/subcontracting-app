@@ -11,9 +11,19 @@
         {
           "fieldPath": "verified",
           "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "notes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "matRef",
+          "order": "ASCENDING"
         },
         {
-          "fieldPath": "addedOn",
+          "fieldPath": "timePosted",
           "order": "DESCENDING"
         }
       ]
@@ -29,6 +39,20 @@
         {
           "fieldPath": "addedOn",
           "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "allMaterials",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "members",
+          "arrayConfig": "CONTAINS"
         }
       ]
     },
@@ -92,20 +116,6 @@
         },
         {
           "fieldPath": "lastEdited",
-          "order": "DESCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "notes",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "matRef",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "timePosted",
           "order": "DESCENDING"
         }
       ]

@@ -418,8 +418,8 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                                             ),
                                           ),
                                           Align(
-                                            alignment:
-                                                AlignmentDirectional(0.9, 0),
+                                            alignment: AlignmentDirectional(
+                                                0.86, -0.23),
                                             child: Container(
                                               width: 36,
                                               height: 36,

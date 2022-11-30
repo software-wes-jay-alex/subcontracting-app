@@ -363,7 +363,7 @@ class _MatDetailsWidgetState extends State<MatDetailsWidget>
                                 Expanded(
                                   child: Text(
                                     FFLocalizations.of(context).getText(
-                                      'hb364kq4' /* Due */,
+                                      'hb364kq4' /* Added on */,
                                     ),
                                     style:
                                         FlutterFlowTheme.of(context).bodyText1,
@@ -667,8 +667,7 @@ class _MatDetailsWidgetState extends State<MatDetailsWidget>
                                                                     12, 0),
                                                         child: Text(
                                                           widget
-                                                              .matRef!.addedOn!
-                                                              .toString(),
+                                                              .matRef!.status!,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyText1

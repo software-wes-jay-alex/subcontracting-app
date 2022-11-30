@@ -332,17 +332,11 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (responsiveVisibility(
-                              context: context,
-                              tablet: false,
-                              tabletLandscape: false,
-                              desktop: false,
-                            ))
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
-                                child: UserCardWidget(),
-                              ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+                              child: UserCardWidget(),
+                            ),
                             Column(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -408,7 +402,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                   ),
                                   Tab(
                                     text: FFLocalizations.of(context).getText(
-                                      'iofpx15n' /* Not Started */,
+                                      'iofpx15n' /* Unverified */,
                                     ),
                                   ),
                                   Tab(
@@ -752,9 +746,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                       arrayContains:
                                                           currentUserReference)
                                                   .where('status',
-                                                      isEqualTo: 'Not Started')
-                                                  .orderBy('addedOn',
-                                                      descending: true),
+                                                      isEqualTo: 'Not Started'),
                                         ),
                                         builder: (context, snapshot) {
                                           // Customize what your widget looks like when it's loading.
@@ -775,17 +767,6 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                           List<AllMaterialsRecord>
                                               listViewAllMaterialsRecordList =
                                               snapshot.data!;
-                                          if (listViewAllMaterialsRecordList
-                                              .isEmpty) {
-                                            return Container(
-                                              height: 300,
-                                              child: EmptyTasksWidget(
-                                                title: 'You are good to go!',
-                                                bodyText:
-                                                    'All of your tasks are in progress or complete! Congrats.',
-                                              ),
-                                            );
-                                          }
                                           return ListView.builder(
                                             padding: EdgeInsets.zero,
                                             primary: false,

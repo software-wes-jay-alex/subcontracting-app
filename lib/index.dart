@@ -5,8 +5,6 @@ export 'create_profile/create_profile_widget.dart' show CreateProfileWidget;
 export 'create_task_1_select_project/create_task1_select_project_widget.dart'
     show CreateTask1SelectProjectWidget;
 export 'main_tracker/main_tracker_widget.dart' show MainTrackerWidget;
-export 'mat_details/mat_details_widget.dart' show MatDetailsWidget;
-export 'create_list/create_list_widget.dart' show CreateListWidget;
 export 'add_team_members/add_team_members_widget.dart'
     show AddTeamMembersWidget;
 export 'my_profile/my_profile_widget.dart' show MyProfileWidget;
@@ -21,3 +19,5 @@ export 'project_details_page/project_details_page_widget.dart'
 export 'team_members/team_members_widget.dart' show TeamMembersWidget;
 export 'search_members/search_members_widget.dart' show SearchMembersWidget;
 export 'create_project/create_project_widget.dart' show CreateProjectWidget;
+export 'create_list/create_list_widget.dart' show CreateListWidget;
+export 'mat_details/mat_details_widget.dart' show MatDetailsWidget;

@@ -17,7 +17,7 @@ class CreateProjectWidget extends StatefulWidget {
 
 class _CreateProjectWidgetState extends State<CreateProjectWidget> {
   TextEditingController? descriptionController;
-  TextEditingController? taskNameController;
+  TextEditingController? projectNameController;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -25,14 +25,14 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
   void initState() {
     super.initState();
     descriptionController = TextEditingController();
-    taskNameController = TextEditingController();
+    projectNameController = TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     descriptionController?.dispose();
-    taskNameController?.dispose();
+    projectNameController?.dispose();
     super.dispose();
   }
 
@@ -102,7 +102,7 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
                               child: TextFormField(
-                                controller: taskNameController,
+                                controller: projectNameController,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText:
@@ -226,7 +226,7 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
                                 final projectsCreateData = {
                                   ...createProjectsRecordData(
                                     owner: currentUserReference,
-                                    projectName: taskNameController!.text,
+                                    projectName: projectNameController!.text,
                                     description: descriptionController!.text,
                                     numberTasks: 0,
                                     completedTasks: 0,
@@ -242,7 +242,7 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
                                   ...createProjectListRecordData(
                                     userRef: currentUserReference,
                                   ),
-                                  'projects': [taskNameController!.text],
+                                  'projects': [projectNameController!.text],
                                 };
                                 await ProjectListRecord.collection
                                     .doc()

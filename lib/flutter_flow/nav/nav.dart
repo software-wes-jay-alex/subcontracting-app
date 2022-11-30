@@ -102,28 +102,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => MainTrackerWidget(),
             ),
             FFRoute(
-              name: 'matDetails',
-              path: 'matDetails',
-              asyncParams: {
-                'matRef': getDoc('allMaterials', AllMaterialsRecord.serializer),
-              },
-              builder: (context, params) => MatDetailsWidget(
-                matRef: params.getParam('matRef', ParamType.Document),
-              ),
-            ),
-            FFRoute(
-              name: 'createList',
-              path: 'createTask',
-              asyncParams: {
-                'projectParameter':
-                    getDoc('projects', ProjectsRecord.serializer),
-              },
-              builder: (context, params) => CreateListWidget(
-                projectParameter:
-                    params.getParam('projectParameter', ParamType.Document),
-              ),
-            ),
-            FFRoute(
               name: 'addTeamMembers',
               path: 'addTeamMembers',
               builder: (context, params) => AddTeamMembersWidget(),
@@ -192,6 +170,28 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'createProject',
               path: 'createProject',
               builder: (context, params) => CreateProjectWidget(),
+            ),
+            FFRoute(
+              name: 'createList',
+              path: 'createTask',
+              asyncParams: {
+                'projectParameter':
+                    getDoc('projects', ProjectsRecord.serializer),
+              },
+              builder: (context, params) => CreateListWidget(
+                projectParameter:
+                    params.getParam('projectParameter', ParamType.Document),
+              ),
+            ),
+            FFRoute(
+              name: 'matDetails',
+              path: 'matDetails',
+              asyncParams: {
+                'matRef': getDoc('allMaterials', AllMaterialsRecord.serializer),
+              },
+              builder: (context, params) => MatDetailsWidget(
+                matRef: params.getParam('matRef', ParamType.Document),
+              ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ).toRoute(appStateNotifier),
@@ -365,10 +365,14 @@ class FFRoute {
               : builder(context, ffParams);
           final child = appStateNotifier.loading
               ? Container(
-                  color: FlutterFlowTheme.of(context).customColor1,
-                  child: Image.asset(
-                    'assets/images/engineer.png',
-                    fit: BoxFit.contain,
+                  color: FlutterFlowTheme.of(context).primaryColor,
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/engineer.png',
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 )
               : page;

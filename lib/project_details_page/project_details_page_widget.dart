@@ -363,9 +363,7 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                 isEqualTo: widget
                                                     .projectRef!.reference)
                                             .where('verified',
-                                                isNotEqualTo: true)
-                                            .orderBy('addedOn',
-                                                descending: true),
+                                                isNotEqualTo: true),
                                   ),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
