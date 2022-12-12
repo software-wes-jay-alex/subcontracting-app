@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -26,9 +27,9 @@ double projectStatus(
 }
 
 double projectStatusalt(
-  int? numToDoTasks,
+  int? numTasks,
   int? numDoneTasks,
 ) {
-  double projectStatus = numDoneTasks! / (numToDoTasks! + numDoneTasks);
+  double projectStatus = numDoneTasks! / (numTasks!);
   return projectStatus;
 }

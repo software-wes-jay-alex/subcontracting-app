@@ -6,6 +6,7 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
+import 'package:styled_divider/styled_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -184,9 +185,12 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                       Text(
                         '${widget.projectRef!.numberTasks?.toString()} tasks',
                         style: FlutterFlowTheme.of(context).bodyText1.override(
-                              fontFamily: 'Space Grotesk',
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).bodyText1Family,
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  FlutterFlowTheme.of(context).bodyText1Family),
                             ),
                       ),
                     ],
@@ -344,7 +348,7 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                             ),
                             Tab(
                               text: FFLocalizations.of(context).getText(
-                                '1870f5uq' /* Completed */,
+                                '1870f5uq' /* Verified */,
                               ),
                             ),
                           ],
@@ -535,9 +539,11 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                                       .bodyText1
                                                                       .override(
                                                                         fontFamily:
-                                                                            'Space Grotesk',
+                                                                            FlutterFlowTheme.of(context).bodyText1Family,
                                                                         color: FlutterFlowTheme.of(context)
                                                                             .secondaryBackground,
+                                                                        useGoogleFonts:
+                                                                            GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                       ),
                                                                 ),
                                                               ),
@@ -582,10 +588,15 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                                   .bodyText1
                                                                   .override(
                                                                     fontFamily:
-                                                                        'Space Grotesk',
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
+                                                                    useGoogleFonts: GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            FlutterFlowTheme.of(context).bodyText1Family),
                                                                   ),
                                                             ),
                                                             Padding(
@@ -806,9 +817,11 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                                       .title3
                                                                       .override(
                                                                         fontFamily:
-                                                                            'Outfit',
+                                                                            FlutterFlowTheme.of(context).title3Family,
                                                                         decoration:
                                                                             TextDecoration.lineThrough,
+                                                                        useGoogleFonts:
+                                                                            GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).title3Family),
                                                                       ),
                                                                 ),
                                                               ),
@@ -862,11 +875,17 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                                     .of(context)
                                                                 .bodyText2
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Space Grotesk',
+                                                                  fontFamily: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText2Family,
                                                                   decoration:
                                                                       TextDecoration
                                                                           .lineThrough,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyText2Family),
                                                                 ),
                                                           ),
                                                         ),
@@ -895,10 +914,15 @@ class _ProjectDetailsPageWidgetState extends State<ProjectDetailsPageWidget>
                                                                   .bodyText1
                                                                   .override(
                                                                     fontFamily:
-                                                                        'Space Grotesk',
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
+                                                                    useGoogleFonts: GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            FlutterFlowTheme.of(context).bodyText1Family),
                                                                   ),
                                                             ),
                                                             Padding(

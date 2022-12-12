@@ -17,7 +17,7 @@ class CreateProjectWidget extends StatefulWidget {
 
 class _CreateProjectWidgetState extends State<CreateProjectWidget> {
   TextEditingController? descriptionController;
-  TextEditingController? projectNameController;
+  TextEditingController? taskNameController;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -25,14 +25,14 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
   void initState() {
     super.initState();
     descriptionController = TextEditingController();
-    projectNameController = TextEditingController();
+    taskNameController = TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     descriptionController?.dispose();
-    projectNameController?.dispose();
+    taskNameController?.dispose();
     super.dispose();
   }
 
@@ -102,7 +102,7 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
                               child: TextFormField(
-                                controller: projectNameController,
+                                controller: taskNameController,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText:
@@ -116,6 +116,10 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryText,
                                         fontWeight: FontWeight.normal,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .title3Family),
                                       ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -155,6 +159,10 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
                                     .title3
                                     .override(
                                       fontFamily: 'Space Grotesk',
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .title3Family),
                                     ),
                                 textAlign: TextAlign.start,
                               ),
@@ -226,7 +234,7 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
                                 final projectsCreateData = {
                                   ...createProjectsRecordData(
                                     owner: currentUserReference,
-                                    projectName: projectNameController!.text,
+                                    projectName: taskNameController!.text,
                                     description: descriptionController!.text,
                                     numberTasks: 0,
                                     completedTasks: 0,
@@ -242,7 +250,7 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
                                   ...createProjectListRecordData(
                                     userRef: currentUserReference,
                                   ),
-                                  'projects': [projectNameController!.text],
+                                  'projects': [taskNameController!.text],
                                 };
                                 await ProjectListRecord.collection
                                     .doc()
@@ -260,8 +268,13 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
                                 textStyle: FlutterFlowTheme.of(context)
                                     .subtitle1
                                     .override(
-                                      fontFamily: 'Outfit',
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .subtitle1Family,
                                       color: Colors.white,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .subtitle1Family),
                                     ),
                                 elevation: 3,
                                 borderSide: BorderSide(

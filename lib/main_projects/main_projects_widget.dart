@@ -223,8 +223,17 @@ class _MainProjectsWidgetState extends State<MainProjectsWidget>
                                                           context)
                                                       .title3
                                                       .override(
-                                                        fontFamily: 'Outfit',
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .title3Family,
                                                         color: Colors.white,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .title3Family),
                                                       ),
                                                 ),
                                                 Padding(
@@ -237,10 +246,18 @@ class _MainProjectsWidgetState extends State<MainProjectsWidget>
                                                         .bodyText1
                                                         .override(
                                                           fontFamily:
-                                                              'Space Grotesk',
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyText1Family,
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .primaryBtnText,
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText1Family),
                                                         ),
                                                   ),
                                                 ),
@@ -512,8 +529,17 @@ class _MainProjectsWidgetState extends State<MainProjectsWidget>
                                                           context)
                                                       .title3
                                                       .override(
-                                                        fontFamily: 'Outfit',
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .title3Family,
                                                         color: Colors.white,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .title3Family),
                                                       ),
                                                 ),
                                                 Padding(
@@ -526,10 +552,18 @@ class _MainProjectsWidgetState extends State<MainProjectsWidget>
                                                         .bodyText1
                                                         .override(
                                                           fontFamily:
-                                                              'Space Grotesk',
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyText1Family,
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .primaryBtnText,
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText1Family),
                                                         ),
                                                   ),
                                                 ),

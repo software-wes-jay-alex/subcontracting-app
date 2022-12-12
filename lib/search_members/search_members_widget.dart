@@ -331,6 +331,12 @@ class _SearchMembersWidgetState extends State<SearchMembersWidget> {
                                                     fontSize: 14,
                                                     fontWeight:
                                                         FontWeight.normal,
+                                                    useGoogleFonts: GoogleFonts
+                                                            .asMap()
+                                                        .containsKey(
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1Family),
                                                   ),
                                           borderSide: BorderSide(
                                             color: Colors.transparent,

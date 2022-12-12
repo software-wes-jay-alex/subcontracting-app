@@ -371,11 +371,15 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                       width: 270,
                       height: 50,
                       color: FlutterFlowTheme.of(context).primaryColor,
-                      textStyle:
-                          FlutterFlowTheme.of(context).subtitle1.override(
-                                fontFamily: 'Outfit',
-                                color: Colors.white,
-                              ),
+                      textStyle: FlutterFlowTheme.of(context)
+                          .subtitle1
+                          .override(
+                            fontFamily:
+                                FlutterFlowTheme.of(context).subtitle1Family,
+                            color: Colors.white,
+                            useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                FlutterFlowTheme.of(context).subtitle1Family),
+                          ),
                       elevation: 3,
                       borderSide: BorderSide(
                         color: Colors.transparent,

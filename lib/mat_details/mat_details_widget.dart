@@ -7,6 +7,7 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import 'package:styled_divider/styled_divider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -363,7 +364,7 @@ class _MatDetailsWidgetState extends State<MatDetailsWidget>
                                 Expanded(
                                   child: Text(
                                     FFLocalizations.of(context).getText(
-                                      'hb364kq4' /* Added on */,
+                                      'hb364kq4' /* Added */,
                                     ),
                                     style:
                                         FlutterFlowTheme.of(context).bodyText1,
@@ -385,9 +386,15 @@ class _MatDetailsWidgetState extends State<MatDetailsWidget>
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
                                           .override(
-                                            fontFamily: 'Space Grotesk',
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyText1Family,
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryBackground,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1Family),
                                           ),
                                     ),
                                   ),
@@ -667,16 +674,23 @@ class _MatDetailsWidgetState extends State<MatDetailsWidget>
                                                                     12, 0),
                                                         child: Text(
                                                           widget
-                                                              .matRef!.status!,
+                                                              .matRef!.addedOn!
+                                                              .toString(),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyText1
                                                               .override(
-                                                                fontFamily:
-                                                                    'Space Grotesk',
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1Family,
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .secondaryBackground,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
                                                               ),
                                                         ),
                                                       ),
@@ -880,8 +894,12 @@ class _MatDetailsWidgetState extends State<MatDetailsWidget>
                                                                           0,
                                                                           0),
                                                               child: Text(
-                                                                listViewNotesRecord
-                                                                    .note!,
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  listViewNotesRecord
+                                                                      .note,
+                                                                  'empty note',
+                                                                ),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyText2,
@@ -909,12 +927,17 @@ class _MatDetailsWidgetState extends State<MatDetailsWidget>
                                                                     .bodyText2
                                                                     .override(
                                                                       fontFamily:
-                                                                          'Space Grotesk',
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyText2Family,
                                                                       fontSize:
                                                                           12,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w600,
+                                                                      useGoogleFonts: GoogleFonts
+                                                                              .asMap()
+                                                                          .containsKey(
+                                                                              FlutterFlowTheme.of(context).bodyText2Family),
                                                                     ),
                                                               ),
                                                             ),
@@ -974,10 +997,18 @@ class _MatDetailsWidgetState extends State<MatDetailsWidget>
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText1
                                             .override(
-                                              fontFamily: 'Space Grotesk',
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1Family,
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBtnText,
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1Family),
                                             ),
                                       ),
                                       duration: Duration(milliseconds: 4000),
@@ -998,8 +1029,13 @@ class _MatDetailsWidgetState extends State<MatDetailsWidget>
                                   textStyle: FlutterFlowTheme.of(context)
                                       .subtitle2
                                       .override(
-                                        fontFamily: 'Space Grotesk',
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .subtitle2Family,
                                         color: Colors.white,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .subtitle2Family),
                                       ),
                                   elevation: 3,
                                   borderSide: BorderSide(
@@ -1010,66 +1046,82 @@ class _MatDetailsWidgetState extends State<MatDetailsWidget>
                               ).animateOnPageLoad(
                                   animationsMap['buttonOnPageLoadAnimation1']!),
                             ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 5),
-                            child: FFButtonWidget(
-                              onPressed: () async {
-                                final usersUpdateData = createUsersRecordData(
-                                  status: 'In Progress',
-                                );
-                                await widget.matRef!.owner!
-                                    .update(usersUpdateData);
+                          if (widget.matRef!.status == 'Not Started')
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 5),
+                              child: FFButtonWidget(
+                                onPressed: () async {
+                                  final usersUpdateData = createUsersRecordData(
+                                    status: 'In Progress',
+                                  );
+                                  await widget.matRef!.owner!
+                                      .update(usersUpdateData);
 
-                                final projectsUpdateData =
-                                    createProjectsRecordData(
-                                  lastEdited: getCurrentTimestamp,
-                                );
-                                await widget.matRef!.projectRef!
-                                    .update(projectsUpdateData);
-                                context.pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'You have started a task!',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Space Grotesk',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBtnText,
-                                          ),
+                                  final projectsUpdateData =
+                                      createProjectsRecordData(
+                                    lastEdited: getCurrentTimestamp,
+                                  );
+                                  await widget.matRef!.projectRef!
+                                      .update(projectsUpdateData);
+                                  context.pop();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'You have started a task!',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1Family,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBtnText,
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1Family),
+                                            ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context)
+                                              .primaryColor,
                                     ),
-                                    duration: Duration(milliseconds: 4000),
-                                    backgroundColor:
-                                        FlutterFlowTheme.of(context)
-                                            .primaryColor,
-                                  ),
-                                );
-                              },
-                              text: FFLocalizations.of(context).getText(
-                                'xvvip759' /* Begin Task */,
-                              ),
-                              options: FFButtonOptions(
-                                width: 270,
-                                height: 50,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryColor,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .subtitle2
-                                    .override(
-                                      fontFamily: 'Space Grotesk',
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                    ),
-                                elevation: 3,
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1,
+                                  );
+                                },
+                                text: FFLocalizations.of(context).getText(
+                                  'xvvip759' /* Begin Task */,
                                 ),
-                              ),
-                            ).animateOnPageLoad(
-                                animationsMap['buttonOnPageLoadAnimation2']!),
-                          ),
+                                options: FFButtonOptions(
+                                  width: 270,
+                                  height: 50,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryColor,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .subtitle2
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .subtitle2Family,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .subtitle2Family),
+                                      ),
+                                  elevation: 3,
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1,
+                                  ),
+                                ),
+                              ).animateOnPageLoad(
+                                  animationsMap['buttonOnPageLoadAnimation2']!),
+                            ),
                         ],
                       ),
                   ],

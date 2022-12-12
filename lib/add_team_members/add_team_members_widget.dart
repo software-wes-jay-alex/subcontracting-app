@@ -496,9 +496,15 @@ class _AddTeamMembersWidgetState extends State<AddTeamMembersWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyText1
                                         .override(
-                                          fontFamily: 'Space Grotesk',
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyText1Family,
                                           color: FlutterFlowTheme.of(context)
                                               .secondaryBackground,
+                                          useGoogleFonts: GoogleFonts.asMap()
+                                              .containsKey(
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1Family),
                                         ),
                                   ),
                                   duration: Duration(milliseconds: 4000),
@@ -524,11 +530,16 @@ class _AddTeamMembersWidgetState extends State<AddTeamMembersWidget> {
                             width: 270,
                             height: 50,
                             color: FlutterFlowTheme.of(context).primaryColor,
-                            textStyle:
-                                FlutterFlowTheme.of(context).subtitle1.override(
-                                      fontFamily: 'Outfit',
-                                      color: Colors.white,
-                                    ),
+                            textStyle: FlutterFlowTheme.of(context)
+                                .subtitle1
+                                .override(
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .subtitle1Family,
+                                  color: Colors.white,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .subtitle1Family),
+                                ),
                             elevation: 3,
                             borderSide: BorderSide(
                               color: Colors.transparent,

@@ -15,20 +15,6 @@
       ]
     },
     {
-      "collectionGroup": "notes",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "matRef",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "timePosted",
-          "order": "DESCENDING"
-        }
-      ]
-    },
-    {
       "collectionGroup": "allMaterials",
       "queryScope": "COLLECTION",
       "fields": [
@@ -116,6 +102,20 @@
         },
         {
           "fieldPath": "lastEdited",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "notes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "matRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timePosted",
           "order": "DESCENDING"
         }
       ]

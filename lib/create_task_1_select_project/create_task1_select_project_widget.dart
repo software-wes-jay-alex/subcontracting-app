@@ -111,11 +111,16 @@ class _CreateTask1SelectProjectWidgetState
                           width: 130,
                           height: 40,
                           color: FlutterFlowTheme.of(context).primaryColor,
-                          textStyle:
-                              FlutterFlowTheme.of(context).subtitle2.override(
-                                    fontFamily: 'Space Grotesk',
-                                    color: Colors.white,
-                                  ),
+                          textStyle: FlutterFlowTheme.of(context)
+                              .subtitle2
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .subtitle2Family,
+                                color: Colors.white,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context)
+                                        .subtitle2Family),
+                              ),
                           elevation: 2,
                           borderSide: BorderSide(
                             color: Colors.transparent,

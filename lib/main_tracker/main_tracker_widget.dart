@@ -10,6 +10,7 @@ import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'dart:async';
+import 'package:styled_divider/styled_divider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -239,10 +240,11 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
   };
   Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter1;
   Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter3;
-  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter5;
   Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter6;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter7;
   Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter2;
   Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter4;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter5;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -332,11 +334,17 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
-                              child: UserCardWidget(),
-                            ),
+                            if (responsiveVisibility(
+                              context: context,
+                              tablet: false,
+                              tabletLandscape: false,
+                              desktop: false,
+                            ))
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+                                child: UserCardWidget(),
+                              ),
                             Column(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -402,7 +410,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                   ),
                                   Tab(
                                     text: FFLocalizations.of(context).getText(
-                                      'iofpx15n' /* Unverified */,
+                                      'iofpx15n' /* Not Started */,
                                     ),
                                   ),
                                   Tab(
@@ -615,8 +623,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                         style: FlutterFlowTheme.of(context)
                                                                             .bodyText1
                                                                             .override(
-                                                                              fontFamily: 'Space Grotesk',
+                                                                              fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                               color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                             ),
                                                                       ),
                                                                     ),
@@ -665,9 +674,11 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                         .bodyText1
                                                                         .override(
                                                                           fontFamily:
-                                                                              'Space Grotesk',
+                                                                              FlutterFlowTheme.of(context).bodyText1Family,
                                                                           fontWeight:
                                                                               FontWeight.bold,
+                                                                          useGoogleFonts:
+                                                                              GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                         ),
                                                                   ),
                                                                   Padding(
@@ -737,17 +748,23 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 12, 0, 0),
-                                      child: StreamBuilder<
+                                      child: FutureBuilder<
                                           List<AllMaterialsRecord>>(
-                                        stream: queryAllMaterialsRecord(
-                                          queryBuilder: (allMaterialsRecord) =>
-                                              allMaterialsRecord
-                                                  .where('members',
-                                                      arrayContains:
-                                                          currentUserReference)
-                                                  .where('status',
-                                                      isEqualTo: 'Not Started'),
-                                        ),
+                                        future: (_firestoreRequestCompleter4 ??=
+                                                Completer<
+                                                    List<AllMaterialsRecord>>()
+                                                  ..complete(
+                                                      queryAllMaterialsRecordOnce(
+                                                    queryBuilder: (allMaterialsRecord) =>
+                                                        allMaterialsRecord
+                                                            .where('members',
+                                                                arrayContains:
+                                                                    currentUserReference)
+                                                            .where('status',
+                                                                isEqualTo:
+                                                                    'Not Started'),
+                                                  )))
+                                            .future,
                                         builder: (context, snapshot) {
                                           // Customize what your widget looks like when it's loading.
                                           if (!snapshot.hasData) {
@@ -767,230 +784,258 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                           List<AllMaterialsRecord>
                                               listViewAllMaterialsRecordList =
                                               snapshot.data!;
-                                          return ListView.builder(
-                                            padding: EdgeInsets.zero,
-                                            primary: false,
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.vertical,
-                                            itemCount:
-                                                listViewAllMaterialsRecordList
-                                                    .length,
-                                            itemBuilder:
-                                                (context, listViewIndex) {
-                                              final listViewAllMaterialsRecord =
-                                                  listViewAllMaterialsRecordList[
-                                                      listViewIndex];
-                                              return Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(16, 0, 16, 8),
-                                                child: InkWell(
-                                                  onTap: () async {
-                                                    context.pushNamed(
-                                                        'matDetails');
-                                                  },
-                                                  child: Container(
-                                                    width: double.infinity,
-                                                    decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12),
-                                                      border: Border.all(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .lineColor,
-                                                        width: 2,
+                                          if (listViewAllMaterialsRecordList
+                                              .isEmpty) {
+                                            return Container(
+                                              height: 300,
+                                              child: EmptyTasksWidget(
+                                                title: 'You are good to go!',
+                                                bodyText:
+                                                    'All of your tasks are in progress or complete! Congrats.',
+                                              ),
+                                            );
+                                          }
+                                          return InkWell(
+                                            onTap: () async {
+                                              setState(() =>
+                                                  _firestoreRequestCompleter4 =
+                                                      null);
+                                              await waitForFirestoreRequestCompleter4();
+                                            },
+                                            child: ListView.builder(
+                                              padding: EdgeInsets.zero,
+                                              primary: false,
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.vertical,
+                                              itemCount:
+                                                  listViewAllMaterialsRecordList
+                                                      .length,
+                                              itemBuilder:
+                                                  (context, listViewIndex) {
+                                                final listViewAllMaterialsRecord =
+                                                    listViewAllMaterialsRecordList[
+                                                        listViewIndex];
+                                                return Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(16, 0, 16, 8),
+                                                  child: InkWell(
+                                                    onTap: () async {
+                                                      context.pushNamed(
+                                                          'matDetails');
+                                                    },
+                                                    child: Container(
+                                                      width: double.infinity,
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12),
+                                                        border: Border.all(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .lineColor,
+                                                          width: 2,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(12, 12,
-                                                                  12, 12),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          12,
-                                                                          0),
-                                                                  child: Text(
-                                                                    listViewAllMaterialsRecord
-                                                                        .materialName!,
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .title3,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              InkWell(
-                                                                onTap:
-                                                                    () async {
-                                                                  final allMaterialsUpdateData =
-                                                                      createAllMaterialsRecordData(
-                                                                    status:
-                                                                        'In Progress',
-                                                                  );
-                                                                  await listViewAllMaterialsRecord
-                                                                      .reference
-                                                                      .update(
-                                                                          allMaterialsUpdateData);
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  height: 32,
-                                                                  decoration:
-                                                                      BoxDecoration(
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(12,
+                                                                    12, 12, 12),
+                                                        child: FutureBuilder<
+                                                            ProjectsRecord>(
+                                                          future: ProjectsRecord
+                                                              .getDocumentOnce(
+                                                                  listViewAllMaterialsRecord
+                                                                      .projectRef!),
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            // Customize what your widget looks like when it's loading.
+                                                            if (!snapshot
+                                                                .hasData) {
+                                                              return Center(
+                                                                child: SizedBox(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  child:
+                                                                      CircularProgressIndicator(
                                                                     color: FlutterFlowTheme.of(
                                                                             context)
                                                                         .primaryColor,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            32),
                                                                   ),
-                                                                  alignment:
-                                                                      AlignmentDirectional(
-                                                                          0, 0),
-                                                                  child:
-                                                                      Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
+                                                                ),
+                                                              );
+                                                            }
+                                                            final columnProjectsRecord =
+                                                                snapshot.data!;
+                                                            return Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            0,
+                                                                            0,
+                                                                            12,
+                                                                            0),
+                                                                        child:
+                                                                            Text(
+                                                                          listViewAllMaterialsRecord
+                                                                              .materialName!,
+                                                                          style:
+                                                                              FlutterFlowTheme.of(context).title3,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                      height:
+                                                                          32,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primaryColor,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(32),
+                                                                      ),
+                                                                      alignment:
+                                                                          AlignmentDirectional(
+                                                                              0,
+                                                                              0),
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             12,
                                                                             0,
                                                                             12,
                                                                             0),
-                                                                    child: Text(
+                                                                        child:
+                                                                            Text(
+                                                                          FFLocalizations.of(context)
+                                                                              .getText(
+                                                                            '832adtr2' /* Start */,
+                                                                          ),
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyText1
+                                                                              .override(
+                                                                                fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                color: Colors.white,
+                                                                                useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                              ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0,
+                                                                          4,
+                                                                          0,
+                                                                          0),
+                                                                  child:
+                                                                      AutoSizeText(
+                                                                    listViewAllMaterialsRecord
+                                                                        .description!
+                                                                        .maybeHandleOverflow(
+                                                                            maxChars:
+                                                                                100),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText2,
+                                                                  ),
+                                                                ),
+                                                                Divider(
+                                                                  height: 24,
+                                                                  thickness: 1,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .lineColor,
+                                                                ),
+                                                                Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
                                                                       FFLocalizations.of(
                                                                               context)
                                                                           .getText(
-                                                                        '832adtr2' /* Start */,
+                                                                        '1460lgka' /* Due */,
                                                                       ),
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .bodyText1
                                                                           .override(
                                                                             fontFamily:
-                                                                                'Space Grotesk',
-                                                                            color:
-                                                                                Colors.white,
+                                                                                FlutterFlowTheme.of(context).bodyText1Family,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            useGoogleFonts:
+                                                                                GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                           ),
                                                                     ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        4,
-                                                                        0,
-                                                                        0),
-                                                            child: AutoSizeText(
-                                                              listViewAllMaterialsRecord
-                                                                  .description!
-                                                                  .maybeHandleOverflow(
-                                                                      maxChars:
-                                                                          100),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyText2,
-                                                            ),
-                                                          ),
-                                                          Divider(
-                                                            height: 24,
-                                                            thickness: 1,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .lineColor,
-                                                          ),
-                                                          Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                FFLocalizations.of(
-                                                                        context)
-                                                                    .getText(
-                                                                  '1460lgka' /* Due */,
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyText1
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Space Grotesk',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
+                                                                    Expanded(
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            8,
+                                                                            0,
+                                                                            0,
+                                                                            0),
+                                                                        child:
+                                                                            Text(
+                                                                          dateTimeFormat(
+                                                                            'MMMEd',
+                                                                            listViewAllMaterialsRecord.addedOn!,
+                                                                            locale:
+                                                                                FFLocalizations.of(context).languageCode,
+                                                                          ),
+                                                                          style:
+                                                                              FlutterFlowTheme.of(context).bodyText2,
+                                                                        ),
+                                                                      ),
                                                                     ),
-                                                              ),
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          8,
-                                                                          0,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    dateTimeFormat(
-                                                                      'MMMEd',
-                                                                      listViewAllMaterialsRecord
-                                                                          .verifiedOn!,
-                                                                      locale: FFLocalizations.of(
+                                                                    Icon(
+                                                                      Icons
+                                                                          .keyboard_arrow_right_rounded,
+                                                                      color: FlutterFlowTheme.of(
                                                                               context)
-                                                                          .languageCode,
+                                                                          .secondaryText,
+                                                                      size: 24,
                                                                     ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyText2,
-                                                                  ),
+                                                                  ],
                                                                 ),
-                                                              ),
-                                                              Icon(
-                                                                Icons
-                                                                    .keyboard_arrow_right_rounded,
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondaryText,
-                                                                size: 24,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
+                                                              ],
+                                                            );
+                                                          },
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ).animateOnPageLoad(animationsMap[
-                                                    'containerOnPageLoadAnimation3']!),
-                                              );
-                                            },
+                                                  ).animateOnPageLoad(animationsMap[
+                                                      'containerOnPageLoadAnimation3']!),
+                                                );
+                                              },
+                                            ),
                                           );
                                         },
                                       ),
@@ -1000,7 +1045,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                           0, 12, 0, 12),
                                       child: FutureBuilder<
                                           List<AllMaterialsRecord>>(
-                                        future: (_firestoreRequestCompleter4 ??=
+                                        future: (_firestoreRequestCompleter5 ??=
                                                 Completer<
                                                     List<AllMaterialsRecord>>()
                                                   ..complete(
@@ -1057,9 +1102,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                           return RefreshIndicator(
                                             onRefresh: () async {
                                               setState(() =>
-                                                  _firestoreRequestCompleter4 =
+                                                  _firestoreRequestCompleter5 =
                                                       null);
-                                              await waitForFirestoreRequestCompleter4();
+                                              await waitForFirestoreRequestCompleter5();
                                             },
                                             child: ListView.builder(
                                               padding: EdgeInsets.zero,
@@ -1203,8 +1248,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyText1
                                                                               .override(
-                                                                                fontFamily: 'Space Grotesk',
+                                                                                fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                 color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                               ),
                                                                         ),
                                                                       ),
@@ -1252,9 +1298,11 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           .bodyText1
                                                                           .override(
                                                                             fontFamily:
-                                                                                'Space Grotesk',
+                                                                                FlutterFlowTheme.of(context).bodyText1Family,
                                                                             fontWeight:
                                                                                 FontWeight.bold,
+                                                                            useGoogleFonts:
+                                                                                GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                           ),
                                                                     ),
                                                                     Padding(
@@ -1577,9 +1625,11 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           .bodyText1
                                                                           .override(
                                                                             fontFamily:
-                                                                                'Space Grotesk',
+                                                                                FlutterFlowTheme.of(context).bodyText1Family,
                                                                             fontWeight:
                                                                                 FontWeight.bold,
+                                                                            useGoogleFonts:
+                                                                                GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                           ),
                                                                     ),
                                                                     Padding(
@@ -1718,15 +1768,25 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                   .getText(
                                                 '1rnio8vt' /* (4) */,
                                               ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .subtitle2
-                                                  .override(
-                                                    fontFamily: 'Space Grotesk',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                  ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .subtitle2
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .subtitle2Family,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .secondaryText,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .subtitle2Family),
+                                                      ),
                                             ),
                                           ],
                                         ),
@@ -1740,7 +1800,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                       .fromSTEB(0, 8, 0, 12),
                                                   child: FutureBuilder<
                                                       List<AllMaterialsRecord>>(
-                                                    future: (_firestoreRequestCompleter5 ??=
+                                                    future: (_firestoreRequestCompleter6 ??=
                                                             Completer<
                                                                 List<
                                                                     AllMaterialsRecord>>()
@@ -1800,9 +1860,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                       return RefreshIndicator(
                                                         onRefresh: () async {
                                                           setState(() =>
-                                                              _firestoreRequestCompleter5 =
+                                                              _firestoreRequestCompleter6 =
                                                                   null);
-                                                          await waitForFirestoreRequestCompleter5();
+                                                          await waitForFirestoreRequestCompleter6();
                                                         },
                                                         child: ListView.builder(
                                                           padding:
@@ -1942,8 +2002,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                       child: Text(
                                                                                         listViewAllMaterialsRecord.status!,
                                                                                         style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                              fontFamily: 'Space Grotesk',
+                                                                                              fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                               color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                              useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                                             ),
                                                                                       ),
                                                                                     ),
@@ -1965,8 +2026,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                     'oopnhfx6' /* Due */,
                                                                                   ),
                                                                                   style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                        fontFamily: 'Space Grotesk',
+                                                                                        fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                         fontWeight: FontWeight.bold,
+                                                                                        useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                                       ),
                                                                                 ),
                                                                                 Padding(
@@ -2068,15 +2130,25 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                   .getText(
                                                 '6mtnsns9' /* (4) */,
                                               ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .subtitle2
-                                                  .override(
-                                                    fontFamily: 'Space Grotesk',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                  ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .subtitle2
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .subtitle2Family,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .secondaryText,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .subtitle2Family),
+                                                      ),
                                             ),
                                           ],
                                         ),
@@ -2087,7 +2159,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     0, 12, 0, 0),
                                             child: FutureBuilder<
                                                 List<AllMaterialsRecord>>(
-                                              future: (_firestoreRequestCompleter6 ??=
+                                              future: (_firestoreRequestCompleter7 ??=
                                                       Completer<
                                                           List<
                                                               AllMaterialsRecord>>()
@@ -2144,9 +2216,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                 return RefreshIndicator(
                                                   onRefresh: () async {
                                                     setState(() =>
-                                                        _firestoreRequestCompleter6 =
+                                                        _firestoreRequestCompleter7 =
                                                             null);
-                                                    await waitForFirestoreRequestCompleter6();
+                                                    await waitForFirestoreRequestCompleter7();
                                                   },
                                                   child: ListView.builder(
                                                     padding: EdgeInsets.zero,
@@ -2289,8 +2361,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                     'mpiabjfr' /* Start */,
                                                                                   ),
                                                                                   style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                        fontFamily: 'Space Grotesk',
+                                                                                        fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                         color: Colors.white,
+                                                                                        useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                                       ),
                                                                                 ),
                                                                               ),
@@ -2332,8 +2405,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                               'i1j0llq5' /* Added on */,
                                                                             ),
                                                                             style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                  fontFamily: 'Space Grotesk',
+                                                                                  fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                   fontWeight: FontWeight.bold,
+                                                                                  useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                                 ),
                                                                           ),
                                                                           Expanded(
@@ -2426,15 +2500,25 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                   .getText(
                                                 'hpgqf77b' /* (4) */,
                                               ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .subtitle2
-                                                  .override(
-                                                    fontFamily: 'Space Grotesk',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                  ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .subtitle2
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .subtitle2Family,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .secondaryText,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .subtitle2Family),
+                                                      ),
                                             ),
                                           ],
                                         ),
@@ -2667,8 +2751,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                               'b8974iek' /* Due */,
                                                                             ),
                                                                             style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                  fontFamily: 'Space Grotesk',
+                                                                                  fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                   fontWeight: FontWeight.bold,
+                                                                                  useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                                 ),
                                                                           ),
                                                                           Padding(
@@ -2779,15 +2864,25 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                   .getText(
                                                 '5knyrkme' /* (4) */,
                                               ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .subtitle2
-                                                  .override(
-                                                    fontFamily: 'Space Grotesk',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                  ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .subtitle2
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .subtitle2Family,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .secondaryText,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .subtitle2Family),
+                                                      ),
                                             ),
                                           ],
                                         ),
@@ -2943,21 +3038,6 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
     }
   }
 
-  Future waitForFirestoreRequestCompleter5({
-    double minWait = 0,
-    double maxWait = double.infinity,
-  }) async {
-    final stopwatch = Stopwatch()..start();
-    while (true) {
-      await Future.delayed(Duration(milliseconds: 50));
-      final timeElapsed = stopwatch.elapsedMilliseconds;
-      final requestComplete = _firestoreRequestCompleter5?.isCompleted ?? false;
-      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
-        break;
-      }
-    }
-  }
-
   Future waitForFirestoreRequestCompleter6({
     double minWait = 0,
     double maxWait = double.infinity,
@@ -2967,6 +3047,21 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
       await Future.delayed(Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
       final requestComplete = _firestoreRequestCompleter6?.isCompleted ?? false;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
+  }
+
+  Future waitForFirestoreRequestCompleter7({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete = _firestoreRequestCompleter7?.isCompleted ?? false;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
         break;
       }
@@ -2997,6 +3092,21 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
       await Future.delayed(Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
       final requestComplete = _firestoreRequestCompleter4?.isCompleted ?? false;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
+  }
+
+  Future waitForFirestoreRequestCompleter5({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete = _firestoreRequestCompleter5?.isCompleted ?? false;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
         break;
       }

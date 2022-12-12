@@ -401,6 +401,12 @@ class _TeamMembersWidgetState extends State<TeamMembersWidget> {
                                                     fontSize: 14,
                                                     fontWeight:
                                                         FontWeight.normal,
+                                                    useGoogleFonts: GoogleFonts
+                                                            .asMap()
+                                                        .containsKey(
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1Family),
                                                   ),
                                           borderSide: BorderSide(
                                             color: Colors.transparent,

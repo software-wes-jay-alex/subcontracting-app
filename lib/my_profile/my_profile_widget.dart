@@ -195,8 +195,16 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText2
                                             .override(
-                                              fontFamily: 'Space Grotesk',
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText2Family,
                                               fontWeight: FontWeight.normal,
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText2Family),
                                             ),
                                       ),
                                     ),
@@ -221,8 +229,13 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                                   textStyle: FlutterFlowTheme.of(context)
                                       .subtitle2
                                       .override(
-                                        fontFamily: 'Space Grotesk',
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .subtitle2Family,
                                         color: Colors.white,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .subtitle2Family),
                                       ),
                                   borderSide: BorderSide(
                                     color: Colors.transparent,
@@ -418,8 +431,8 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                                             ),
                                           ),
                                           Align(
-                                            alignment: AlignmentDirectional(
-                                                0.86, -0.23),
+                                            alignment:
+                                                AlignmentDirectional(0.9, 0),
                                             child: Container(
                                               width: 36,
                                               height: 36,
@@ -612,6 +625,10 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                                           .primaryText,
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyText2Family),
                                     ),
                                 elevation: 1,
                                 borderSide: BorderSide(

@@ -5,7 +5,9 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import 'package:styled_divider/styled_divider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,6 +24,8 @@ class CreateListWidget extends StatefulWidget {
 }
 
 class _CreateListWidgetState extends State<CreateListWidget> {
+  DateTime? datePicked1;
+  DateTime? datePicked2;
   String? statusSelectValue;
   TextEditingController? descriptionController;
   TextEditingController? materialNameController;
@@ -251,6 +255,10 @@ class _CreateListWidgetState extends State<CreateListWidget> {
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
                                             fontWeight: FontWeight.normal,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .title3Family),
                                           ),
                                       hintText:
                                           FFLocalizations.of(context).getText(
@@ -294,6 +302,10 @@ class _CreateListWidgetState extends State<CreateListWidget> {
                                         .title3
                                         .override(
                                           fontFamily: 'Space Grotesk',
+                                          useGoogleFonts: GoogleFonts.asMap()
+                                              .containsKey(
+                                                  FlutterFlowTheme.of(context)
+                                                      .title3Family),
                                         ),
                                     textAlign: TextAlign.start,
                                   ),
@@ -395,6 +407,179 @@ class _CreateListWidgetState extends State<CreateListWidget> {
                                     hidesUnderline: true,
                                   ),
                                 ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16, 12, 16, 0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 8, 0),
+                                        child: InkWell(
+                                          onTap: () async {
+                                            final _datePicked1Date =
+                                                await showDatePicker(
+                                              context: context,
+                                              initialDate: getCurrentTimestamp,
+                                              firstDate: getCurrentTimestamp,
+                                              lastDate: DateTime(2050),
+                                            );
+
+                                            if (_datePicked1Date != null) {
+                                              setState(
+                                                () => datePicked1 = DateTime(
+                                                  _datePicked1Date.year,
+                                                  _datePicked1Date.month,
+                                                  _datePicked1Date.day,
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.44,
+                                            height: 50,
+                                            constraints: BoxConstraints(
+                                              maxWidth: 265,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              border: Border.all(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryBackground,
+                                                width: 2,
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(12, 5, 12, 5),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    valueOrDefault<String>(
+                                                      dateTimeFormat(
+                                                        'yMMMd',
+                                                        datePicked1,
+                                                        locale:
+                                                            FFLocalizations.of(
+                                                                    context)
+                                                                .languageCode,
+                                                      ),
+                                                      'Start Date',
+                                                    ),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyText1,
+                                                  ),
+                                                  Icon(
+                                                    Icons.date_range_outlined,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryText,
+                                                    size: 24,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+                                          final _datePicked2Date =
+                                              await showDatePicker(
+                                            context: context,
+                                            initialDate: datePicked1!,
+                                            firstDate: datePicked1!,
+                                            lastDate: DateTime(2050),
+                                          );
+
+                                          if (_datePicked2Date != null) {
+                                            setState(
+                                              () => datePicked2 = DateTime(
+                                                _datePicked2Date.year,
+                                                _datePicked2Date.month,
+                                                _datePicked2Date.day,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.44,
+                                          height: 50,
+                                          constraints: BoxConstraints(
+                                            maxWidth: 265,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryBackground,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                              width: 2,
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    12, 5, 12, 5),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  valueOrDefault<String>(
+                                                    dateTimeFormat(
+                                                      'yMMMd',
+                                                      datePicked2,
+                                                      locale:
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .languageCode,
+                                                    ),
+                                                    'Due Date',
+                                                  ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyText1,
+                                                ),
+                                                Icon(
+                                                  Icons.date_range_outlined,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                  size: 24,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -437,9 +622,15 @@ class _CreateListWidgetState extends State<CreateListWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .subtitle1
                                           .override(
-                                            fontFamily: 'Outfit',
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .subtitle1Family,
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryBackground,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .subtitle1Family),
                                           ),
                                     ),
                                     duration: Duration(milliseconds: 4000),
@@ -462,7 +653,7 @@ class _CreateListWidgetState extends State<CreateListWidget> {
                                 );
                               },
                               text: FFLocalizations.of(context).getText(
-                                '0pml5dft' /* Create Task */,
+                                '0pml5dft' /* Create List */,
                               ),
                               options: FFButtonOptions(
                                 width: 270,
@@ -472,8 +663,13 @@ class _CreateListWidgetState extends State<CreateListWidget> {
                                 textStyle: FlutterFlowTheme.of(context)
                                     .subtitle1
                                     .override(
-                                      fontFamily: 'Outfit',
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .subtitle1Family,
                                       color: Colors.white,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .subtitle1Family),
                                     ),
                                 elevation: 3,
                                 borderSide: BorderSide(

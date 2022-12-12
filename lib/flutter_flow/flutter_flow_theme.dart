@@ -8,7 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 const kThemeModeKey = '__theme_mode__';
 SharedPreferences? _prefs;
 
+enum DeviceSize {
+  mobile,
+  tablet,
+  desktop,
+}
+
 abstract class FlutterFlowTheme {
+  static DeviceSize deviceSize = DeviceSize.mobile;
+
   static Future initialize() async =>
       _prefs = await SharedPreferences.getInstance();
   static ThemeMode get themeMode {
@@ -61,7 +69,22 @@ abstract class FlutterFlowTheme {
   String get bodyText2Family => typography.bodyText2Family;
   TextStyle get bodyText2 => typography.bodyText2;
 
-  Typography get typography => ThemeTypography(this);
+  Typography get typography => {
+        DeviceSize.mobile: MobileTypography(this),
+        DeviceSize.tablet: TabletTypography(this),
+        DeviceSize.desktop: DesktopTypography(this),
+      }[deviceSize]!;
+}
+
+DeviceSize getDeviceSize(BuildContext context) {
+  final width = MediaQuery.of(context).size.width;
+  if (width < 479) {
+    return DeviceSize.mobile;
+  } else if (width < 991) {
+    return DeviceSize.tablet;
+  } else {
+    return DeviceSize.desktop;
+  }
 }
 
 class LightModeTheme extends FlutterFlowTheme {
@@ -100,8 +123,120 @@ abstract class Typography {
   TextStyle get bodyText2;
 }
 
-class ThemeTypography extends Typography {
-  ThemeTypography(this.theme);
+class MobileTypography extends Typography {
+  MobileTypography(this.theme);
+
+  final FlutterFlowTheme theme;
+
+  String get title1Family => 'Outfit';
+  TextStyle get title1 => GoogleFonts.getFont(
+        'Outfit',
+        color: theme.primaryText,
+        fontWeight: FontWeight.w500,
+        fontSize: 34,
+      );
+  String get title2Family => 'Outfit';
+  TextStyle get title2 => GoogleFonts.getFont(
+        'Outfit',
+        color: theme.primaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 28,
+      );
+  String get title3Family => 'Outfit';
+  TextStyle get title3 => GoogleFonts.getFont(
+        'Outfit',
+        color: theme.primaryText,
+        fontWeight: FontWeight.w500,
+        fontSize: 20,
+      );
+  String get subtitle1Family => 'Outfit';
+  TextStyle get subtitle1 => GoogleFonts.getFont(
+        'Outfit',
+        color: Colors.white,
+        fontWeight: FontWeight.normal,
+        fontSize: 17,
+      );
+  String get subtitle2Family => 'Space Grotesk';
+  TextStyle get subtitle2 => GoogleFonts.getFont(
+        'Space Grotesk',
+        color: theme.primaryText,
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
+      );
+  String get bodyText1Family => 'Space Grotesk';
+  TextStyle get bodyText1 => GoogleFonts.getFont(
+        'Space Grotesk',
+        color: theme.primaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 14,
+      );
+  String get bodyText2Family => 'Space Grotesk';
+  TextStyle get bodyText2 => GoogleFonts.getFont(
+        'Space Grotesk',
+        color: theme.secondaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 14,
+      );
+}
+
+class TabletTypography extends Typography {
+  TabletTypography(this.theme);
+
+  final FlutterFlowTheme theme;
+
+  String get title1Family => 'Outfit';
+  TextStyle get title1 => GoogleFonts.getFont(
+        'Outfit',
+        color: theme.primaryText,
+        fontWeight: FontWeight.w500,
+        fontSize: 34,
+      );
+  String get title2Family => 'Outfit';
+  TextStyle get title2 => GoogleFonts.getFont(
+        'Outfit',
+        color: theme.primaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 28,
+      );
+  String get title3Family => 'Outfit';
+  TextStyle get title3 => GoogleFonts.getFont(
+        'Outfit',
+        color: theme.primaryText,
+        fontWeight: FontWeight.w500,
+        fontSize: 20,
+      );
+  String get subtitle1Family => 'Outfit';
+  TextStyle get subtitle1 => GoogleFonts.getFont(
+        'Outfit',
+        color: Colors.white,
+        fontWeight: FontWeight.normal,
+        fontSize: 17,
+      );
+  String get subtitle2Family => 'Space Grotesk';
+  TextStyle get subtitle2 => GoogleFonts.getFont(
+        'Space Grotesk',
+        color: theme.primaryText,
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
+      );
+  String get bodyText1Family => 'Space Grotesk';
+  TextStyle get bodyText1 => GoogleFonts.getFont(
+        'Space Grotesk',
+        color: theme.primaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 14,
+      );
+  String get bodyText2Family => 'Space Grotesk';
+  TextStyle get bodyText2 => GoogleFonts.getFont(
+        'Space Grotesk',
+        color: theme.secondaryText,
+        fontWeight: FontWeight.normal,
+        fontSize: 14,
+      );
+}
+
+class DesktopTypography extends Typography {
+  DesktopTypography(this.theme);
 
   final FlutterFlowTheme theme;
 
