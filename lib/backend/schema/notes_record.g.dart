@@ -27,14 +27,6 @@ class _$NotesRecordSerializer implements StructuredSerializer<NotesRecord> {
             specifiedType: const FullType(
                 DocumentReference, const [const FullType.nullable(Object)])));
     }
-    value = object.taskRef;
-    if (value != null) {
-      result
-        ..add('taskRef')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(
-                DocumentReference, const [const FullType.nullable(Object)])));
-    }
     value = object.note;
     if (value != null) {
       result
@@ -85,12 +77,6 @@ class _$NotesRecordSerializer implements StructuredSerializer<NotesRecord> {
                 const FullType.nullable(Object)
               ])) as DocumentReference<Object?>?;
           break;
-        case 'taskRef':
-          result.taskRef = serializers.deserialize(value,
-              specifiedType: const FullType(DocumentReference, const [
-                const FullType.nullable(Object)
-              ])) as DocumentReference<Object?>?;
-          break;
         case 'note':
           result.note = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
@@ -122,8 +108,6 @@ class _$NotesRecord extends NotesRecord {
   @override
   final DocumentReference<Object?>? owner;
   @override
-  final DocumentReference<Object?>? taskRef;
-  @override
   final String? note;
   @override
   final DateTime? timePosted;
@@ -136,12 +120,7 @@ class _$NotesRecord extends NotesRecord {
       (new NotesRecordBuilder()..update(updates))._build();
 
   _$NotesRecord._(
-      {this.owner,
-      this.taskRef,
-      this.note,
-      this.timePosted,
-      this.matRef,
-      this.ffRef})
+      {this.owner, this.note, this.timePosted, this.matRef, this.ffRef})
       : super._();
 
   @override
@@ -156,7 +135,6 @@ class _$NotesRecord extends NotesRecord {
     if (identical(other, this)) return true;
     return other is NotesRecord &&
         owner == other.owner &&
-        taskRef == other.taskRef &&
         note == other.note &&
         timePosted == other.timePosted &&
         matRef == other.matRef &&
@@ -167,9 +145,7 @@ class _$NotesRecord extends NotesRecord {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc(
-                $jc($jc($jc(0, owner.hashCode), taskRef.hashCode),
-                    note.hashCode),
+            $jc($jc($jc(0, owner.hashCode), note.hashCode),
                 timePosted.hashCode),
             matRef.hashCode),
         ffRef.hashCode));
@@ -179,7 +155,6 @@ class _$NotesRecord extends NotesRecord {
   String toString() {
     return (newBuiltValueToStringHelper(r'NotesRecord')
           ..add('owner', owner)
-          ..add('taskRef', taskRef)
           ..add('note', note)
           ..add('timePosted', timePosted)
           ..add('matRef', matRef)
@@ -194,10 +169,6 @@ class NotesRecordBuilder implements Builder<NotesRecord, NotesRecordBuilder> {
   DocumentReference<Object?>? _owner;
   DocumentReference<Object?>? get owner => _$this._owner;
   set owner(DocumentReference<Object?>? owner) => _$this._owner = owner;
-
-  DocumentReference<Object?>? _taskRef;
-  DocumentReference<Object?>? get taskRef => _$this._taskRef;
-  set taskRef(DocumentReference<Object?>? taskRef) => _$this._taskRef = taskRef;
 
   String? _note;
   String? get note => _$this._note;
@@ -223,7 +194,6 @@ class NotesRecordBuilder implements Builder<NotesRecord, NotesRecordBuilder> {
     final $v = _$v;
     if ($v != null) {
       _owner = $v.owner;
-      _taskRef = $v.taskRef;
       _note = $v.note;
       _timePosted = $v.timePosted;
       _matRef = $v.matRef;
@@ -251,7 +221,6 @@ class NotesRecordBuilder implements Builder<NotesRecord, NotesRecordBuilder> {
     final _$result = _$v ??
         new _$NotesRecord._(
             owner: owner,
-            taskRef: taskRef,
             note: note,
             timePosted: timePosted,
             matRef: matRef,

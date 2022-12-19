@@ -11,8 +11,6 @@ abstract class NotesRecord implements Built<NotesRecord, NotesRecordBuilder> {
 
   DocumentReference? get owner;
 
-  DocumentReference? get taskRef;
-
   String? get note;
 
   DateTime? get timePosted;
@@ -49,7 +47,6 @@ abstract class NotesRecord implements Built<NotesRecord, NotesRecordBuilder> {
 
 Map<String, dynamic> createNotesRecordData({
   DocumentReference? owner,
-  DocumentReference? taskRef,
   String? note,
   DateTime? timePosted,
   DocumentReference? matRef,
@@ -59,7 +56,6 @@ Map<String, dynamic> createNotesRecordData({
     NotesRecord(
       (n) => n
         ..owner = owner
-        ..taskRef = taskRef
         ..note = note
         ..timePosted = timePosted
         ..matRef = matRef,

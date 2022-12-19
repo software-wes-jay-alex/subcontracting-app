@@ -69,7 +69,6 @@ dependencies:
   sign_in_with_apple_platform_interface: 1.0.0
   sign_in_with_apple_web: 1.0.1
   sqflite: 2.2.0+2
-  styled_divider: 1.0.4
   text_search: 0.0.2
   timeago: 3.2.2
   url_launcher: 6.1.5

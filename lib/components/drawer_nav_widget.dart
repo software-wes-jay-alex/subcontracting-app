@@ -2,7 +2,6 @@ import '../auth/auth_util.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import 'package:styled_divider/styled_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -117,48 +116,11 @@ class _DrawerNavWidgetState extends State<DrawerNavWidget> {
                         ),
                       ],
                     ),
-                    Text(
-                      currentUserEmail,
-                      style: FlutterFlowTheme.of(context).bodyText2,
-                    ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 12),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            FFLocalizations.of(context).getText(
-                              '1281zly2' /* 345 */,
-                            ),
-                            style: FlutterFlowTheme.of(context).bodyText1,
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(4, 0, 12, 0),
-                            child: Text(
-                              FFLocalizations.of(context).getText(
-                                'ikdzucnf' /* Following */,
-                              ),
-                              style: FlutterFlowTheme.of(context).bodyText2,
-                            ),
-                          ),
-                          Text(
-                            FFLocalizations.of(context).getText(
-                              '0mvvm3zs' /* 345 */,
-                            ),
-                            style: FlutterFlowTheme.of(context).bodyText1,
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(4, 0, 12, 0),
-                            child: Text(
-                              FFLocalizations.of(context).getText(
-                                'ka33pk44' /* Followers */,
-                              ),
-                              style: FlutterFlowTheme.of(context).bodyText2,
-                            ),
-                          ),
-                        ],
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                      child: Text(
+                        currentUserEmail,
+                        style: FlutterFlowTheme.of(context).bodyText2,
                       ),
                     ),
                     Divider(

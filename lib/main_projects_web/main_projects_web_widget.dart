@@ -1,3 +1,4 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../components/drawer_nav_widget.dart';
 import '../components/user_card_widget.dart';
@@ -233,6 +234,7 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                         child: StreamBuilder<List<ProjectsRecord>>(
                           stream: queryProjectsRecord(
                             queryBuilder: (projectsRecord) => projectsRecord
+                                .where('owner', isEqualTo: currentUserReference)
                                 .orderBy('lastEdited', descending: true),
                           ),
                           builder: (context, snapshot) {
@@ -560,6 +562,7 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                         child: StreamBuilder<List<ProjectsRecord>>(
                           stream: queryProjectsRecord(
                             queryBuilder: (projectsRecord) => projectsRecord
+                                .where('owner', isEqualTo: currentUserReference)
                                 .orderBy('lastEdited', descending: true),
                           ),
                           builder: (context, snapshot) {
@@ -877,6 +880,7 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                         child: StreamBuilder<List<ProjectsRecord>>(
                           stream: queryProjectsRecord(
                             queryBuilder: (projectsRecord) => projectsRecord
+                                .where('owner', isEqualTo: currentUserReference)
                                 .orderBy('lastEdited', descending: true),
                           ),
                           builder: (context, snapshot) {

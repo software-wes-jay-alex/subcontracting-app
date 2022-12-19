@@ -107,6 +107,20 @@
       ]
     },
     {
+      "collectionGroup": "projects",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "owner",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "lastEdited",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "notes",
       "queryScope": "COLLECTION",
       "fields": [

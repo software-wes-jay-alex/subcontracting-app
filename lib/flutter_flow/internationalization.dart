@@ -1321,30 +1321,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ta': '',
       'ur': '',
     },
-    '1281zly2': {
-      'en': '345',
-      'hi': '345',
-      'ta': '345',
-      'ur': '345',
-    },
-    'ikdzucnf': {
-      'en': 'Following',
-      'hi': 'निम्नलिखित',
-      'ta': 'தொடர்ந்து',
-      'ur': 'درج ذیل',
-    },
-    '0mvvm3zs': {
-      'en': '345',
-      'hi': '345',
-      'ta': '345',
-      'ur': '345',
-    },
-    'ka33pk44': {
-      'en': 'Followers',
-      'hi': 'समर्थक',
-      'ta': 'பின்பற்றுபவர்கள்',
-      'ur': 'پیروکار',
-    },
     'xnmol3vm': {
       'en': 'Tracker',
       'hi': 'मेरी प्रोफाइल',

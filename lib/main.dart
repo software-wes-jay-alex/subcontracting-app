@@ -14,6 +14,7 @@ import 'index.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   await FlutterFlowTheme.initialize();
 
   runApp(MyApp());

@@ -8,17 +8,10 @@ part of 'serializers.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AllMaterialsRecord.serializer)
-      ..add(AllTasksRecord.serializer)
       ..add(NotesRecord.serializer)
       ..add(ProjectListRecord.serializer)
       ..add(ProjectsRecord.serializer)
       ..add(UsersRecord.serializer)
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(
-                DocumentReference, const [const FullType.nullable(Object)])
-          ]),
-          () => new ListBuilder<DocumentReference<Object?>>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [
             const FullType(
