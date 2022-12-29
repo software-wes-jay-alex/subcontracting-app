@@ -10,10 +10,10 @@ import 'package:google_fonts/google_fonts.dart';
 class TaskComponentWidget extends StatefulWidget {
   const TaskComponentWidget({
     Key? key,
-    this.taskRef,
+    this.matRef,
   }) : super(key: key);
 
-  final AllTasksRecord? taskRef;
+  final AllMaterialsRecord? matRef;
 
   @override
   _TaskComponentWidgetState createState() => _TaskComponentWidgetState();
@@ -63,15 +63,15 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
       child: InkWell(
         onTap: () async {
           context.pushNamed(
-            'taskDetails',
+            'matDetails',
             queryParams: {
-              'taskRef': serializeParam(
-                widget.taskRef,
+              'matRef': serializeParam(
+                widget.matRef,
                 ParamType.Document,
               ),
             }.withoutNulls,
             extra: <String, dynamic>{
-              'taskRef': widget.taskRef,
+              'matRef': widget.matRef,
             },
           );
         },
@@ -89,7 +89,7 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
             padding: EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12),
             child: FutureBuilder<ProjectsRecord>(
               future:
-                  ProjectsRecord.getDocumentOnce(widget.taskRef!.projectRef!),
+                  ProjectsRecord.getDocumentOnce(widget.matRef!.projectRef!),
               builder: (context, snapshot) {
                 // Customize what your widget looks like when it's loading.
                 if (!snapshot.hasData) {
@@ -117,7 +117,7 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
                             child: Text(
-                              widget.taskRef!.taskName!,
+                              widget.matRef!.materialName!,
                               style: FlutterFlowTheme.of(context).title3,
                             ),
                           ),
@@ -144,18 +144,23 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
                           FFLocalizations.of(context).getText(
                             'uuuaezib' /* Due */,
                           ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Space Grotesk',
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          style: FlutterFlowTheme.of(context)
+                              .bodyText1
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyText1Family,
+                                fontWeight: FontWeight.bold,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context)
+                                        .bodyText1Family),
+                              ),
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                           child: Text(
                             dateTimeFormat(
-                              'MMMEd',
-                              widget.taskRef!.dueDate!,
+                              'yMMMd',
+                              widget.matRef!.addedOn!,
                               locale: FFLocalizations.of(context).languageCode,
                             ),
                             style: FlutterFlowTheme.of(context).bodyText2,
@@ -166,7 +171,7 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
                           child: Text(
                             dateTimeFormat(
                               'jm',
-                              widget.taskRef!.dueDate!,
+                              widget.matRef!.addedOn!,
                               locale: FFLocalizations.of(context).languageCode,
                             ),
                             style: FlutterFlowTheme.of(context).bodyText2,

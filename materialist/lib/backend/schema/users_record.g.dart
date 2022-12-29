@@ -82,10 +82,10 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.tasks;
+    value = object.materials;
     if (value != null) {
       result
-        ..add('tasks')
+        ..add('materials')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(BuiltList, const [
               const FullType(
@@ -150,8 +150,8 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
           result.userBio = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'tasks':
-          result.tasks.replace(serializers.deserialize(value,
+        case 'materials':
+          result.materials.replace(serializers.deserialize(value,
               specifiedType: const FullType(BuiltList, const [
                 const FullType(
                     DocumentReference, const [const FullType.nullable(Object)])
@@ -190,7 +190,7 @@ class _$UsersRecord extends UsersRecord {
   @override
   final String? userBio;
   @override
-  final BuiltList<DocumentReference<Object?>>? tasks;
+  final BuiltList<DocumentReference<Object?>>? materials;
   @override
   final DocumentReference<Object?>? ffRef;
 
@@ -207,7 +207,7 @@ class _$UsersRecord extends UsersRecord {
       this.status,
       this.userRole,
       this.userBio,
-      this.tasks,
+      this.materials,
       this.ffRef})
       : super._();
 
@@ -231,7 +231,7 @@ class _$UsersRecord extends UsersRecord {
         status == other.status &&
         userRole == other.userRole &&
         userBio == other.userBio &&
-        tasks == other.tasks &&
+        materials == other.materials &&
         ffRef == other.ffRef;
   }
 
@@ -255,7 +255,7 @@ class _$UsersRecord extends UsersRecord {
                         status.hashCode),
                     userRole.hashCode),
                 userBio.hashCode),
-            tasks.hashCode),
+            materials.hashCode),
         ffRef.hashCode));
   }
 
@@ -271,7 +271,7 @@ class _$UsersRecord extends UsersRecord {
           ..add('status', status)
           ..add('userRole', userRole)
           ..add('userBio', userBio)
-          ..add('tasks', tasks)
+          ..add('materials', materials)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -316,11 +316,11 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
   String? get userBio => _$this._userBio;
   set userBio(String? userBio) => _$this._userBio = userBio;
 
-  ListBuilder<DocumentReference<Object?>>? _tasks;
-  ListBuilder<DocumentReference<Object?>> get tasks =>
-      _$this._tasks ??= new ListBuilder<DocumentReference<Object?>>();
-  set tasks(ListBuilder<DocumentReference<Object?>>? tasks) =>
-      _$this._tasks = tasks;
+  ListBuilder<DocumentReference<Object?>>? _materials;
+  ListBuilder<DocumentReference<Object?>> get materials =>
+      _$this._materials ??= new ListBuilder<DocumentReference<Object?>>();
+  set materials(ListBuilder<DocumentReference<Object?>>? materials) =>
+      _$this._materials = materials;
 
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
@@ -342,7 +342,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
       _status = $v.status;
       _userRole = $v.userRole;
       _userBio = $v.userBio;
-      _tasks = $v.tasks?.toBuilder();
+      _materials = $v.materials?.toBuilder();
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -377,13 +377,13 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
               status: status,
               userRole: userRole,
               userBio: userBio,
-              tasks: _tasks?.build(),
+              materials: _materials?.build(),
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;
       try {
-        _$failedField = 'tasks';
-        _tasks?.build();
+        _$failedField = 'materials';
+        _materials?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'UsersRecord', _$failedField, e.toString());

@@ -15,14 +15,13 @@ class LoginWidget extends StatefulWidget {
 class _LoginWidgetState extends State<LoginWidget> {
   TextEditingController? emailAddressController;
   TextEditingController? passwordController;
-
   late bool passwordVisibility;
   TextEditingController? emailAddressCreateController;
   TextEditingController? passwordCreateController;
-
   late bool passwordCreateVisibility;
-  final formKey = GlobalKey<FormState>();
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -38,6 +37,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     emailAddressController?.dispose();
     passwordController?.dispose();
     emailAddressCreateController?.dispose();
@@ -51,7 +51,7 @@ class _LoginWidgetState extends State<LoginWidget> {
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryColor,
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
         child: Form(
           key: formKey,
           autovalidateMode: AutovalidateMode.disabled,
@@ -188,6 +188,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .normal,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
                                                               ),
                                                       enabledBorder:
                                                           OutlineInputBorder(
@@ -243,9 +248,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                         .bodyText1
                                                         .override(
                                                           fontFamily:
-                                                              'Space Grotesk',
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyText1Family,
                                                           color:
                                                               Color(0xFF0F1113),
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText1Family),
                                                         ),
                                                     validator: (val) {
                                                       if (val == null ||
@@ -316,6 +329,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .normal,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
                                                               ),
                                                       enabledBorder:
                                                           OutlineInputBorder(
@@ -391,9 +409,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                         .bodyText1
                                                         .override(
                                                           fontFamily:
-                                                              'Space Grotesk',
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyText1Family,
                                                           color:
                                                               Color(0xFF0F1113),
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText1Family),
                                                         ),
                                                   ),
                                                 ),
@@ -435,11 +461,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                   context)
                                                               .subtitle2
                                                               .override(
-                                                                fontFamily:
-                                                                    'Space Grotesk',
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .subtitle2Family,
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryColor,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .subtitle2Family),
                                                               ),
                                                       elevation: 3,
                                                       borderSide: BorderSide(
@@ -475,10 +507,16 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                   context)
                                                               .subtitle2
                                                               .override(
-                                                                fontFamily:
-                                                                    'Space Grotesk',
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .subtitle2Family,
                                                                 color: Colors
                                                                     .white,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .subtitle2Family),
                                                               ),
                                                       elevation: 0,
                                                       borderSide: BorderSide(
@@ -530,6 +568,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .normal,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
                                                               ),
                                                       enabledBorder:
                                                           OutlineInputBorder(
@@ -585,9 +628,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                         .bodyText1
                                                         .override(
                                                           fontFamily:
-                                                              'Space Grotesk',
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyText1Family,
                                                           color:
                                                               Color(0xFF0F1113),
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText1Family),
                                                         ),
                                                   ),
                                                 ),
@@ -623,6 +674,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .normal,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
                                                               ),
                                                       enabledBorder:
                                                           OutlineInputBorder(
@@ -698,9 +754,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                         .bodyText1
                                                         .override(
                                                           fontFamily:
-                                                              'Space Grotesk',
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyText1Family,
                                                           color:
                                                               Color(0xFF0F1113),
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText1Family),
                                                         ),
                                                   ),
                                                 ),
@@ -742,11 +806,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                   context)
                                                               .subtitle2
                                                               .override(
-                                                                fontFamily:
-                                                                    'Space Grotesk',
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .subtitle2Family,
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryColor,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .subtitle2Family),
                                                               ),
                                                       elevation: 3,
                                                       borderSide: BorderSide(

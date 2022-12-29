@@ -26,6 +26,7 @@ class SearchMembersWidget extends StatefulWidget {
 class _SearchMembersWidgetState extends State<SearchMembersWidget> {
   List<UsersRecord> simpleSearchResults = [];
   TextEditingController? textController;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -37,6 +38,7 @@ class _SearchMembersWidgetState extends State<SearchMembersWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     textController?.dispose();
     super.dispose();
   }
@@ -74,7 +76,7 @@ class _SearchMembersWidgetState extends State<SearchMembersWidget> {
         elevation: 0,
       ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -254,7 +256,10 @@ class _SearchMembersWidgetState extends State<SearchMembersWidget> {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(26),
                                       child: Image.network(
-                                        searchResultsItem.photoUrl!,
+                                        valueOrDefault<String>(
+                                          searchResultsItem.photoUrl,
+                                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                                        ),
                                         width: 36,
                                         height: 36,
                                         fit: BoxFit.cover,
@@ -328,6 +333,12 @@ class _SearchMembersWidgetState extends State<SearchMembersWidget> {
                                                     fontSize: 14,
                                                     fontWeight:
                                                         FontWeight.normal,
+                                                    useGoogleFonts: GoogleFonts
+                                                            .asMap()
+                                                        .containsKey(
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1Family),
                                                   ),
                                           borderSide: BorderSide(
                                             color: Colors.transparent,

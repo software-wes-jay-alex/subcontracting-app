@@ -24,8 +24,9 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
   TextEditingController? userNameController;
   TextEditingController? titleRoleController;
   TextEditingController? shortBioController;
-  final formKey = GlobalKey<FormState>();
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     shortBioController?.dispose();
     titleRoleController?.dispose();
     userNameController?.dispose();
@@ -81,7 +83,7 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: Form(
             key: formKey,
             autovalidateMode: AutovalidateMode.disabled,
@@ -148,8 +150,8 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                                   .primaryBackground,
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: Image.asset(
-                                  'assets/images/emptyState@2x.png',
+                                image: Image.network(
+                                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
                                 ).image,
                               ),
                               boxShadow: [
@@ -161,16 +163,23 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                               ],
                               shape: BoxShape.circle,
                             ),
-                            child: Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(120),
-                                child: Image.network(
-                                  uploadedFileUrl,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
+                            child: Visibility(
+                              visible: uploadedFileUrl != null &&
+                                  uploadedFileUrl != '',
+                              child: Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(120),
+                                  child: Image.network(
+                                    valueOrDefault<String>(
+                                      uploadedFileUrl,
+                                      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                                    ),
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
@@ -339,9 +348,6 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 16),
                   child: FFButtonWidget(
                     onPressed: () async {
-                      if (uploadedFileUrl == '\"') {
-                        return;
-                      }
                       if (formKey.currentState == null ||
                           !formKey.currentState!.validate()) {
                         return;
@@ -349,7 +355,10 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
 
                       final usersUpdateData = createUsersRecordData(
                         displayName: userNameController!.text,
-                        photoUrl: uploadedFileUrl,
+                        photoUrl: valueOrDefault<String>(
+                          uploadedFileUrl,
+                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                        ),
                         userRole: titleRoleController!.text,
                         userBio: shortBioController!.text,
                       );
@@ -364,11 +373,15 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                       width: 270,
                       height: 50,
                       color: FlutterFlowTheme.of(context).primaryColor,
-                      textStyle:
-                          FlutterFlowTheme.of(context).subtitle1.override(
-                                fontFamily: 'Outfit',
-                                color: Colors.white,
-                              ),
+                      textStyle: FlutterFlowTheme.of(context)
+                          .subtitle1
+                          .override(
+                            fontFamily:
+                                FlutterFlowTheme.of(context).subtitle1Family,
+                            color: Colors.white,
+                            useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                FlutterFlowTheme.of(context).subtitle1Family),
+                          ),
                       elevation: 3,
                       borderSide: BorderSide(
                         color: Colors.transparent,

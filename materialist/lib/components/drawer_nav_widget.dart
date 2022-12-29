@@ -57,7 +57,10 @@ class _DrawerNavWidgetState extends State<DrawerNavWidget> {
                             shape: BoxShape.circle,
                           ),
                           child: Image.network(
-                            currentUserPhoto,
+                            valueOrDefault<String>(
+                              currentUserPhoto,
+                              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                            ),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -75,11 +78,15 @@ class _DrawerNavWidgetState extends State<DrawerNavWidget> {
                       width: 80,
                       height: 40,
                       color: FlutterFlowTheme.of(context).primaryColor,
-                      textStyle:
-                          FlutterFlowTheme.of(context).subtitle2.override(
-                                fontFamily: 'Space Grotesk',
-                                color: Colors.white,
-                              ),
+                      textStyle: FlutterFlowTheme.of(context)
+                          .subtitle2
+                          .override(
+                            fontFamily:
+                                FlutterFlowTheme.of(context).subtitle2Family,
+                            color: Colors.white,
+                            useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                FlutterFlowTheme.of(context).subtitle2Family),
+                          ),
                       elevation: 2,
                       borderSide: BorderSide(
                         color: Colors.transparent,
@@ -109,48 +116,11 @@ class _DrawerNavWidgetState extends State<DrawerNavWidget> {
                         ),
                       ],
                     ),
-                    Text(
-                      currentUserEmail,
-                      style: FlutterFlowTheme.of(context).bodyText2,
-                    ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 12),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            FFLocalizations.of(context).getText(
-                              '1281zly2' /* 345 */,
-                            ),
-                            style: FlutterFlowTheme.of(context).bodyText1,
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(4, 0, 12, 0),
-                            child: Text(
-                              FFLocalizations.of(context).getText(
-                                'ikdzucnf' /* Following */,
-                              ),
-                              style: FlutterFlowTheme.of(context).bodyText2,
-                            ),
-                          ),
-                          Text(
-                            FFLocalizations.of(context).getText(
-                              '0mvvm3zs' /* 345 */,
-                            ),
-                            style: FlutterFlowTheme.of(context).bodyText1,
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(4, 0, 12, 0),
-                            child: Text(
-                              FFLocalizations.of(context).getText(
-                                'ka33pk44' /* Followers */,
-                              ),
-                              style: FlutterFlowTheme.of(context).bodyText2,
-                            ),
-                          ),
-                        ],
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                      child: Text(
+                        currentUserEmail,
+                        style: FlutterFlowTheme.of(context).bodyText2,
                       ),
                     ),
                     Divider(

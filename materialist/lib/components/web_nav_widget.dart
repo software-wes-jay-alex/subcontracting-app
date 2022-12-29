@@ -117,11 +117,16 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                               taText: '',
                               urText: '',
                             ),
-                            style:
-                                FlutterFlowTheme.of(context).bodyText2.override(
-                                      fontFamily: 'Space Grotesk',
-                                      color: widget.navColorOne,
-                                    ),
+                            style: FlutterFlowTheme.of(context)
+                                .bodyText2
+                                .override(
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .bodyText2Family,
+                                  color: widget.navColorOne,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .bodyText2Family),
+                                ),
                           ),
                         ),
                       ],
@@ -170,11 +175,16 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                               taText: '',
                               urText: '',
                             ),
-                            style:
-                                FlutterFlowTheme.of(context).bodyText2.override(
-                                      fontFamily: 'Space Grotesk',
-                                      color: widget.navColorTwo,
-                                    ),
+                            style: FlutterFlowTheme.of(context)
+                                .bodyText2
+                                .override(
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .bodyText2Family,
+                                  color: widget.navColorTwo,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .bodyText2Family),
+                                ),
                           ),
                         ),
                         if (responsiveVisibility(
@@ -207,9 +217,14 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyText1
                                   .override(
-                                    fontFamily: 'Space Grotesk',
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .bodyText1Family,
                                     color: FlutterFlowTheme.of(context)
                                         .primaryBtnText,
+                                    useGoogleFonts: GoogleFonts.asMap()
+                                        .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .bodyText1Family),
                                   ),
                             ),
                           ),
@@ -259,11 +274,16 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                               taText: '',
                               urText: '',
                             ),
-                            style:
-                                FlutterFlowTheme.of(context).bodyText2.override(
-                                      fontFamily: 'Space Grotesk',
-                                      color: widget.navColorThree,
-                                    ),
+                            style: FlutterFlowTheme.of(context)
+                                .bodyText2
+                                .override(
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .bodyText2Family,
+                                  color: widget.navColorThree,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .bodyText2Family),
+                                ),
                           ),
                         ),
                       ],
@@ -339,8 +359,16 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText2
                                             .override(
-                                              fontFamily: 'Space Grotesk',
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText2Family,
                                               fontSize: 12,
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText2Family),
                                             ),
                                       ),
                                     ),

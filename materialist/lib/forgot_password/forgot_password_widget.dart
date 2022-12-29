@@ -76,8 +76,11 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                             's20e49ou' /* Back */,
                           ),
                           style: FlutterFlowTheme.of(context).title1.override(
-                                fontFamily: 'Outfit',
+                                fontFamily:
+                                    FlutterFlowTheme.of(context).title1Family,
                                 fontSize: 16,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context).title1Family),
                               ),
                         ),
                       ),
@@ -91,8 +94,10 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                       'xl8nladc' /* Forgot Password */,
                     ),
                     style: FlutterFlowTheme.of(context).title1.override(
-                          fontFamily: 'Outfit',
+                          fontFamily: FlutterFlowTheme.of(context).title1Family,
                           fontSize: 32,
+                          useGoogleFonts: GoogleFonts.asMap().containsKey(
+                              FlutterFlowTheme.of(context).title1Family),
                         ),
                   ),
                 ),
@@ -158,6 +163,8 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                         color: Color(0xFF57636C),
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
+                        useGoogleFonts: GoogleFonts.asMap().containsKey(
+                            FlutterFlowTheme.of(context).bodyText1Family),
                       ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -223,8 +230,10 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                 height: 50,
                 color: FlutterFlowTheme.of(context).primaryColor,
                 textStyle: FlutterFlowTheme.of(context).subtitle2.override(
-                      fontFamily: 'Space Grotesk',
+                      fontFamily: FlutterFlowTheme.of(context).subtitle2Family,
                       color: Colors.white,
+                      useGoogleFonts: GoogleFonts.asMap().containsKey(
+                          FlutterFlowTheme.of(context).subtitle2Family),
                     ),
                 elevation: 3,
                 borderSide: BorderSide(

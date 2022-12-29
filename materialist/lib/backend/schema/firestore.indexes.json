@@ -1,7 +1,7 @@
 {
   "indexes": [
     {
-      "collectionGroup": "allTasks",
+      "collectionGroup": "allMaterials",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -9,31 +9,13 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "completed",
+          "fieldPath": "verified",
           "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "dueDate",
-          "order": "DESCENDING"
         }
       ]
     },
     {
-      "collectionGroup": "notes",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "taskRef",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "timePosted",
-          "order": "DESCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "allTasks",
+      "collectionGroup": "allMaterials",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -41,13 +23,27 @@
           "arrayConfig": "CONTAINS"
         },
         {
-          "fieldPath": "dueDate",
+          "fieldPath": "addedOn",
           "order": "DESCENDING"
         }
       ]
     },
     {
-      "collectionGroup": "allTasks",
+      "collectionGroup": "allMaterials",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "members",
+          "arrayConfig": "CONTAINS"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "allMaterials",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -59,17 +55,17 @@
           "arrayConfig": "CONTAINS"
         },
         {
-          "fieldPath": "dueDate",
+          "fieldPath": "addedOn",
           "order": "DESCENDING"
         }
       ]
     },
     {
-      "collectionGroup": "allTasks",
+      "collectionGroup": "allMaterials",
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "completed",
+          "fieldPath": "verified",
           "order": "ASCENDING"
         },
         {
@@ -79,7 +75,7 @@
       ]
     },
     {
-      "collectionGroup": "allTasks",
+      "collectionGroup": "allMaterials",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -91,7 +87,7 @@
           "arrayConfig": "CONTAINS"
         },
         {
-          "fieldPath": "completedAt",
+          "fieldPath": "verifiedOn",
           "order": "DESCENDING"
         }
       ]
@@ -106,6 +102,34 @@
         },
         {
           "fieldPath": "lastEdited",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "projects",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "owner",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "lastEdited",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "notes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "matRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timePosted",
           "order": "DESCENDING"
         }
       ]

@@ -1,8 +1,10 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../components/drawer_nav_widget.dart';
 import '../components/user_card_widget.dart';
 import '../components/web_nav_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
+import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
@@ -80,6 +82,7 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
       ],
     ),
   };
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -93,6 +96,12 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -125,8 +134,29 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
         elevation: 16,
         child: DrawerNavWidget(),
       ),
+      appBar: AppBar(
+        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        automaticallyImplyLeading: false,
+        leading: FlutterFlowIconButton(
+          borderColor: Colors.transparent,
+          borderRadius: 30,
+          borderWidth: 1,
+          buttonSize: 60,
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: FlutterFlowTheme.of(context).primaryText,
+            size: 30,
+          ),
+          onPressed: () async {
+            context.pop();
+          },
+        ),
+        actions: [],
+        centerTitle: false,
+        elevation: 2,
+      ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,19 +180,6 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (responsiveVisibility(
-                      context: context,
-                      tablet: false,
-                      tabletLandscape: false,
-                      desktop: false,
-                    ))
-                      Container(
-                        width: double.infinity,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                        ),
-                      ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 4),
                       child: Row(
@@ -224,6 +241,7 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                         child: StreamBuilder<List<ProjectsRecord>>(
                           stream: queryProjectsRecord(
                             queryBuilder: (projectsRecord) => projectsRecord
+                                .where('owner', isEqualTo: currentUserReference)
                                 .orderBy('lastEdited', descending: true),
                           ),
                           builder: (context, snapshot) {
@@ -336,10 +354,19 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                                                             context)
                                                         .title2
                                                         .override(
-                                                          fontFamily: 'Outfit',
+                                                          fontFamily:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .title2Family,
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .primaryBtnText,
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .title2Family),
                                                         ),
                                                   ),
                                                   Padding(
@@ -354,11 +381,17 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                                                                   context)
                                                               .bodyText1
                                                               .override(
-                                                                fontFamily:
-                                                                    'Space Grotesk',
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1Family,
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryBtnText,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
                                                               ),
                                                     ),
                                                   ),
@@ -536,6 +569,7 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                         child: StreamBuilder<List<ProjectsRecord>>(
                           stream: queryProjectsRecord(
                             queryBuilder: (projectsRecord) => projectsRecord
+                                .where('owner', isEqualTo: currentUserReference)
                                 .orderBy('lastEdited', descending: true),
                           ),
                           builder: (context, snapshot) {
@@ -641,8 +675,17 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                                                             context)
                                                         .title3
                                                         .override(
-                                                          fontFamily: 'Outfit',
+                                                          fontFamily:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .title3Family,
                                                           color: Colors.white,
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .title3Family),
                                                         ),
                                                   ),
                                                   Padding(
@@ -657,11 +700,17 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                                                                   context)
                                                               .bodyText1
                                                               .override(
-                                                                fontFamily:
-                                                                    'Space Grotesk',
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1Family,
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryBtnText,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
                                                               ),
                                                     ),
                                                   ),
@@ -838,6 +887,7 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                         child: StreamBuilder<List<ProjectsRecord>>(
                           stream: queryProjectsRecord(
                             queryBuilder: (projectsRecord) => projectsRecord
+                                .where('owner', isEqualTo: currentUserReference)
                                 .orderBy('lastEdited', descending: true),
                           ),
                           builder: (context, snapshot) {
@@ -933,8 +983,17 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                                                             context)
                                                         .title3
                                                         .override(
-                                                          fontFamily: 'Outfit',
+                                                          fontFamily:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .title3Family,
                                                           color: Colors.white,
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .title3Family),
                                                         ),
                                                   ),
                                                   Padding(
@@ -949,11 +1008,17 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                                                                   context)
                                                               .bodyText1
                                                               .override(
-                                                                fontFamily:
-                                                                    'Space Grotesk',
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1Family,
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryBtnText,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
                                                               ),
                                                     ),
                                                   ),
@@ -1046,8 +1111,12 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                                                                     ),
                                                                     child: Image
                                                                         .network(
-                                                                      containerUsersRecord
-                                                                          .photoUrl!,
+                                                                      valueOrDefault<
+                                                                          String>(
+                                                                        containerUsersRecord
+                                                                            .photoUrl,
+                                                                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                                                                      ),
                                                                       fit: BoxFit
                                                                           .fitWidth,
                                                                     ),
@@ -1096,7 +1165,7 @@ class _MainProjectsWebWidgetState extends State<MainProjectsWebWidget>
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.88,
+                                                  0.7,
                                               lineHeight: 16,
                                               animation: true,
                                               progressColor:

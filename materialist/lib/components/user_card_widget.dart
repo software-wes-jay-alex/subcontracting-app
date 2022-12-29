@@ -37,7 +37,10 @@ class _UserCardWidgetState extends State<UserCardWidget> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(40),
               child: Image.network(
-                currentUserPhoto,
+                valueOrDefault<String>(
+                  currentUserPhoto,
+                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                ),
                 width: 40,
                 height: 40,
                 fit: BoxFit.cover,

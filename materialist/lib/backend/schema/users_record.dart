@@ -31,7 +31,7 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
 
   String? get userBio;
 
-  BuiltList<DocumentReference>? get tasks;
+  BuiltList<DocumentReference>? get materials;
 
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
@@ -46,7 +46,7 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..status = ''
     ..userRole = ''
     ..userBio = ''
-    ..tasks = ListBuilder();
+    ..materials = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -93,7 +93,7 @@ Map<String, dynamic> createUsersRecordData({
         ..status = status
         ..userRole = userRole
         ..userBio = userBio
-        ..tasks = null,
+        ..materials = null,
     ),
   );
 

@@ -1,14 +1,15 @@
 import 'package:built_value/serializer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../auth/auth_util.dart';
 
 import '../flutter_flow/flutter_flow_util.dart';
 
 import 'schema/users_record.dart';
 import 'schema/projects_record.dart';
-import 'schema/all_tasks_record.dart';
 import 'schema/project_list_record.dart';
 import 'schema/notes_record.dart';
+import 'schema/all_materials_record.dart';
 import 'schema/serializers.dart';
 
 export 'dart:async' show StreamSubscription;
@@ -18,9 +19,9 @@ export 'schema/serializers.dart';
 
 export 'schema/users_record.dart';
 export 'schema/projects_record.dart';
-export 'schema/all_tasks_record.dart';
 export 'schema/project_list_record.dart';
 export 'schema/notes_record.dart';
+export 'schema/all_materials_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Stream<List<UsersRecord>> queryUsersRecord({
@@ -106,48 +107,6 @@ Future<FFFirestorePage<ProjectsRecord>> queryProjectsRecordPage({
       isStream: isStream,
     );
 
-/// Functions to query AllTasksRecords (as a Stream and as a Future).
-Stream<List<AllTasksRecord>> queryAllTasksRecord({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollection(
-      AllTasksRecord.collection,
-      AllTasksRecord.serializer,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-Future<List<AllTasksRecord>> queryAllTasksRecordOnce({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollectionOnce(
-      AllTasksRecord.collection,
-      AllTasksRecord.serializer,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-Future<FFFirestorePage<AllTasksRecord>> queryAllTasksRecordPage({
-  Query Function(Query)? queryBuilder,
-  DocumentSnapshot? nextPageMarker,
-  required int pageSize,
-  required bool isStream,
-}) =>
-    queryCollectionPage(
-      AllTasksRecord.collection,
-      AllTasksRecord.serializer,
-      queryBuilder: queryBuilder,
-      nextPageMarker: nextPageMarker,
-      pageSize: pageSize,
-      isStream: isStream,
-    );
-
 /// Functions to query ProjectListRecords (as a Stream and as a Future).
 Stream<List<ProjectListRecord>> queryProjectListRecord({
   Query Function(Query)? queryBuilder,
@@ -226,6 +185,48 @@ Future<FFFirestorePage<NotesRecord>> queryNotesRecordPage({
     queryCollectionPage(
       NotesRecord.collection,
       NotesRecord.serializer,
+      queryBuilder: queryBuilder,
+      nextPageMarker: nextPageMarker,
+      pageSize: pageSize,
+      isStream: isStream,
+    );
+
+/// Functions to query AllMaterialsRecords (as a Stream and as a Future).
+Stream<List<AllMaterialsRecord>> queryAllMaterialsRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      AllMaterialsRecord.collection,
+      AllMaterialsRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<AllMaterialsRecord>> queryAllMaterialsRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      AllMaterialsRecord.collection,
+      AllMaterialsRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<FFFirestorePage<AllMaterialsRecord>> queryAllMaterialsRecordPage({
+  Query Function(Query)? queryBuilder,
+  DocumentSnapshot? nextPageMarker,
+  required int pageSize,
+  required bool isStream,
+}) =>
+    queryCollectionPage(
+      AllMaterialsRecord.collection,
+      AllMaterialsRecord.serializer,
       queryBuilder: queryBuilder,
       nextPageMarker: nextPageMarker,
       pageSize: pageSize,
@@ -342,6 +343,7 @@ Future maybeCreateUser(User user) async {
   final userRecord = UsersRecord.collection.doc(user.uid);
   final userExists = await userRecord.get().then((u) => u.exists);
   if (userExists) {
+    currentUserDocument = await UsersRecord.getDocumentOnce(userRecord);
     return;
   }
 
@@ -355,4 +357,6 @@ Future maybeCreateUser(User user) async {
   );
 
   await userRecord.set(userData);
+  currentUserDocument =
+      serializers.deserializeWith(UsersRecord.serializer, userData);
 }

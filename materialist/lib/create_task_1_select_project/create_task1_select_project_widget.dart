@@ -20,14 +20,21 @@ class CreateTask1SelectProjectWidget extends StatefulWidget {
 class _CreateTask1SelectProjectWidgetState
     extends State<CreateTask1SelectProjectWidget> {
   Completer<List<ProjectsRecord>>? _firestoreRequestCompleter;
-  final formKey = GlobalKey<FormState>();
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -67,7 +74,7 @@ class _CreateTask1SelectProjectWidgetState
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: Form(
             key: formKey,
             autovalidateMode: AutovalidateMode.disabled,
@@ -111,11 +118,16 @@ class _CreateTask1SelectProjectWidgetState
                           width: 130,
                           height: 40,
                           color: FlutterFlowTheme.of(context).primaryColor,
-                          textStyle:
-                              FlutterFlowTheme.of(context).subtitle2.override(
-                                    fontFamily: 'Space Grotesk',
-                                    color: Colors.white,
-                                  ),
+                          textStyle: FlutterFlowTheme.of(context)
+                              .subtitle2
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .subtitle2Family,
+                                color: Colors.white,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context)
+                                        .subtitle2Family),
+                              ),
                           elevation: 2,
                           borderSide: BorderSide(
                             color: Colors.transparent,
@@ -185,7 +197,7 @@ class _CreateTask1SelectProjectWidgetState
                               child: InkWell(
                                 onTap: () async {
                                   context.pushNamed(
-                                    'createTask',
+                                    'createList',
                                     queryParams: {
                                       'projectParameter': serializeParam(
                                         listViewProjectsRecord,
@@ -252,7 +264,7 @@ class _CreateTask1SelectProjectWidgetState
                                                             .fromSTEB(
                                                                 0, 8, 0, 0),
                                                     child: Text(
-                                                      '${listViewProjectsRecord.numberTasks?.toString()} tasks',
+                                                      '${listViewProjectsRecord.numberTasks?.toString()} materials',
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)

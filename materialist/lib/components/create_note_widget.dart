@@ -10,10 +10,10 @@ import 'package:google_fonts/google_fonts.dart';
 class CreateNoteWidget extends StatefulWidget {
   const CreateNoteWidget({
     Key? key,
-    this.taskRef,
+    this.matRef,
   }) : super(key: key);
 
-  final AllTasksRecord? taskRef;
+  final AllMaterialsRecord? matRef;
 
   @override
   _CreateNoteWidgetState createState() => _CreateNoteWidgetState();
@@ -110,7 +110,10 @@ class _CreateNoteWidgetState extends State<CreateNoteWidget> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(40),
                         child: Image.network(
-                          currentUserPhoto,
+                          valueOrDefault<String>(
+                            currentUserPhoto,
+                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                          ),
                           width: 40,
                           height: 40,
                           fit: BoxFit.cover,
@@ -187,9 +190,9 @@ class _CreateNoteWidgetState extends State<CreateNoteWidget> {
                       onPressed: () async {
                         final notesCreateData = createNotesRecordData(
                           owner: currentUserReference,
-                          taskRef: widget.taskRef!.reference,
                           note: shortBioController!.text,
                           timePosted: getCurrentTimestamp,
+                          matRef: widget.matRef!.reference,
                         );
                         var notesRecordReference = NotesRecord.collection.doc();
                         await notesRecordReference.set(notesCreateData);
