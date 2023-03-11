@@ -11,11 +11,11 @@ abstract class NotesRecord implements Built<NotesRecord, NotesRecordBuilder> {
 
   DocumentReference? get owner;
 
-  DocumentReference? get taskRef;
-
   String? get note;
 
   DateTime? get timePosted;
+
+  DocumentReference? get matRef;
 
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
@@ -47,18 +47,18 @@ abstract class NotesRecord implements Built<NotesRecord, NotesRecordBuilder> {
 
 Map<String, dynamic> createNotesRecordData({
   DocumentReference? owner,
-  DocumentReference? taskRef,
   String? note,
   DateTime? timePosted,
+  DocumentReference? matRef,
 }) {
   final firestoreData = serializers.toFirestore(
     NotesRecord.serializer,
     NotesRecord(
       (n) => n
         ..owner = owner
-        ..taskRef = taskRef
         ..note = note
-        ..timePosted = timePosted,
+        ..timePosted = timePosted
+        ..matRef = matRef,
     ),
   );
 

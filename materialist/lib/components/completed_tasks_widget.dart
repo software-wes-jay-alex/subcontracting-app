@@ -46,8 +46,10 @@ class _CompletedTasksWidgetState extends State<CompletedTasksWidget> {
                 widget.title!,
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).title3.override(
-                      fontFamily: 'Outfit',
+                      fontFamily: FlutterFlowTheme.of(context).title3Family,
                       color: FlutterFlowTheme.of(context).primaryText,
+                      useGoogleFonts: GoogleFonts.asMap().containsKey(
+                          FlutterFlowTheme.of(context).title3Family),
                     ),
               ),
             ],

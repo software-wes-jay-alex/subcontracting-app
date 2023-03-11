@@ -18,8 +18,9 @@ class CreateProjectWidget extends StatefulWidget {
 class _CreateProjectWidgetState extends State<CreateProjectWidget> {
   TextEditingController? descriptionController;
   TextEditingController? taskNameController;
-  final formKey = GlobalKey<FormState>();
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     descriptionController?.dispose();
     taskNameController?.dispose();
     super.dispose();
@@ -73,7 +75,7 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: Form(
             key: formKey,
             autovalidateMode: AutovalidateMode.disabled,
@@ -116,6 +118,10 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryText,
                                         fontWeight: FontWeight.normal,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .title3Family),
                                       ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -155,6 +161,10 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
                                     .title3
                                     .override(
                                       fontFamily: 'Space Grotesk',
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .title3Family),
                                     ),
                                 textAlign: TextAlign.start,
                               ),
@@ -260,8 +270,13 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> {
                                 textStyle: FlutterFlowTheme.of(context)
                                     .subtitle1
                                     .override(
-                                      fontFamily: 'Outfit',
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .subtitle1Family,
                                       color: Colors.white,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .subtitle1Family),
                                     ),
                                 elevation: 3,
                                 borderSide: BorderSide(

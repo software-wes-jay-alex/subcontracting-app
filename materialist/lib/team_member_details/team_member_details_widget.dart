@@ -46,6 +46,7 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
       ],
     ),
   };
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -59,6 +60,12 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -118,7 +125,7 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -153,7 +160,10 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(60),
                               child: Image.network(
-                                widget.userRef!.photoUrl!,
+                                valueOrDefault<String>(
+                                  widget.userRef!.photoUrl,
+                                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                                ),
                                 width: 80,
                                 height: 80,
                                 fit: BoxFit.cover,
@@ -193,9 +203,15 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
                                           .override(
-                                            fontFamily: 'Space Grotesk',
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyText1Family,
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1Family),
                                           ),
                                     ),
                                   ),
@@ -209,9 +225,15 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
                                           .override(
-                                            fontFamily: 'Space Grotesk',
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyText1Family,
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1Family),
                                           ),
                                     ),
                                   ),
@@ -225,9 +247,15 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
                                           .override(
-                                            fontFamily: 'Space Grotesk',
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyText1Family,
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1Family),
                                           ),
                                     ),
                                   ),
@@ -278,7 +306,7 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                     children: [
                       Text(
                         FFLocalizations.of(context).getText(
-                          '9s048496' /* Tasks */,
+                          '9s048496' /* List */,
                         ),
                         style: FlutterFlowTheme.of(context).subtitle2,
                       ),
@@ -287,11 +315,11 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 24),
-                  child: FutureBuilder<List<AllTasksRecord>>(
-                    future: queryAllTasksRecordOnce(
-                      queryBuilder: (allTasksRecord) => allTasksRecord.where(
-                          'members',
-                          arrayContains: widget.userRef!.reference),
+                  child: FutureBuilder<List<AllMaterialsRecord>>(
+                    future: queryAllMaterialsRecordOnce(
+                      queryBuilder: (allMaterialsRecord) =>
+                          allMaterialsRecord.where('members',
+                              arrayContains: widget.userRef!.reference),
                     ),
                     builder: (context, snapshot) {
                       // Customize what your widget looks like when it's loading.
@@ -306,9 +334,9 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                           ),
                         );
                       }
-                      List<AllTasksRecord> listViewAllTasksRecordList =
+                      List<AllMaterialsRecord> listViewAllMaterialsRecordList =
                           snapshot.data!;
-                      if (listViewAllTasksRecordList.isEmpty) {
+                      if (listViewAllMaterialsRecordList.isEmpty) {
                         return Center(
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.8,
@@ -326,25 +354,25 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                         primary: false,
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
-                        itemCount: listViewAllTasksRecordList.length,
+                        itemCount: listViewAllMaterialsRecordList.length,
                         itemBuilder: (context, listViewIndex) {
-                          final listViewAllTasksRecord =
-                              listViewAllTasksRecordList[listViewIndex];
+                          final listViewAllMaterialsRecord =
+                              listViewAllMaterialsRecordList[listViewIndex];
                           return Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(16, 0, 16, 12),
                             child: InkWell(
                               onTap: () async {
                                 context.pushNamed(
-                                  'taskDetails',
+                                  'matDetails',
                                   queryParams: {
-                                    'taskRef': serializeParam(
-                                      listViewAllTasksRecord,
+                                    'matRef': serializeParam(
+                                      listViewAllMaterialsRecord,
                                       ParamType.Document,
                                     ),
                                   }.withoutNulls,
                                   extra: <String, dynamic>{
-                                    'taskRef': listViewAllTasksRecord,
+                                    'matRef': listViewAllMaterialsRecord,
                                   },
                                 );
                               },
@@ -378,8 +406,8 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(0, 0, 12, 0),
                                               child: Text(
-                                                listViewAllTasksRecord
-                                                    .taskName!,
+                                                listViewAllMaterialsRecord
+                                                    .materialName!,
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .title3,
@@ -401,16 +429,25 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(12, 0, 12, 0),
                                               child: Text(
-                                                listViewAllTasksRecord.status!,
+                                                listViewAllMaterialsRecord
+                                                    .status!,
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyText1
                                                         .override(
                                                           fontFamily:
-                                                              'Space Grotesk',
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyText1Family,
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .secondaryBackground,
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText1Family),
                                                         ),
                                               ),
                                             ),
@@ -439,13 +476,22 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                                         children: [
                                           Text(
                                             FFLocalizations.of(context).getText(
-                                              '3rwjcoju' /* Due */,
+                                              '3rwjcoju' /* Added */,
                                             ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyText1
                                                 .override(
-                                                  fontFamily: 'Space Grotesk',
+                                                  fontFamily:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyText1Family,
                                                   fontWeight: FontWeight.bold,
+                                                  useGoogleFonts: GoogleFonts
+                                                          .asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1Family),
                                                 ),
                                           ),
                                           Padding(
@@ -455,7 +501,8 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                                             child: Text(
                                               dateTimeFormat(
                                                 'MMMEd',
-                                                listViewAllTasksRecord.dueDate!,
+                                                listViewAllMaterialsRecord
+                                                    .addedOn!,
                                                 locale:
                                                     FFLocalizations.of(context)
                                                         .languageCode,
@@ -472,8 +519,8 @@ class _TeamMemberDetailsWidgetState extends State<TeamMemberDetailsWidget>
                                               child: Text(
                                                 dateTimeFormat(
                                                   'jm',
-                                                  listViewAllTasksRecord
-                                                      .dueDate!,
+                                                  listViewAllMaterialsRecord
+                                                      .addedOn!,
                                                   locale: FFLocalizations.of(
                                                           context)
                                                       .languageCode,

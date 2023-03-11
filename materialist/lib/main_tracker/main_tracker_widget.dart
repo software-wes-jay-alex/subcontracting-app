@@ -237,12 +237,14 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
       ],
     ),
   };
-  Completer<List<AllTasksRecord>>? _firestoreRequestCompleter1;
-  Completer<List<AllTasksRecord>>? _firestoreRequestCompleter3;
-  Completer<List<AllTasksRecord>>? _firestoreRequestCompleter5;
-  Completer<List<AllTasksRecord>>? _firestoreRequestCompleter6;
-  Completer<List<AllTasksRecord>>? _firestoreRequestCompleter2;
-  Completer<List<AllTasksRecord>>? _firestoreRequestCompleter4;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter1;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter3;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter6;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter7;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter2;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter4;
+  Completer<List<AllMaterialsRecord>>? _firestoreRequestCompleter5;
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -256,6 +258,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -289,7 +297,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
         child: DrawerNavWidget(),
       ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -322,46 +330,54 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                         color: FlutterFlowTheme.of(context).primaryBackground,
                       ),
                     ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        if (responsiveVisibility(
-                          context: context,
-                          tablet: false,
-                          tabletLandscape: false,
-                          desktop: false,
-                        ))
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
-                            child: UserCardWidget(),
-                          ),
-                        Column(
+                  Align(
+                    alignment: AlignmentDirectional(-0.9, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 5),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
                           mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AuthUserStreamWidget(
-                              child: Text(
-                                currentUserDisplayName,
-                                style: FlutterFlowTheme.of(context).title2,
+                            if (responsiveVisibility(
+                              context: context,
+                              tablet: false,
+                              tabletLandscape: false,
+                              desktop: false,
+                            ))
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+                                child: UserCardWidget(),
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                              child: Text(
-                                FFLocalizations.of(context).getText(
-                                  '12tkp77z' /* Good morning */,
+                            Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AuthUserStreamWidget(
+                                  child: Text(
+                                    currentUserDisplayName,
+                                    style: FlutterFlowTheme.of(context).title2,
+                                  ),
                                 ),
-                                style: FlutterFlowTheme.of(context).bodyText2,
-                              ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 4, 0, 0),
+                                  child: Text(
+                                    FFLocalizations.of(context).getText(
+                                      '12tkp77z' /* Good morning */,
+                                    ),
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyText2,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                   if (responsiveVisibility(
@@ -410,7 +426,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                   ),
                                   Tab(
                                     text: FFLocalizations.of(context).getText(
-                                      'lqbva4ak' /* Complete */,
+                                      'lqbva4ak' /* Verified */,
                                     ),
                                   ),
                                 ],
@@ -421,15 +437,15 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 8, 0, 12),
-                                      child:
-                                          StreamBuilder<List<AllTasksRecord>>(
-                                        stream: queryAllTasksRecord(
-                                          queryBuilder: (allTasksRecord) =>
-                                              allTasksRecord
+                                      child: StreamBuilder<
+                                          List<AllMaterialsRecord>>(
+                                        stream: queryAllMaterialsRecord(
+                                          queryBuilder: (allMaterialsRecord) =>
+                                              allMaterialsRecord
                                                   .where('members',
                                                       arrayContains:
                                                           currentUserReference)
-                                                  .orderBy('dueDate',
+                                                  .orderBy('addedOn',
                                                       descending: true),
                                         ),
                                         builder: (context, snapshot) {
@@ -448,10 +464,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                               ),
                                             );
                                           }
-                                          List<AllTasksRecord>
-                                              listViewAllTasksRecordList =
+                                          List<AllMaterialsRecord>
+                                              listViewAllMaterialsRecordList =
                                               snapshot.data!;
-                                          if (listViewAllTasksRecordList
+                                          if (listViewAllMaterialsRecordList
                                               .isEmpty) {
                                             return Center(
                                               child: Container(
@@ -474,12 +490,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                             shrinkWrap: true,
                                             scrollDirection: Axis.vertical,
                                             itemCount:
-                                                listViewAllTasksRecordList
+                                                listViewAllMaterialsRecordList
                                                     .length,
                                             itemBuilder:
                                                 (context, listViewIndex) {
-                                              final listViewAllTasksRecord =
-                                                  listViewAllTasksRecordList[
+                                              final listViewAllMaterialsRecord =
+                                                  listViewAllMaterialsRecordList[
                                                       listViewIndex];
                                               return Padding(
                                                 padding: EdgeInsetsDirectional
@@ -487,17 +503,17 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                 child: InkWell(
                                                   onTap: () async {
                                                     context.pushNamed(
-                                                      'taskDetails',
+                                                      'matDetails',
                                                       queryParams: {
-                                                        'taskRef':
+                                                        'matRef':
                                                             serializeParam(
-                                                          listViewAllTasksRecord,
+                                                          listViewAllMaterialsRecord,
                                                           ParamType.Document,
                                                         ),
                                                       }.withoutNulls,
                                                       extra: <String, dynamic>{
-                                                        'taskRef':
-                                                            listViewAllTasksRecord,
+                                                        'matRef':
+                                                            listViewAllMaterialsRecord,
                                                       },
                                                     );
                                                   },
@@ -527,7 +543,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                           ProjectsRecord>(
                                                         future: ProjectsRecord
                                                             .getDocumentOnce(
-                                                                listViewAllTasksRecord
+                                                                listViewAllMaterialsRecord
                                                                     .projectRef!),
                                                         builder: (context,
                                                             snapshot) {
@@ -576,8 +592,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                               0),
                                                                       child:
                                                                           Text(
-                                                                        listViewAllTasksRecord
-                                                                            .taskName!,
+                                                                        listViewAllMaterialsRecord
+                                                                            .materialName!,
                                                                         style: FlutterFlowTheme.of(context)
                                                                             .title3,
                                                                       ),
@@ -608,13 +624,14 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                               0),
                                                                       child:
                                                                           Text(
-                                                                        listViewAllTasksRecord
+                                                                        listViewAllMaterialsRecord
                                                                             .status!,
                                                                         style: FlutterFlowTheme.of(context)
                                                                             .bodyText1
                                                                             .override(
-                                                                              fontFamily: 'Space Grotesk',
+                                                                              fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                               color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                             ),
                                                                       ),
                                                                     ),
@@ -656,16 +673,18 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                     FFLocalizations.of(
                                                                             context)
                                                                         .getText(
-                                                                      'uwyvo6wk' /* Due */,
+                                                                      'uwyvo6wk' /* Added on */,
                                                                     ),
                                                                     style: FlutterFlowTheme.of(
                                                                             context)
                                                                         .bodyText1
                                                                         .override(
                                                                           fontFamily:
-                                                                              'Space Grotesk',
+                                                                              FlutterFlowTheme.of(context).bodyText1Family,
                                                                           fontWeight:
                                                                               FontWeight.bold,
+                                                                          useGoogleFonts:
+                                                                              GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                         ),
                                                                   ),
                                                                   Padding(
@@ -678,8 +697,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                     child: Text(
                                                                       dateTimeFormat(
                                                                         'MMMEd',
-                                                                        listViewAllTasksRecord
-                                                                            .dueDate!,
+                                                                        listViewAllMaterialsRecord
+                                                                            .addedOn!,
                                                                         locale:
                                                                             FFLocalizations.of(context).languageCode,
                                                                       ),
@@ -698,8 +717,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                     child: Text(
                                                                       dateTimeFormat(
                                                                         'jm',
-                                                                        listViewAllTasksRecord
-                                                                            .dueDate!,
+                                                                        listViewAllMaterialsRecord
+                                                                            .addedOn!,
                                                                         locale:
                                                                             FFLocalizations.of(context).languageCode,
                                                                       ),
@@ -735,298 +754,21 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 12, 0, 0),
-                                      child:
-                                          StreamBuilder<List<AllTasksRecord>>(
-                                        stream: queryAllTasksRecord(
-                                          queryBuilder: (allTasksRecord) =>
-                                              allTasksRecord
-                                                  .where('members',
-                                                      arrayContains:
-                                                          currentUserReference)
-                                                  .where('status',
-                                                      isEqualTo: 'Not Started')
-                                                  .orderBy('dueDate',
-                                                      descending: true),
-                                        ),
-                                        builder: (context, snapshot) {
-                                          // Customize what your widget looks like when it's loading.
-                                          if (!snapshot.hasData) {
-                                            return Center(
-                                              child: SizedBox(
-                                                width: 50,
-                                                height: 50,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryColor,
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                          List<AllTasksRecord>
-                                              listViewAllTasksRecordList =
-                                              snapshot.data!;
-                                          if (listViewAllTasksRecordList
-                                              .isEmpty) {
-                                            return Container(
-                                              height: 300,
-                                              child: EmptyTasksWidget(
-                                                title: 'You are good to go!',
-                                                bodyText:
-                                                    'All of your tasks are in progress or complete! Congrats.',
-                                              ),
-                                            );
-                                          }
-                                          return ListView.builder(
-                                            padding: EdgeInsets.zero,
-                                            primary: false,
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.vertical,
-                                            itemCount:
-                                                listViewAllTasksRecordList
-                                                    .length,
-                                            itemBuilder:
-                                                (context, listViewIndex) {
-                                              final listViewAllTasksRecord =
-                                                  listViewAllTasksRecordList[
-                                                      listViewIndex];
-                                              return Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(16, 0, 16, 8),
-                                                child: InkWell(
-                                                  onTap: () async {
-                                                    context.pushNamed(
-                                                        'taskDetails');
-                                                  },
-                                                  child: Container(
-                                                    width: double.infinity,
-                                                    decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12),
-                                                      border: Border.all(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .lineColor,
-                                                        width: 2,
-                                                      ),
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(12, 12,
-                                                                  12, 12),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          12,
-                                                                          0),
-                                                                  child: Text(
-                                                                    listViewAllTasksRecord
-                                                                        .taskName!,
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .title3,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              InkWell(
-                                                                onTap:
-                                                                    () async {
-                                                                  final allTasksUpdateData =
-                                                                      createAllTasksRecordData(
-                                                                    status:
-                                                                        'In Progress',
-                                                                  );
-                                                                  await listViewAllTasksRecord
-                                                                      .reference
-                                                                      .update(
-                                                                          allTasksUpdateData);
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  height: 32,
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primaryColor,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            32),
-                                                                  ),
-                                                                  alignment:
-                                                                      AlignmentDirectional(
-                                                                          0, 0),
-                                                                  child:
-                                                                      Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            12,
-                                                                            0,
-                                                                            12,
-                                                                            0),
-                                                                    child: Text(
-                                                                      FFLocalizations.of(
-                                                                              context)
-                                                                          .getText(
-                                                                        '832adtr2' /* Start */,
-                                                                      ),
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyText1
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Space Grotesk',
-                                                                            color:
-                                                                                Colors.white,
-                                                                          ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        4,
-                                                                        0,
-                                                                        0),
-                                                            child: AutoSizeText(
-                                                              listViewAllTasksRecord
-                                                                  .description!
-                                                                  .maybeHandleOverflow(
-                                                                      maxChars:
-                                                                          100),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyText2,
-                                                            ),
-                                                          ),
-                                                          Divider(
-                                                            height: 24,
-                                                            thickness: 1,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .lineColor,
-                                                          ),
-                                                          Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                FFLocalizations.of(
-                                                                        context)
-                                                                    .getText(
-                                                                  '1460lgka' /* Due */,
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyText1
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Space Grotesk',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                    ),
-                                                              ),
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          8,
-                                                                          0,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    dateTimeFormat(
-                                                                      'MMMEd',
-                                                                      listViewAllTasksRecord
-                                                                          .dueDate!,
-                                                                      locale: FFLocalizations.of(
-                                                                              context)
-                                                                          .languageCode,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyText2,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Icon(
-                                                                Icons
-                                                                    .keyboard_arrow_right_rounded,
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondaryText,
-                                                                size: 24,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ).animateOnPageLoad(animationsMap[
-                                                    'containerOnPageLoadAnimation3']!),
-                                              );
-                                            },
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 12, 0, 12),
-                                      child:
-                                          FutureBuilder<List<AllTasksRecord>>(
+                                      child: FutureBuilder<
+                                          List<AllMaterialsRecord>>(
                                         future: (_firestoreRequestCompleter4 ??=
                                                 Completer<
-                                                    List<AllTasksRecord>>()
+                                                    List<AllMaterialsRecord>>()
                                                   ..complete(
-                                                      queryAllTasksRecordOnce(
-                                                    queryBuilder: (allTasksRecord) =>
-                                                        allTasksRecord
+                                                      queryAllMaterialsRecordOnce(
+                                                    queryBuilder: (allMaterialsRecord) =>
+                                                        allMaterialsRecord
                                                             .where('members',
                                                                 arrayContains:
                                                                     currentUserReference)
                                                             .where('status',
                                                                 isEqualTo:
-                                                                    'In Progress')
-                                                            .orderBy('dueDate',
-                                                                descending:
-                                                                    true),
+                                                                    'Not Started'),
                                                   )))
                                             .future,
                                         builder: (context, snapshot) {
@@ -1045,28 +787,22 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                               ),
                                             );
                                           }
-                                          List<AllTasksRecord>
-                                              listViewAllTasksRecordList =
+                                          List<AllMaterialsRecord>
+                                              listViewAllMaterialsRecordList =
                                               snapshot.data!;
-                                          if (listViewAllTasksRecordList
+                                          if (listViewAllMaterialsRecordList
                                               .isEmpty) {
-                                            return Center(
-                                              child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.8,
-                                                height: 300,
-                                                child: EmptyTasksWidget(
-                                                  title: 'No In Progress Tasks',
-                                                  bodyText:
-                                                      'No current tasks are in progress, congrats! Seems like you have deseared a rest.',
-                                                ),
+                                            return Container(
+                                              height: 300,
+                                              child: EmptyTasksWidget(
+                                                title: 'You are good to go!',
+                                                bodyText:
+                                                    'All of your materialss are verified! Congrats.',
                                               ),
                                             );
                                           }
-                                          return RefreshIndicator(
-                                            onRefresh: () async {
+                                          return InkWell(
+                                            onTap: () async {
                                               setState(() =>
                                                   _firestoreRequestCompleter4 =
                                                       null);
@@ -1078,33 +814,20 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                               shrinkWrap: true,
                                               scrollDirection: Axis.vertical,
                                               itemCount:
-                                                  listViewAllTasksRecordList
+                                                  listViewAllMaterialsRecordList
                                                       .length,
                                               itemBuilder:
                                                   (context, listViewIndex) {
-                                                final listViewAllTasksRecord =
-                                                    listViewAllTasksRecordList[
+                                                final listViewAllMaterialsRecord =
+                                                    listViewAllMaterialsRecordList[
                                                         listViewIndex];
                                                 return Padding(
                                                   padding: EdgeInsetsDirectional
-                                                      .fromSTEB(16, 4, 16, 8),
+                                                      .fromSTEB(16, 0, 16, 8),
                                                   child: InkWell(
                                                     onTap: () async {
                                                       context.pushNamed(
-                                                        'taskDetails',
-                                                        queryParams: {
-                                                          'taskRef':
-                                                              serializeParam(
-                                                            listViewAllTasksRecord,
-                                                            ParamType.Document,
-                                                          ),
-                                                        }.withoutNulls,
-                                                        extra: <String,
-                                                            dynamic>{
-                                                          'taskRef':
-                                                              listViewAllTasksRecord,
-                                                        },
-                                                      );
+                                                          'matDetails');
                                                     },
                                                     child: Container(
                                                       width: double.infinity,
@@ -1131,7 +854,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                             ProjectsRecord>(
                                                           future: ProjectsRecord
                                                               .getDocumentOnce(
-                                                                  listViewAllTasksRecord
+                                                                  listViewAllMaterialsRecord
                                                                       .projectRef!),
                                                           builder: (context,
                                                               snapshot) {
@@ -1179,8 +902,325 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                             0),
                                                                         child:
                                                                             Text(
-                                                                          listViewAllTasksRecord
-                                                                              .taskName!,
+                                                                          listViewAllMaterialsRecord
+                                                                              .materialName!,
+                                                                          style:
+                                                                              FlutterFlowTheme.of(context).title3,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                      height:
+                                                                          32,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primaryColor,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(32),
+                                                                      ),
+                                                                      alignment:
+                                                                          AlignmentDirectional(
+                                                                              0,
+                                                                              0),
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            12,
+                                                                            0,
+                                                                            12,
+                                                                            0),
+                                                                        child:
+                                                                            Text(
+                                                                          FFLocalizations.of(context)
+                                                                              .getText(
+                                                                            '832adtr2' /* Start */,
+                                                                          ),
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyText1
+                                                                              .override(
+                                                                                fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                color: Colors.white,
+                                                                                useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                              ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0,
+                                                                          4,
+                                                                          0,
+                                                                          0),
+                                                                  child:
+                                                                      AutoSizeText(
+                                                                    listViewAllMaterialsRecord
+                                                                        .description!
+                                                                        .maybeHandleOverflow(
+                                                                            maxChars:
+                                                                                100),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyText2,
+                                                                  ),
+                                                                ),
+                                                                Divider(
+                                                                  height: 24,
+                                                                  thickness: 1,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .lineColor,
+                                                                ),
+                                                                Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      FFLocalizations.of(
+                                                                              context)
+                                                                          .getText(
+                                                                        '1460lgka' /* Due */,
+                                                                      ),
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyText1
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                FlutterFlowTheme.of(context).bodyText1Family,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            useGoogleFonts:
+                                                                                GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                          ),
+                                                                    ),
+                                                                    Expanded(
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            8,
+                                                                            0,
+                                                                            0,
+                                                                            0),
+                                                                        child:
+                                                                            Text(
+                                                                          dateTimeFormat(
+                                                                            'MMMEd',
+                                                                            listViewAllMaterialsRecord.addedOn!,
+                                                                            locale:
+                                                                                FFLocalizations.of(context).languageCode,
+                                                                          ),
+                                                                          style:
+                                                                              FlutterFlowTheme.of(context).bodyText2,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Icon(
+                                                                      Icons
+                                                                          .keyboard_arrow_right_rounded,
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .secondaryText,
+                                                                      size: 24,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ).animateOnPageLoad(animationsMap[
+                                                      'containerOnPageLoadAnimation3']!),
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 12, 0, 12),
+                                      child: FutureBuilder<
+                                          List<AllMaterialsRecord>>(
+                                        future: (_firestoreRequestCompleter5 ??=
+                                                Completer<
+                                                    List<AllMaterialsRecord>>()
+                                                  ..complete(
+                                                      queryAllMaterialsRecordOnce(
+                                                    queryBuilder: (allMaterialsRecord) =>
+                                                        allMaterialsRecord
+                                                            .where('members',
+                                                                arrayContains:
+                                                                    currentUserReference)
+                                                            .where('status',
+                                                                isEqualTo:
+                                                                    'In Progress')
+                                                            .orderBy('addedOn',
+                                                                descending:
+                                                                    true),
+                                                  )))
+                                            .future,
+                                        builder: (context, snapshot) {
+                                          // Customize what your widget looks like when it's loading.
+                                          if (!snapshot.hasData) {
+                                            return Center(
+                                              child: SizedBox(
+                                                width: 50,
+                                                height: 50,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryColor,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          List<AllMaterialsRecord>
+                                              listViewAllMaterialsRecordList =
+                                              snapshot.data!;
+                                          if (listViewAllMaterialsRecordList
+                                              .isEmpty) {
+                                            return Center(
+                                              child: Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.8,
+                                                height: 300,
+                                                child: EmptyTasksWidget(
+                                                  title: 'No In Progress Tasks',
+                                                  bodyText:
+                                                      'No current materials are in progress, congrats! Seems like you deserve a rest.',
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          return RefreshIndicator(
+                                            onRefresh: () async {
+                                              setState(() =>
+                                                  _firestoreRequestCompleter5 =
+                                                      null);
+                                              await waitForFirestoreRequestCompleter5();
+                                            },
+                                            child: ListView.builder(
+                                              padding: EdgeInsets.zero,
+                                              primary: false,
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.vertical,
+                                              itemCount:
+                                                  listViewAllMaterialsRecordList
+                                                      .length,
+                                              itemBuilder:
+                                                  (context, listViewIndex) {
+                                                final listViewAllMaterialsRecord =
+                                                    listViewAllMaterialsRecordList[
+                                                        listViewIndex];
+                                                return Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(16, 4, 16, 8),
+                                                  child: InkWell(
+                                                    onTap: () async {
+                                                      context.pushNamed(
+                                                        'matDetails',
+                                                        queryParams: {
+                                                          'matRef':
+                                                              serializeParam(
+                                                            listViewAllMaterialsRecord,
+                                                            ParamType.Document,
+                                                          ),
+                                                        }.withoutNulls,
+                                                        extra: <String,
+                                                            dynamic>{
+                                                          'matRef':
+                                                              listViewAllMaterialsRecord,
+                                                        },
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      width: double.infinity,
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12),
+                                                        border: Border.all(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .lineColor,
+                                                          width: 2,
+                                                        ),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(12,
+                                                                    12, 12, 12),
+                                                        child: FutureBuilder<
+                                                            ProjectsRecord>(
+                                                          future: ProjectsRecord
+                                                              .getDocumentOnce(
+                                                                  listViewAllMaterialsRecord
+                                                                      .projectRef!),
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            // Customize what your widget looks like when it's loading.
+                                                            if (!snapshot
+                                                                .hasData) {
+                                                              return Center(
+                                                                child: SizedBox(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  child:
+                                                                      CircularProgressIndicator(
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primaryColor,
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
+                                                            final columnProjectsRecord =
+                                                                snapshot.data!;
+                                                            return Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            0,
+                                                                            0,
+                                                                            12,
+                                                                            0),
+                                                                        child:
+                                                                            Text(
+                                                                          listViewAllMaterialsRecord
+                                                                              .materialName!,
                                                                           style:
                                                                               FlutterFlowTheme.of(context).title3,
                                                                         ),
@@ -1209,13 +1249,14 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                             0),
                                                                         child:
                                                                             Text(
-                                                                          listViewAllTasksRecord
+                                                                          listViewAllMaterialsRecord
                                                                               .status!,
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyText1
                                                                               .override(
-                                                                                fontFamily: 'Space Grotesk',
+                                                                                fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                 color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                               ),
                                                                         ),
                                                                       ),
@@ -1256,16 +1297,18 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                       FFLocalizations.of(
                                                                               context)
                                                                           .getText(
-                                                                        'c8gv1fmj' /* Due */,
+                                                                        'c8gv1fmj' /* Added on */,
                                                                       ),
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .bodyText1
                                                                           .override(
                                                                             fontFamily:
-                                                                                'Space Grotesk',
+                                                                                FlutterFlowTheme.of(context).bodyText1Family,
                                                                             fontWeight:
                                                                                 FontWeight.bold,
+                                                                            useGoogleFonts:
+                                                                                GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                           ),
                                                                     ),
                                                                     Padding(
@@ -1279,8 +1322,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           Text(
                                                                         dateTimeFormat(
                                                                           'MMMEd',
-                                                                          listViewAllTasksRecord
-                                                                              .dueDate!,
+                                                                          listViewAllMaterialsRecord
+                                                                              .addedOn!,
                                                                           locale:
                                                                               FFLocalizations.of(context).languageCode,
                                                                         ),
@@ -1299,8 +1342,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           Text(
                                                                         dateTimeFormat(
                                                                           'jm',
-                                                                          listViewAllTasksRecord
-                                                                              .dueDate!,
+                                                                          listViewAllMaterialsRecord
+                                                                              .addedOn!,
                                                                           locale:
                                                                               FFLocalizations.of(context).languageCode,
                                                                         ),
@@ -1336,21 +1379,24 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 12, 0, 12),
-                                      child:
-                                          FutureBuilder<List<AllTasksRecord>>(
+                                      child: FutureBuilder<
+                                          List<AllMaterialsRecord>>(
                                         future: (_firestoreRequestCompleter2 ??=
                                                 Completer<
-                                                    List<AllTasksRecord>>()
+                                                    List<AllMaterialsRecord>>()
                                                   ..complete(
-                                                      queryAllTasksRecordOnce(
-                                                    queryBuilder: (allTasksRecord) =>
-                                                        allTasksRecord
-                                                            .where('members',
-                                                                arrayContains:
-                                                                    currentUserReference)
-                                                            .where('completed',
-                                                                isEqualTo:
-                                                                    true),
+                                                      queryAllMaterialsRecordOnce(
+                                                    queryBuilder:
+                                                        (allMaterialsRecord) =>
+                                                            allMaterialsRecord
+                                                                .where(
+                                                                    'members',
+                                                                    arrayContains:
+                                                                        currentUserReference)
+                                                                .where(
+                                                                    'verified',
+                                                                    isEqualTo:
+                                                                        true),
                                                   )))
                                             .future,
                                         builder: (context, snapshot) {
@@ -1369,10 +1415,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                               ),
                                             );
                                           }
-                                          List<AllTasksRecord>
-                                              listViewAllTasksRecordList =
+                                          List<AllMaterialsRecord>
+                                              listViewAllMaterialsRecordList =
                                               snapshot.data!;
-                                          if (listViewAllTasksRecordList
+                                          if (listViewAllMaterialsRecordList
                                               .isEmpty) {
                                             return Center(
                                               child: Container(
@@ -1384,7 +1430,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                 child: CompletedTasksWidget(
                                                   title: 'No Completed Tasks',
                                                   bodyText:
-                                                      'You need to get to work, go and complete some tasks.',
+                                                      'Go and verify some materials.',
                                                 ),
                                               ),
                                             );
@@ -1402,12 +1448,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                               shrinkWrap: true,
                                               scrollDirection: Axis.vertical,
                                               itemCount:
-                                                  listViewAllTasksRecordList
+                                                  listViewAllMaterialsRecordList
                                                       .length,
                                               itemBuilder:
                                                   (context, listViewIndex) {
-                                                final listViewAllTasksRecord =
-                                                    listViewAllTasksRecordList[
+                                                final listViewAllMaterialsRecord =
+                                                    listViewAllMaterialsRecordList[
                                                         listViewIndex];
                                                 return Padding(
                                                   padding: EdgeInsetsDirectional
@@ -1415,18 +1461,18 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                   child: InkWell(
                                                     onTap: () async {
                                                       context.pushNamed(
-                                                        'taskDetails',
+                                                        'matDetails',
                                                         queryParams: {
-                                                          'taskRef':
+                                                          'matRef':
                                                               serializeParam(
-                                                            listViewAllTasksRecord,
+                                                            listViewAllMaterialsRecord,
                                                             ParamType.Document,
                                                           ),
                                                         }.withoutNulls,
                                                         extra: <String,
                                                             dynamic>{
-                                                          'taskRef':
-                                                              listViewAllTasksRecord,
+                                                          'matRef':
+                                                              listViewAllMaterialsRecord,
                                                         },
                                                       );
                                                     },
@@ -1455,7 +1501,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                             ProjectsRecord>(
                                                           future: ProjectsRecord
                                                               .getDocumentOnce(
-                                                                  listViewAllTasksRecord
+                                                                  listViewAllMaterialsRecord
                                                                       .projectRef!),
                                                           builder: (context,
                                                               snapshot) {
@@ -1503,8 +1549,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                             0),
                                                                         child:
                                                                             Text(
-                                                                          listViewAllTasksRecord
-                                                                              .taskName!,
+                                                                          listViewAllMaterialsRecord
+                                                                              .materialName!,
                                                                           style:
                                                                               FlutterFlowTheme.of(context).title3,
                                                                         ),
@@ -1578,16 +1624,18 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                       FFLocalizations.of(
                                                                               context)
                                                                           .getText(
-                                                                        'htuk5fl0' /* Due */,
+                                                                        'htuk5fl0' /* Verified on */,
                                                                       ),
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .bodyText1
                                                                           .override(
                                                                             fontFamily:
-                                                                                'Space Grotesk',
+                                                                                FlutterFlowTheme.of(context).bodyText1Family,
                                                                             fontWeight:
                                                                                 FontWeight.bold,
+                                                                            useGoogleFonts:
+                                                                                GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                           ),
                                                                     ),
                                                                     Padding(
@@ -1601,8 +1649,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           Text(
                                                                         dateTimeFormat(
                                                                           'MMMEd',
-                                                                          listViewAllTasksRecord
-                                                                              .dueDate!,
+                                                                          listViewAllMaterialsRecord
+                                                                              .verifiedOn!,
                                                                           locale:
                                                                               FFLocalizations.of(context).languageCode,
                                                                         ),
@@ -1621,8 +1669,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           Text(
                                                                         dateTimeFormat(
                                                                           'jm',
-                                                                          listViewAllTasksRecord
-                                                                              .dueDate!,
+                                                                          listViewAllMaterialsRecord
+                                                                              .verifiedOn!,
                                                                           locale:
                                                                               FFLocalizations.of(context).languageCode,
                                                                         ),
@@ -1715,26 +1763,11 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                             Text(
                                               FFLocalizations.of(context)
                                                   .getText(
-                                                'xe34smbh' /* My Tasks */,
+                                                'xe34smbh' /* My Materials */,
                                               ),
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .title3,
-                                            ),
-                                            Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                '1rnio8vt' /* (4) */,
-                                              ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .subtitle2
-                                                  .override(
-                                                    fontFamily: 'Space Grotesk',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                  ),
                                             ),
                                           ],
                                         ),
@@ -1747,20 +1780,20 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(0, 8, 0, 12),
                                                   child: FutureBuilder<
-                                                      List<AllTasksRecord>>(
-                                                    future: (_firestoreRequestCompleter5 ??=
+                                                      List<AllMaterialsRecord>>(
+                                                    future: (_firestoreRequestCompleter6 ??=
                                                             Completer<
                                                                 List<
-                                                                    AllTasksRecord>>()
+                                                                    AllMaterialsRecord>>()
                                                               ..complete(
-                                                                  queryAllTasksRecordOnce(
-                                                                queryBuilder: (allTasksRecord) => allTasksRecord
+                                                                  queryAllMaterialsRecordOnce(
+                                                                queryBuilder: (allMaterialsRecord) => allMaterialsRecord
                                                                     .where(
                                                                         'members',
                                                                         arrayContains:
                                                                             currentUserReference)
                                                                     .orderBy(
-                                                                        'dueDate',
+                                                                        'addedOn',
                                                                         descending:
                                                                             true),
                                                               )))
@@ -1782,10 +1815,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                           ),
                                                         );
                                                       }
-                                                      List<AllTasksRecord>
-                                                          listViewAllTasksRecordList =
+                                                      List<AllMaterialsRecord>
+                                                          listViewAllMaterialsRecordList =
                                                           snapshot.data!;
-                                                      if (listViewAllTasksRecordList
+                                                      if (listViewAllMaterialsRecordList
                                                           .isEmpty) {
                                                         return Center(
                                                           child: Container(
@@ -1808,9 +1841,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                       return RefreshIndicator(
                                                         onRefresh: () async {
                                                           setState(() =>
-                                                              _firestoreRequestCompleter5 =
+                                                              _firestoreRequestCompleter6 =
                                                                   null);
-                                                          await waitForFirestoreRequestCompleter5();
+                                                          await waitForFirestoreRequestCompleter6();
                                                         },
                                                         child: ListView.builder(
                                                           padding:
@@ -1819,12 +1852,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                           scrollDirection:
                                                               Axis.vertical,
                                                           itemCount:
-                                                              listViewAllTasksRecordList
+                                                              listViewAllMaterialsRecordList
                                                                   .length,
                                                           itemBuilder: (context,
                                                               listViewIndex) {
-                                                            final listViewAllTasksRecord =
-                                                                listViewAllTasksRecordList[
+                                                            final listViewAllMaterialsRecord =
+                                                                listViewAllMaterialsRecordList[
                                                                     listViewIndex];
                                                             return Padding(
                                                               padding:
@@ -1839,12 +1872,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                     () async {
                                                                   context
                                                                       .pushNamed(
-                                                                    'taskDetails',
+                                                                    'matDetails',
                                                                     queryParams:
                                                                         {
-                                                                      'taskRef':
+                                                                      'matRef':
                                                                           serializeParam(
-                                                                        listViewAllTasksRecord,
+                                                                        listViewAllMaterialsRecord,
                                                                         ParamType
                                                                             .Document,
                                                                       ),
@@ -1852,8 +1885,8 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                     extra: <
                                                                         String,
                                                                         dynamic>{
-                                                                      'taskRef':
-                                                                          listViewAllTasksRecord,
+                                                                      'matRef':
+                                                                          listViewAllMaterialsRecord,
                                                                     },
                                                                   );
                                                                 },
@@ -1889,7 +1922,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                     child: FutureBuilder<
                                                                         ProjectsRecord>(
                                                                       future: ProjectsRecord.getDocumentOnce(
-                                                                          listViewAllTasksRecord
+                                                                          listViewAllMaterialsRecord
                                                                               .projectRef!),
                                                                       builder:
                                                                           (context,
@@ -1919,7 +1952,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                             Padding(
                                                                               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
                                                                               child: Text(
-                                                                                listViewAllTasksRecord.taskName!,
+                                                                                listViewAllMaterialsRecord.materialName!,
                                                                                 style: FlutterFlowTheme.of(context).title3,
                                                                               ),
                                                                             ),
@@ -1948,10 +1981,11 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                     child: Padding(
                                                                                       padding: EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
                                                                                       child: Text(
-                                                                                        listViewAllTasksRecord.status!,
+                                                                                        listViewAllMaterialsRecord.status!,
                                                                                         style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                              fontFamily: 'Space Grotesk',
+                                                                                              fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                               color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                              useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                                             ),
                                                                                       ),
                                                                                     ),
@@ -1973,8 +2007,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                     'oopnhfx6' /* Due */,
                                                                                   ),
                                                                                   style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                        fontFamily: 'Space Grotesk',
+                                                                                        fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                         fontWeight: FontWeight.bold,
+                                                                                        useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                                       ),
                                                                                 ),
                                                                                 Padding(
@@ -1982,7 +2017,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                   child: Text(
                                                                                     dateTimeFormat(
                                                                                       'MMMEd',
-                                                                                      listViewAllTasksRecord.dueDate!,
+                                                                                      listViewAllMaterialsRecord.addedOn!,
                                                                                       locale: FFLocalizations.of(context).languageCode,
                                                                                     ),
                                                                                     style: FlutterFlowTheme.of(context).bodyText2,
@@ -1993,7 +2028,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                   child: Text(
                                                                                     dateTimeFormat(
                                                                                       'jm',
-                                                                                      listViewAllTasksRecord.dueDate!,
+                                                                                      listViewAllMaterialsRecord.addedOn!,
                                                                                       locale: FFLocalizations.of(context).languageCode,
                                                                                     ),
                                                                                     style: FlutterFlowTheme.of(context).bodyText2,
@@ -2071,21 +2106,6 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                   FlutterFlowTheme.of(context)
                                                       .title3,
                                             ),
-                                            Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                '6mtnsns9' /* (4) */,
-                                              ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .subtitle2
-                                                  .override(
-                                                    fontFamily: 'Space Grotesk',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                  ),
-                                            ),
                                           ],
                                         ),
                                         Expanded(
@@ -2094,15 +2114,15 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0, 12, 0, 0),
                                             child: FutureBuilder<
-                                                List<AllTasksRecord>>(
-                                              future: (_firestoreRequestCompleter6 ??=
+                                                List<AllMaterialsRecord>>(
+                                              future: (_firestoreRequestCompleter7 ??=
                                                       Completer<
                                                           List<
-                                                              AllTasksRecord>>()
+                                                              AllMaterialsRecord>>()
                                                         ..complete(
-                                                            queryAllTasksRecordOnce(
-                                                          queryBuilder: (allTasksRecord) =>
-                                                              allTasksRecord
+                                                            queryAllMaterialsRecordOnce(
+                                                          queryBuilder: (allMaterialsRecord) =>
+                                                              allMaterialsRecord
                                                                   .where(
                                                                       'members',
                                                                       arrayContains:
@@ -2112,7 +2132,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                       isEqualTo:
                                                                           'Not Started')
                                                                   .orderBy(
-                                                                      'dueDate',
+                                                                      'addedOn',
                                                                       descending:
                                                                           true),
                                                         )))
@@ -2134,10 +2154,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     ),
                                                   );
                                                 }
-                                                List<AllTasksRecord>
-                                                    listViewAllTasksRecordList =
+                                                List<AllMaterialsRecord>
+                                                    listViewAllMaterialsRecordList =
                                                     snapshot.data!;
-                                                if (listViewAllTasksRecordList
+                                                if (listViewAllMaterialsRecordList
                                                     .isEmpty) {
                                                   return Container(
                                                     height: 300,
@@ -2152,9 +2172,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                 return RefreshIndicator(
                                                   onRefresh: () async {
                                                     setState(() =>
-                                                        _firestoreRequestCompleter6 =
+                                                        _firestoreRequestCompleter7 =
                                                             null);
-                                                    await waitForFirestoreRequestCompleter6();
+                                                    await waitForFirestoreRequestCompleter7();
                                                   },
                                                   child: ListView.builder(
                                                     padding: EdgeInsets.zero,
@@ -2162,12 +2182,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     scrollDirection:
                                                         Axis.vertical,
                                                     itemCount:
-                                                        listViewAllTasksRecordList
+                                                        listViewAllMaterialsRecordList
                                                             .length,
                                                     itemBuilder: (context,
                                                         listViewIndex) {
-                                                      final listViewAllTasksRecord =
-                                                          listViewAllTasksRecordList[
+                                                      final listViewAllMaterialsRecord =
+                                                          listViewAllMaterialsRecordList[
                                                               listViewIndex];
                                                       return Padding(
                                                         padding:
@@ -2177,19 +2197,19 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                         child: InkWell(
                                                           onTap: () async {
                                                             context.pushNamed(
-                                                              'taskDetails',
+                                                              'matDetails',
                                                               queryParams: {
-                                                                'taskRef':
+                                                                'matRef':
                                                                     serializeParam(
-                                                                  listViewAllTasksRecord,
+                                                                  listViewAllMaterialsRecord,
                                                                   ParamType
                                                                       .Document,
                                                                 ),
                                                               }.withoutNulls,
                                                               extra: <String,
                                                                   dynamic>{
-                                                                'taskRef':
-                                                                    listViewAllTasksRecord,
+                                                                'matRef':
+                                                                    listViewAllMaterialsRecord,
                                                               },
                                                             );
                                                           },
@@ -2225,7 +2245,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                   ProjectsRecord>(
                                                                 future: ProjectsRecord
                                                                     .getDocumentOnce(
-                                                                        listViewAllTasksRecord
+                                                                        listViewAllMaterialsRecord
                                                                             .projectRef!),
                                                                 builder: (context,
                                                                     snapshot) {
@@ -2269,7 +2289,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                 Padding(
                                                                               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
                                                                               child: Text(
-                                                                                listViewAllTasksRecord.taskName!,
+                                                                                listViewAllMaterialsRecord.materialName!,
                                                                                 style: FlutterFlowTheme.of(context).title3,
                                                                               ),
                                                                             ),
@@ -2277,10 +2297,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                           InkWell(
                                                                             onTap:
                                                                                 () async {
-                                                                              final allTasksUpdateData = createAllTasksRecordData(
+                                                                              final allMaterialsUpdateData = createAllMaterialsRecordData(
                                                                                 status: 'In Progress',
                                                                               );
-                                                                              await listViewAllTasksRecord.reference.update(allTasksUpdateData);
+                                                                              await listViewAllMaterialsRecord.reference.update(allMaterialsUpdateData);
                                                                             },
                                                                             child:
                                                                                 Container(
@@ -2297,8 +2317,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                     'mpiabjfr' /* Start */,
                                                                                   ),
                                                                                   style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                        fontFamily: 'Space Grotesk',
+                                                                                        fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                         color: Colors.white,
+                                                                                        useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                                       ),
                                                                                 ),
                                                                               ),
@@ -2337,11 +2358,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                         children: [
                                                                           Text(
                                                                             FFLocalizations.of(context).getText(
-                                                                              'i1j0llq5' /* Due */,
+                                                                              'i1j0llq5' /* Added on */,
                                                                             ),
                                                                             style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                  fontFamily: 'Space Grotesk',
+                                                                                  fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                   fontWeight: FontWeight.bold,
+                                                                                  useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                                 ),
                                                                           ),
                                                                           Expanded(
@@ -2351,7 +2373,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                               child: Text(
                                                                                 dateTimeFormat(
                                                                                   'MMMEd',
-                                                                                  listViewAllTasksRecord.dueDate!,
+                                                                                  listViewAllMaterialsRecord.addedOn!,
                                                                                   locale: FFLocalizations.of(context).languageCode,
                                                                                 ),
                                                                                 style: FlutterFlowTheme.of(context).bodyText2,
@@ -2429,21 +2451,6 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                   FlutterFlowTheme.of(context)
                                                       .title3,
                                             ),
-                                            Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'hpgqf77b' /* (4) */,
-                                              ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .subtitle2
-                                                  .override(
-                                                    fontFamily: 'Space Grotesk',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                  ),
-                                            ),
                                           ],
                                         ),
                                         Expanded(
@@ -2452,15 +2459,15 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0, 12, 0, 0),
                                             child: FutureBuilder<
-                                                List<AllTasksRecord>>(
+                                                List<AllMaterialsRecord>>(
                                               future: (_firestoreRequestCompleter3 ??=
                                                       Completer<
                                                           List<
-                                                              AllTasksRecord>>()
+                                                              AllMaterialsRecord>>()
                                                         ..complete(
-                                                            queryAllTasksRecordOnce(
-                                                          queryBuilder: (allTasksRecord) =>
-                                                              allTasksRecord
+                                                            queryAllMaterialsRecordOnce(
+                                                          queryBuilder: (allMaterialsRecord) =>
+                                                              allMaterialsRecord
                                                                   .where(
                                                                       'members',
                                                                       arrayContains:
@@ -2470,7 +2477,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                       isEqualTo:
                                                                           'In Progress')
                                                                   .orderBy(
-                                                                      'dueDate',
+                                                                      'addedOn',
                                                                       descending:
                                                                           true),
                                                         )))
@@ -2492,10 +2499,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     ),
                                                   );
                                                 }
-                                                List<AllTasksRecord>
-                                                    listViewAllTasksRecordList =
+                                                List<AllMaterialsRecord>
+                                                    listViewAllMaterialsRecordList =
                                                     snapshot.data!;
-                                                if (listViewAllTasksRecordList
+                                                if (listViewAllMaterialsRecordList
                                                     .isEmpty) {
                                                   return Center(
                                                     child: Container(
@@ -2528,12 +2535,12 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     scrollDirection:
                                                         Axis.vertical,
                                                     itemCount:
-                                                        listViewAllTasksRecordList
+                                                        listViewAllMaterialsRecordList
                                                             .length,
                                                     itemBuilder: (context,
                                                         listViewIndex) {
-                                                      final listViewAllTasksRecord =
-                                                          listViewAllTasksRecordList[
+                                                      final listViewAllMaterialsRecord =
+                                                          listViewAllMaterialsRecordList[
                                                               listViewIndex];
                                                       return Padding(
                                                         padding:
@@ -2543,19 +2550,19 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                         child: InkWell(
                                                           onTap: () async {
                                                             context.pushNamed(
-                                                              'taskDetails',
+                                                              'matDetails',
                                                               queryParams: {
-                                                                'taskRef':
+                                                                'matRef':
                                                                     serializeParam(
-                                                                  listViewAllTasksRecord,
+                                                                  listViewAllMaterialsRecord,
                                                                   ParamType
                                                                       .Document,
                                                                 ),
                                                               }.withoutNulls,
                                                               extra: <String,
                                                                   dynamic>{
-                                                                'taskRef':
-                                                                    listViewAllTasksRecord,
+                                                                'matRef':
+                                                                    listViewAllMaterialsRecord,
                                                               },
                                                             );
                                                           },
@@ -2591,7 +2598,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                   ProjectsRecord>(
                                                                 future: ProjectsRecord
                                                                     .getDocumentOnce(
-                                                                        listViewAllTasksRecord
+                                                                        listViewAllMaterialsRecord
                                                                             .projectRef!),
                                                                 builder: (context,
                                                                     snapshot) {
@@ -2635,7 +2642,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                 Padding(
                                                                               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
                                                                               child: Text(
-                                                                                listViewAllTasksRecord.taskName!,
+                                                                                listViewAllMaterialsRecord.materialName!,
                                                                                 style: FlutterFlowTheme.of(context).title3,
                                                                               ),
                                                                             ),
@@ -2675,8 +2682,9 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                               'b8974iek' /* Due */,
                                                                             ),
                                                                             style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                  fontFamily: 'Space Grotesk',
+                                                                                  fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                   fontWeight: FontWeight.bold,
+                                                                                  useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
                                                                                 ),
                                                                           ),
                                                                           Padding(
@@ -2689,7 +2697,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                 Text(
                                                                               dateTimeFormat(
                                                                                 'MMMEd',
-                                                                                listViewAllTasksRecord.dueDate!,
+                                                                                listViewAllMaterialsRecord.addedOn!,
                                                                                 locale: FFLocalizations.of(context).languageCode,
                                                                               ),
                                                                               style: FlutterFlowTheme.of(context).bodyText2,
@@ -2705,7 +2713,7 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                                                 Text(
                                                                               dateTimeFormat(
                                                                                 'jm',
-                                                                                listViewAllTasksRecord.dueDate!,
+                                                                                listViewAllMaterialsRecord.addedOn!,
                                                                                 locale: FFLocalizations.of(context).languageCode,
                                                                               ),
                                                                               style: FlutterFlowTheme.of(context).bodyText2,
@@ -2782,21 +2790,6 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                   FlutterFlowTheme.of(context)
                                                       .title3,
                                             ),
-                                            Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                '5knyrkme' /* (4) */,
-                                              ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .subtitle2
-                                                  .override(
-                                                    fontFamily: 'Space Grotesk',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                  ),
-                                            ),
                                           ],
                                         ),
                                         Expanded(
@@ -2805,24 +2798,27 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0, 12, 0, 0),
                                             child: FutureBuilder<
-                                                List<AllTasksRecord>>(
+                                                List<AllMaterialsRecord>>(
                                               future: (_firestoreRequestCompleter1 ??=
                                                       Completer<
                                                           List<
-                                                              AllTasksRecord>>()
+                                                              AllMaterialsRecord>>()
                                                         ..complete(
-                                                            queryAllTasksRecordOnce(
-                                                          queryBuilder: (allTasksRecord) => allTasksRecord
-                                                              .where('members',
-                                                                  arrayContains:
-                                                                      currentUserReference)
-                                                              .where('status',
-                                                                  isEqualTo:
-                                                                      'Complete')
-                                                              .orderBy(
-                                                                  'completedAt',
-                                                                  descending:
-                                                                      true),
+                                                            queryAllMaterialsRecordOnce(
+                                                          queryBuilder: (allMaterialsRecord) =>
+                                                              allMaterialsRecord
+                                                                  .where(
+                                                                      'members',
+                                                                      arrayContains:
+                                                                          currentUserReference)
+                                                                  .where(
+                                                                      'status',
+                                                                      isEqualTo:
+                                                                          'Complete')
+                                                                  .orderBy(
+                                                                      'verifiedOn',
+                                                                      descending:
+                                                                          true),
                                                         )))
                                                   .future,
                                               builder: (context, snapshot) {
@@ -2842,10 +2838,10 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     ),
                                                   );
                                                 }
-                                                List<AllTasksRecord>
-                                                    listViewAllTasksRecordList =
+                                                List<AllMaterialsRecord>
+                                                    listViewAllMaterialsRecordList =
                                                     snapshot.data!;
-                                                if (listViewAllTasksRecordList
+                                                if (listViewAllMaterialsRecordList
                                                     .isEmpty) {
                                                   return Center(
                                                     child: Container(
@@ -2879,18 +2875,17 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
                                                     scrollDirection:
                                                         Axis.vertical,
                                                     itemCount:
-                                                        listViewAllTasksRecordList
+                                                        listViewAllMaterialsRecordList
                                                             .length,
                                                     itemBuilder: (context,
                                                         listViewIndex) {
-                                                      final listViewAllTasksRecord =
-                                                          listViewAllTasksRecordList[
+                                                      final listViewAllMaterialsRecord =
+                                                          listViewAllMaterialsRecordList[
                                                               listViewIndex];
                                                       return TaskComponentWidget(
-                                                        key: Key(
-                                                            'TaskComponent_${listViewIndex}'),
-                                                        taskRef:
-                                                            listViewAllTasksRecord,
+                                                        key: UniqueKey(),
+                                                        matRef:
+                                                            listViewAllMaterialsRecord,
                                                       );
                                                     },
                                                   ),
@@ -2948,21 +2943,6 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
     }
   }
 
-  Future waitForFirestoreRequestCompleter5({
-    double minWait = 0,
-    double maxWait = double.infinity,
-  }) async {
-    final stopwatch = Stopwatch()..start();
-    while (true) {
-      await Future.delayed(Duration(milliseconds: 50));
-      final timeElapsed = stopwatch.elapsedMilliseconds;
-      final requestComplete = _firestoreRequestCompleter5?.isCompleted ?? false;
-      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
-        break;
-      }
-    }
-  }
-
   Future waitForFirestoreRequestCompleter6({
     double minWait = 0,
     double maxWait = double.infinity,
@@ -2972,6 +2952,21 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
       await Future.delayed(Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
       final requestComplete = _firestoreRequestCompleter6?.isCompleted ?? false;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
+  }
+
+  Future waitForFirestoreRequestCompleter7({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete = _firestoreRequestCompleter7?.isCompleted ?? false;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
         break;
       }
@@ -3002,6 +2997,21 @@ class _MainTrackerWidgetState extends State<MainTrackerWidget>
       await Future.delayed(Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
       final requestComplete = _firestoreRequestCompleter4?.isCompleted ?? false;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
+  }
+
+  Future waitForFirestoreRequestCompleter5({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete = _firestoreRequestCompleter5?.isCompleted ?? false;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
         break;
       }

@@ -20,6 +20,7 @@ class MyProfileWidget extends StatefulWidget {
 
 class _MyProfileWidgetState extends State<MyProfileWidget>
     with TickerProviderStateMixin {
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var hasContainerTriggered1 = false;
   var hasContainerTriggered2 = false;
@@ -66,12 +67,18 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
   }
 
   @override
+  void dispose() {
+    _unfocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -100,9 +107,34 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                   ))
                     Container(
                       width: double.infinity,
-                      height: 40,
+                      height: 60,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
+                      ),
+                      child: Visibility(
+                        visible: responsiveVisibility(
+                          context: context,
+                          tablet: false,
+                          tabletLandscape: false,
+                          desktop: false,
+                        ),
+                        child: Align(
+                          alignment: AlignmentDirectional(1, 0),
+                          child: FlutterFlowIconButton(
+                            borderColor: Colors.transparent,
+                            borderRadius: 30,
+                            borderWidth: 1,
+                            buttonSize: 60,
+                            icon: Icon(
+                              Icons.close_rounded,
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              size: 30,
+                            ),
+                            onPressed: () async {
+                              context.pop();
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   Container(
@@ -120,20 +152,23 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                     child: Align(
                       alignment: AlignmentDirectional(0, 0),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(24, 12, 24, 12),
+                        padding: EdgeInsetsDirectional.fromSTEB(24, 20, 24, 20),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             AuthUserStreamWidget(
                               child: Container(
-                                width: 76,
-                                height: 76,
+                                width: 70,
+                                height: 70,
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
                                 child: CachedNetworkImage(
-                                  imageUrl: currentUserPhoto,
+                                  imageUrl: valueOrDefault<String>(
+                                    currentUserPhoto,
+                                    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                                  ),
                                 ),
                               ),
                             ),
@@ -146,7 +181,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Align(
-                                      alignment: AlignmentDirectional(0, 0),
+                                      alignment: AlignmentDirectional(-1, 0),
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0, 8, 0, 0),
@@ -160,42 +195,32 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 8, 0, 0),
+                                    Align(
+                                      alignment: AlignmentDirectional(-1, 0),
                                       child: Text(
                                         currentUserEmail,
                                         style: FlutterFlowTheme.of(context)
-                                            .bodyText2,
+                                            .bodyText2
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText2Family,
+                                              fontWeight: FontWeight.normal,
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText2Family),
+                                            ),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
-                            if (responsiveVisibility(
-                              context: context,
-                              tablet: false,
-                              tabletLandscape: false,
-                              desktop: false,
-                            ))
-                              FlutterFlowIconButton(
-                                borderColor: Colors.transparent,
-                                borderRadius: 30,
-                                borderWidth: 1,
-                                buttonSize: 60,
-                                icon: Icon(
-                                  Icons.close_rounded,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  size: 30,
-                                ),
-                                onPressed: () async {
-                                  context.pop();
-                                },
-                              ),
                             Align(
-                              alignment: AlignmentDirectional(0, 0),
+                              alignment: AlignmentDirectional(0, 0.5),
                               child: FFButtonWidget(
                                 onPressed: () {
                                   print('Button pressed ...');
@@ -204,15 +229,20 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                                   'qnq7kisw' /* Remove */,
                                 ),
                                 options: FFButtonOptions(
-                                  width: 130,
+                                  width: 100,
                                   height: 40,
                                   color:
                                       FlutterFlowTheme.of(context).primaryColor,
                                   textStyle: FlutterFlowTheme.of(context)
                                       .subtitle2
                                       .override(
-                                        fontFamily: 'Space Grotesk',
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .subtitle2Family,
                                         color: Colors.white,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .subtitle2Family),
                                       ),
                                   borderSide: BorderSide(
                                     color: Colors.transparent,
@@ -353,7 +383,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                               }
                             },
                             child: Container(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery.of(context).size.width * 1.2,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
@@ -538,32 +568,37 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                           ),
                           child: Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      12, 0, 0, 0),
-                                  child: Text(
-                                    FFLocalizations.of(context).getText(
-                                      'alhgf413' /* Edit Profile */,
-                                    ),
-                                    style:
-                                        FlutterFlowTheme.of(context).bodyText2,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Align(
-                                    alignment: AlignmentDirectional(0.9, 0),
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      size: 18,
+                            child: InkWell(
+                              onTap: () async {
+                                context.pushNamed('createProfile');
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        12, 0, 0, 0),
+                                    child: Text(
+                                      FFLocalizations.of(context).getText(
+                                        'alhgf413' /* Edit Profile */,
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyText2,
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Expanded(
+                                    child: Align(
+                                      alignment: AlignmentDirectional(0.9, 0),
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -597,6 +632,10 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                                           .primaryText,
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyText2Family),
                                     ),
                                 elevation: 1,
                                 borderSide: BorderSide(

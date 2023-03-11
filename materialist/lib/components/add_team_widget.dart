@@ -14,10 +14,10 @@ import 'package:text_search/text_search.dart';
 class AddTeamWidget extends StatefulWidget {
   const AddTeamWidget({
     Key? key,
-    this.taskRef,
+    this.matRef,
   }) : super(key: key);
 
-  final AllTasksRecord? taskRef;
+  final AllMaterialsRecord? matRef;
 
   @override
   _AddTeamWidgetState createState() => _AddTeamWidgetState();
@@ -205,8 +205,8 @@ class _AddTeamWidgetState extends State<AddTeamWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 44),
                     child: Builder(
                       builder: (context) {
-                        final serachResults = simpleSearchResults.toList();
-                        if (serachResults.isEmpty) {
+                        final searchResults = simpleSearchResults.toList();
+                        if (searchResults.isEmpty) {
                           return Center(
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.8,
@@ -224,10 +224,10 @@ class _AddTeamWidgetState extends State<AddTeamWidget> {
                           primary: false,
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
-                          itemCount: serachResults.length,
-                          itemBuilder: (context, serachResultsIndex) {
-                            final serachResultsItem =
-                                serachResults[serachResultsIndex];
+                          itemCount: searchResults.length,
+                          itemBuilder: (context, searchResultsIndex) {
+                            final searchResultsItem =
+                                searchResults[searchResultsIndex];
                             return Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(16, 4, 16, 8),
@@ -237,12 +237,12 @@ class _AddTeamWidgetState extends State<AddTeamWidget> {
                                     'teamMemberDetails',
                                     queryParams: {
                                       'userRef': serializeParam(
-                                        serachResultsItem,
+                                        searchResultsItem,
                                         ParamType.Document,
                                       ),
                                     }.withoutNulls,
                                     extra: <String, dynamic>{
-                                      'userRef': serachResultsItem,
+                                      'userRef': searchResultsItem,
                                     },
                                   );
                                 },
@@ -279,7 +279,7 @@ class _AddTeamWidgetState extends State<AddTeamWidget> {
                                               BorderRadius.circular(26),
                                           child: Image.network(
                                             valueOrDefault<String>(
-                                              serachResultsItem.photoUrl,
+                                              searchResultsItem.photoUrl,
                                               'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHByb2ZpbGV8ZW58MHx8MHx8&auto=format&fit=crop&w=900&q=60',
                                             ),
                                             width: 36,
@@ -300,7 +300,7 @@ class _AddTeamWidgetState extends State<AddTeamWidget> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  serachResultsItem
+                                                  searchResultsItem
                                                       .displayName!,
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -311,7 +311,7 @@ class _AddTeamWidgetState extends State<AddTeamWidget> {
                                                       MainAxisSize.max,
                                                   children: [
                                                     Text(
-                                                      serachResultsItem.email!,
+                                                      searchResultsItem.email!,
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -323,48 +323,48 @@ class _AddTeamWidgetState extends State<AddTeamWidget> {
                                             ),
                                           ),
                                         ),
-                                        if (!widget.taskRef!.members!
-                                            .toList()
-                                            .contains(
-                                                serachResultsItem.reference))
-                                          FFButtonWidget(
-                                            onPressed: () async {
-                                              final allTasksUpdateData = {
-                                                'members':
-                                                    FieldValue.arrayUnion([
-                                                  serachResultsItem.reference
-                                                ]),
-                                              };
-                                              await widget.taskRef!.reference
-                                                  .update(allTasksUpdateData);
-                                              context.pop();
-                                            },
-                                            text: FFLocalizations.of(context)
-                                                .getText(
-                                              'k3vvd9ha' /* Assign */,
-                                            ),
-                                            options: FFButtonOptions(
-                                              width: 70,
-                                              height: 36,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryColor,
-                                              textStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyText1
-                                                      .override(
-                                                        fontFamily: 'Outfit',
-                                                        color: Colors.white,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                      ),
-                                              borderSide: BorderSide(
-                                                color: Colors.transparent,
-                                                width: 1,
-                                              ),
+                                        FFButtonWidget(
+                                          onPressed: () async {
+                                            final allMaterialsUpdateData = {
+                                              'members': FieldValue.arrayUnion([
+                                                searchResultsItem.reference
+                                              ]),
+                                            };
+                                            await widget.matRef!.reference
+                                                .update(allMaterialsUpdateData);
+                                            context.pop();
+                                          },
+                                          text: FFLocalizations.of(context)
+                                              .getText(
+                                            'k3vvd9ha' /* Assign */,
+                                          ),
+                                          options: FFButtonOptions(
+                                            width: 70,
+                                            height: 36,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryColor,
+                                            textStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyText1
+                                                    .override(
+                                                      fontFamily: 'Outfit',
+                                                      color: Colors.white,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      useGoogleFonts: GoogleFonts
+                                                              .asMap()
+                                                          .containsKey(
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyText1Family),
+                                                    ),
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                              width: 1,
                                             ),
                                           ),
+                                        ),
                                       ],
                                     ),
                                   ),

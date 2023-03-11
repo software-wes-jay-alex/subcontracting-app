@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import '../flutter_flow_theme.dart';
 import '../../backend/backend.dart';
+
 import '../../auth/firebase_user_provider.dart';
 
 import '../../index.dart';
@@ -87,6 +88,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => ForgotPasswordWidget(),
             ),
             FFRoute(
+              name: 'createTask_1_SelectProject',
+              path: 'createTask1SelectProject',
+              builder: (context, params) => CreateTask1SelectProjectWidget(),
+            ),
+            FFRoute(
               name: 'createProfile',
               path: 'createProfile',
               builder: (context, params) => CreateProfileWidget(),
@@ -97,36 +103,27 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => MainTrackerWidget(),
             ),
             FFRoute(
-              name: 'createTask_1_SelectProject',
-              path: 'createTask1SelectProject',
-              builder: (context, params) => CreateTask1SelectProjectWidget(),
-            ),
-            FFRoute(
-              name: 'taskDetails',
-              path: 'taskDetails',
+              name: 'matDetails',
+              path: 'matDetails',
               asyncParams: {
-                'taskRef': getDoc('allTasks', AllTasksRecord.serializer),
+                'matRef':
+                    getDoc(['allMaterials'], AllMaterialsRecord.serializer),
               },
-              builder: (context, params) => TaskDetailsWidget(
-                taskRef: params.getParam('taskRef', ParamType.Document),
+              builder: (context, params) => MatDetailsWidget(
+                matRef: params.getParam('matRef', ParamType.Document),
               ),
             ),
             FFRoute(
-              name: 'createTask',
+              name: 'createList',
               path: 'createTask',
               asyncParams: {
                 'projectParameter':
-                    getDoc('projects', ProjectsRecord.serializer),
+                    getDoc(['projects'], ProjectsRecord.serializer),
               },
-              builder: (context, params) => CreateTaskWidget(
+              builder: (context, params) => CreateListWidget(
                 projectParameter:
                     params.getParam('projectParameter', ParamType.Document),
               ),
-            ),
-            FFRoute(
-              name: 'myProfile',
-              path: 'myProfile',
-              builder: (context, params) => MyProfileWidget(),
             ),
             FFRoute(
               name: 'addTeamMembers',
@@ -134,10 +131,15 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => AddTeamMembersWidget(),
             ),
             FFRoute(
+              name: 'myProfile',
+              path: 'myProfile',
+              builder: (context, params) => MyProfileWidget(),
+            ),
+            FFRoute(
               name: 'teamMemberDetails',
               path: 'teamMemberDetails',
               asyncParams: {
-                'userRef': getDoc('users', UsersRecord.serializer),
+                'userRef': getDoc(['users'], UsersRecord.serializer),
               },
               builder: (context, params) => TeamMemberDetailsWidget(
                 userRef: params.getParam('userRef', ParamType.Document),
@@ -159,15 +161,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => MainProjectsWebWidget(),
             ),
             FFRoute(
-              name: 'createProject',
-              path: 'createProject',
-              builder: (context, params) => CreateProjectWidget(),
-            ),
-            FFRoute(
               name: 'projectDetailsPage',
               path: 'projectDetailsPage',
               asyncParams: {
-                'projectRef': getDoc('projects', ProjectsRecord.serializer),
+                'projectRef': getDoc(['projects'], ProjectsRecord.serializer),
               },
               builder: (context, params) => ProjectDetailsPageWidget(
                 projectRef: params.getParam('projectRef', ParamType.Document),
@@ -177,7 +174,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'teamMembers',
               path: 'teamMembers',
               asyncParams: {
-                'projectRef': getDoc('projects', ProjectsRecord.serializer),
+                'projectRef': getDoc(['projects'], ProjectsRecord.serializer),
               },
               builder: (context, params) => TeamMembersWidget(
                 projectRef: params.getParam('projectRef', ParamType.Document),
@@ -187,11 +184,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'searchMembers',
               path: 'searchMembers',
               asyncParams: {
-                'projectRef': getDoc('projects', ProjectsRecord.serializer),
+                'projectRef': getDoc(['projects'], ProjectsRecord.serializer),
               },
               builder: (context, params) => SearchMembersWidget(
                 projectRef: params.getParam('projectRef', ParamType.Document),
               ),
+            ),
+            FFRoute(
+              name: 'createProject',
+              path: 'createProject',
+              builder: (context, params) => CreateProjectWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ).toRoute(appStateNotifier),
@@ -304,7 +306,7 @@ class FFParameters {
     String paramName,
     ParamType type, [
     bool isList = false,
-    String? collectionName,
+    List<String>? collectionNamePath,
   ]) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -318,7 +320,7 @@ class FFParameters {
       return param;
     }
     // Return serialized value.
-    return deserializeParam<T>(param, type, isList, collectionName);
+    return deserializeParam<T>(param, type, isList, collectionNamePath);
   }
 }
 
@@ -365,7 +367,7 @@ class FFRoute {
               : builder(context, ffParams);
           final child = appStateNotifier.loading
               ? Container(
-                  color: FlutterFlowTheme.of(context).customColor1,
+                  color: FlutterFlowTheme.of(context).primaryColor,
                   child: Image.asset(
                     'assets/images/engineer.png',
                     fit: BoxFit.contain,

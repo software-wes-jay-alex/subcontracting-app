@@ -24,8 +24,9 @@ class _AddTeamMembersWidgetState extends State<AddTeamMembersWidget> {
   TextEditingController? titleRoleController;
   String? teamSelectValue;
   TextEditingController? shortBioController;
-  final formKey = GlobalKey<FormState>();
+  final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -39,6 +40,7 @@ class _AddTeamMembersWidgetState extends State<AddTeamMembersWidget> {
 
   @override
   void dispose() {
+    _unfocusNode.dispose();
     emailAddressController?.dispose();
     userNameController?.dispose();
     titleRoleController?.dispose();
@@ -83,7 +85,7 @@ class _AddTeamMembersWidgetState extends State<AddTeamMembersWidget> {
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
           child: Form(
             key: formKey,
             autovalidateMode: AutovalidateMode.disabled,
@@ -184,7 +186,10 @@ class _AddTeamMembersWidgetState extends State<AddTeamMembersWidget> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(120),
                                       child: Image.network(
-                                        uploadedFileUrl,
+                                        valueOrDefault<String>(
+                                          uploadedFileUrl,
+                                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                                        ),
                                         width: 100,
                                         height: 100,
                                         fit: BoxFit.cover,
@@ -493,9 +498,15 @@ class _AddTeamMembersWidgetState extends State<AddTeamMembersWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyText1
                                         .override(
-                                          fontFamily: 'Space Grotesk',
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyText1Family,
                                           color: FlutterFlowTheme.of(context)
                                               .secondaryBackground,
+                                          useGoogleFonts: GoogleFonts.asMap()
+                                              .containsKey(
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1Family),
                                         ),
                                   ),
                                   duration: Duration(milliseconds: 4000),
@@ -521,11 +532,16 @@ class _AddTeamMembersWidgetState extends State<AddTeamMembersWidget> {
                             width: 270,
                             height: 50,
                             color: FlutterFlowTheme.of(context).primaryColor,
-                            textStyle:
-                                FlutterFlowTheme.of(context).subtitle1.override(
-                                      fontFamily: 'Outfit',
-                                      color: Colors.white,
-                                    ),
+                            textStyle: FlutterFlowTheme.of(context)
+                                .subtitle1
+                                .override(
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .subtitle1Family,
+                                  color: Colors.white,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .subtitle1Family),
+                                ),
                             elevation: 3,
                             borderSide: BorderSide(
                               color: Colors.transparent,
